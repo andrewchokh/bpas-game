@@ -60,6 +60,59 @@ project-root/
 - Signals at top of script
 - Keep logic modular (one responsibility per script). Use Component System when possible
 
+### Patterns
+
+#### Entity Generic Class
+
+```cs
+public partial class Entity : Node
+{
+    // Specify variables that all the entities will share
+    // Also, specify variables for all necessary nodes and components that entity has
+    // Example:
+    // public HealthComponent HealthComponent { get; private set; }
+
+    public override void _Ready()
+    {
+        // Get values for specified components
+        // Example:
+        // HealthComponent = GetNode<HealthComponent>("HealthComponent");
+    }
+}
+```
+
+#### Component
+
+```cs
+public partial class ExampleComponent : Node
+{
+    // Node of an entity to assign the component
+    [Export]
+    public Node Entity;
+
+    // Some code...
+}
+```
+
+#### Singletone
+
+```cs
+public partial class Singleton : Node
+{
+     // One and only instance of the class. Can be accessed across the project
+    public static Singleton Instance { get; private set; }
+
+    // Some variables...
+
+    public override void _Ready()
+    {
+        Instance = this;
+    }
+
+    // Some methods...
+}
+```
+
 ## 5. Scene Organization Pattern
 
 - Each major entity = 1 scene + 1 script
