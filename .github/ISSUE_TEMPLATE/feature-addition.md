@@ -1,7 +1,7 @@
 ---
 name: Feature Addition
 about: Add new feature to the project.
-title: ''
+title: "<issue-index>-<name>"
 labels: ''
 assignees: ''
 
