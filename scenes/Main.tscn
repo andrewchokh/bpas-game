@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2xn7a3v4y9jd"]
+
+[ext_resource type="PackedScene" path="res://scenes/players/Player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/MovementTest.cs" id="2_test"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(400, 300)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+enabled = true
+
+[node name="MovementTest" type="Node" parent="."]
+script = ExtResource("2_test")
