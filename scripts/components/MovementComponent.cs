@@ -8,8 +8,6 @@ public partial class MovementComponent : Node2D
 	[Export]
 	public float Speed = 100f;
 	
-	private float OldDirectionX = 1;
-
 	public override void _PhysicsProcess(double delta)
 	{
 		GetInput(delta);
