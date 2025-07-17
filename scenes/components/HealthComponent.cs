@@ -22,9 +22,8 @@ public partial class HealthComponent : Node2D
 		Health -= Math.Max(1, Damage - Defense);
 
 		if (Health <= 0)
-		{
 			EmitSignal(SignalName.EntityDied);
-		}
+			
 		EmitSignal(SignalName.HealthChanged, OldHealth, Health);
 	}
 }

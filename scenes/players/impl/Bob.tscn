@@ -4,14 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_627ob"]
 [ext_resource type="Texture2D" uid="uid://kysdun0hnoyi" path="res://assets/sprites/entities/bob.png" id="3_r4gcg"]
 [ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="4_t7bk6"]
-
-[ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="5_r4gcg"]
-[ext_resource type="PackedScene" uid="uid://c5f6v54mlqoab" path="res://scenes/components/HitBoxComponent.tscn" id="6_t7bk6"]
+[ext_resource type="PackedScene" path="res://scenes/components/HealthComponent.tscn" id="5_r4gcg"]
+[ext_resource type="PackedScene" path="res://scenes/components/HitBoxComponent.tscn" id="6_t7bk6"]
 
 [node name="Bob" type="CharacterBody2D" groups=["Players"]]
 script = ExtResource("1_xhqei")
-DisplayName = "Bob"
-Description = "The first of many."
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(0, 6.05)
@@ -30,7 +27,3 @@ Entity = NodePath("..")
 [node name="HitBoxComponent" parent="." node_paths=PackedStringArray("Entity", "HealthComponent") instance=ExtResource("6_t7bk6")]
 Entity = NodePath("..")
 HealthComponent = NodePath("../HealthComponent")
-
-[node name="HealthComponent" type="Node2D" parent="." node_paths=PackedStringArray("Entity")]
-script = ExtResource("5_627ob")
-Entity = NodePath("..")

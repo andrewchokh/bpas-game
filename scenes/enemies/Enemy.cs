@@ -1,9 +1,8 @@
 using Godot;
 using System;
 
-public abstract partial class Player : CharacterBody2D
+public partial class Enemy : CharacterBody2D
 {
-    public MovementComponent MovementComponent { get; private set; }
     public HealthComponent HealthComponent { get; private set; }
     public HitBoxComponent HitBoxComponent { get; private set; }
 
@@ -13,7 +12,6 @@ public abstract partial class Player : CharacterBody2D
     {
         base._Ready();
 
-        MovementComponent = GetNode<MovementComponent>("MovementComponent");
         HealthComponent = GetNode<HealthComponent>("HealthComponent");
         HitBoxComponent = GetNode<HitBoxComponent>("HitBoxComponent");
     }
