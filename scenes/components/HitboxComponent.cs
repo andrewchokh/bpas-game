@@ -1,10 +1,14 @@
 using Godot;
 using System;
 
-public partial class HitboxComponent : Area2D
+public partial class HitBoxComponent : Area2D
 {
-	public override void _Ready()
-	{
-		
-	}
+	[Export]
+	public Node2D Entity;
+
+	[Export]
+	public HealthComponent HealthComponent;
+
+	[Signal]
+	public delegate void AreaEnteredEventHandler();
 }
