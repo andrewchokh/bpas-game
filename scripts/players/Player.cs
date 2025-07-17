@@ -3,7 +3,7 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-    public MovementComponent MovementComponent{get; private set;}
+    public MovementComponent MovementComponent{ get; private set; }
     
     public override void _Ready()
     {

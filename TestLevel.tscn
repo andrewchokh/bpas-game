@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=4 uid="uid://blb3bl8se6okv"]
+[gd_scene load_steps=3 format=4 uid="uid://bynjh4wjs0cwa"]
 
 [ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="1_1kog2"]
-[ext_resource type="PackedScene" uid="uid://bfm7whlin1iva" path="res://scenes/players/bob.tscn" id="2_1kog2"]
+[ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/Bob.tscn" id="2_1kog2"]
 
 [node name="Level" type="Node"]
 
