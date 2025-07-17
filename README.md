@@ -8,9 +8,8 @@ A 2D top-down action game with roguelike elements built with **Godot 4.4**, insp
 
 ## 📦 Requirements
 
-- **Godot Engine**: 4.4 (official stable)
+- **Godot Engine .NET**: 4.4 (official stable)
 - **Git** (for version control)
-- [Optional] **Aseprite** for sprite editing
 
 ---
 
@@ -25,10 +24,10 @@ A 2D top-down action game with roguelike elements built with **Godot 4.4**, insp
 
 2. **Open the project:**
 
-- Launch Godot
-- Click “Import”
-- Select project.godot inside this folder
+- Launch `Godot .NET`
+- Click «Import»
+- Select `project.godot` inside the project folder
 
 3. **Run the game:**
 
-- Press F5 or click the “Play” icon
+- Press F5 or click the «Play» icon

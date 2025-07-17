@@ -151,11 +151,6 @@ public partial class Example : Node
             // Setter logic...
         };
     }
-
-    public override void _Ready()
-    {
-        ExampleVar = // Assing the value
-    }
 }
 ```
 
