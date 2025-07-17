@@ -71,17 +71,23 @@ project-root/
 #### Entity Generic Class
 
 ```cs
-public partial class Entity : Node
+public abstract partial class Entity : Node
 {
     // Specify variables that all the entities will share
-    // Also, specify variables for all necessary nodes and components that entity has
-    // Example:
+    public const string ID;
+
+    [Export]
+    public string DisplayName;
+    [Export]
+    public string Description;
+
+    // Also, specify variables for all necessary nodes and components that entity has:
+    // [Export]
     // public HealthComponent HealthComponent { get; private set; }
 
     public override void _Ready()
     {
-        // Get values for specified components
-        // Example:
+        // Get values for specified components:
         // HealthComponent = GetNode<HealthComponent>("HealthComponent");
     }
 }
@@ -122,9 +128,9 @@ public partial class Singleton : Node
 }
 ```
 
-### Properties
+#### Properties
 
-#### Only Getter
+##### Only Getter
 
 ```cs
 public partial class Example : Node
@@ -133,12 +139,12 @@ public partial class Example : Node
 
     public override void _Ready()
     {
-        ExampleVar = ...
+        ExampleVar = // Assign the value...
     }
 }
 ```
 
-#### Only Setter / Getter and Setter
+##### Only Setter / Getter and Setter
 
 ```cs
 public partial class Example : Node
