@@ -17,11 +17,21 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameState="*res://globals/GameStateMachine.cs"
+GameStateMachine="*res://globals/GameStateMachine.cs"
+Utils="*res://globals/Utils.cs"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=768
 
 [dotnet]
 
 project/assembly_name="By Prophesy and Sword"
+
+[global_group]
+
+Players="Player Characters"
 
 [input]
 
