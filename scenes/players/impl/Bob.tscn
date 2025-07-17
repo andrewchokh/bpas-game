@@ -23,6 +23,8 @@ Player = NodePath("..")
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("5_r4gcg")]
 Entity = NodePath("..")
+Health = 6
+Defense = 1
 
 [node name="HitBoxComponent" parent="." node_paths=PackedStringArray("Entity", "HealthComponent") instance=ExtResource("6_t7bk6")]
 Entity = NodePath("..")

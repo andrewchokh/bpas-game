@@ -8,8 +8,5 @@ public partial class HitBoxComponent : Area2D
 
 	[Export]
 	public HealthComponent HealthComponent;
-
-	[Signal]
-	public delegate void AreaEventHandler();
 }
 

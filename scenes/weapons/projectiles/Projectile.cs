@@ -1,12 +1,19 @@
 using Godot;
 using System;
 
-public partial class Projectile : Node
+public abstract partial class Projectile : Area2D
 {
-    private int _damage;
+    [Export]
+    public Weapon Weapon;
 
-    public void SetDamage(int Damage)
+    public override void _Ready()
+	{
+		AreaEntered += OnAreaEntered;
+	}
+    
+	public void OnAreaEntered(Area2D Area)
     {
-        _damage = Damage;
+        if (Area is HitBoxComponent HitBox)
+            HitBox.HealthComponent.TakeDamage(Weapon.Damage);
     }
 }

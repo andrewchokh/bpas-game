@@ -21,6 +21,8 @@ public abstract partial class Weapon : Node2D
     public float Speed;
     [Export]
     public int Uses = -1; // -1 means infinite uses
+    [Export]
+    public Projectile[] Projectiles;
 
     [Signal]
     public delegate void WeaponUsedEventHandler();
