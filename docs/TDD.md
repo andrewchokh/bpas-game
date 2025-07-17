@@ -5,29 +5,31 @@
 - **Engine**: Godot 4.4
 - **Language**: C#
 - **Version Control**: Git + GitHub
-- **Art Tools**: Aseprite
-- **Other Tools**: Audacity, jsfxr
+- **Other Tools**: Aseprite, Audacity, jsfxr
 
 ## 2. Project Structure
 
 ```
 project-root/
-├── assets/             # Sprites, sounds, fonts, themes, etc.
-├── globals/            # Global scripts for Autoload (Singleton)
-│   └── GameState.cs    # Game State Manager
-├── scenes/             # Godot scenes (.tscn files)
-│   ├── components      # Components-related scenes
-│   ├── enemies         # Enemies-related scenes
-│   ├── players         # Players-related scenes
-│   ├── ui              # UI/GUI-related scenes
-│   └── game.tdsn       # Main game scene
-├── scripts/            # Godot scripts
-│   ├── components      # Components-related scripts
-│   ├── enemies         # Enemies-related scripts
-│   ├── players         # Players-related scripts
-│   └── ui              # UI/GUI-related scripts
-└── project.godot       # Godot project file
+├── assets/                     # Sprites, sounds, fonts, themes, etc.
+├── globals/                    # Global scripts for Autoload (Singleton)
+│   └── GameState.cs            # Game State Manager
+├── resources/                  # Godot resources
+├── scenes/                     # Godot scenes (.tscn files)
+│   ├── components              # Components-related scenes
+│   ├── enemies                 # Enemies-related scenes
+│   │   └── impl
+│   ├── players                 # Players-related scenes
+│   │   └── impl
+│   ├── ui                      # UI/GUI-related scenes
+│   │   └── impl
+│   ├── weapons                 # Weapons and projectile-related scenes
+│   │   └── impl
+│   └── game.tdsn               # Main game scene
+└── project.godot               # Godot project file
 ```
+
+- `impl` stands for "Implementation".
 
 ## 3. Key Systems
 
@@ -37,9 +39,12 @@ project-root/
 
 ### Entity System
 
-- Player, Enemy, Weapon, Projectile use different base class
-- Each mechanic must be implemented with Component System that can be applied to any entity.
-  - Example:
+- Player, Enemy, Weapon and Projectile use different base class;
+  - Implementations of these classes should have their unique class inherited from generic one:
+  ```cs
+  class Player -> class Bob, class Steve, class Alan...
+  ```
+- Each mechanic must be implemented with Composition Pattern (aka Component System) that can be applied to any entity:
   ```
   PlayerCharacter.tscn
   ├── MovementComponent
@@ -55,10 +60,11 @@ project-root/
 
 ## 4. Code Style & Conventions
 
-- [C# style guide](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_style_guide.html) for code style
-  - `snake_case` for directories
-- Signals at top of script
-- Keep logic modular (one responsibility per script). Use Component System when possible
+- [C# style guide](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_style_guide.html) for code style:
+  - `snake_case` for directories;
+  - `PascalCase` for scenes and scripts names.
+- Signals at top of script.
+- Keep logic modular (one responsibility per script). Use Composition Pattern when possible.
 
 ### Patterns
 
@@ -81,12 +87,15 @@ public partial class Entity : Node
 }
 ```
 
-#### Component
+#### Composition (Component)
 
 ```cs
 public partial class ExampleComponent : Node
 {
     // Node of an entity to assign the component
+    // Change the type and name depending on context
+    // For example, if component is designed for player:
+    // public Player Player;
     [Export]
     public Node Entity;
 
@@ -109,7 +118,44 @@ public partial class Singleton : Node
         Instance = this;
     }
 
-    // Some methods...
+    // Some methods...private string _example;
+}
+```
+
+### Properties
+
+#### Only Getter
+
+```cs
+public partial class Example : Node
+{
+    public String ExampleVar { get; private set; }
+
+    public override void _Ready()
+    {
+        ExampleVar = ...
+    }
+}
+```
+
+#### Only Setter / Getter and Setter
+
+```cs
+public partial class Example : Node
+{
+    private String _exampleVar;
+    public String ExampleVar
+    {
+        get => _exampleVar;
+        set => {
+            // Setter logic...
+        };
+    }
+
+    public override void _Ready()
+    {
+        ExampleVar = // Assing the value
+    }
 }
 ```
 
@@ -128,7 +174,7 @@ Player.tscn
 
 ## 6. Dependencies / Plugins
 
--...
+- None
 
 ## 7. Build & Export
 
@@ -138,4 +184,4 @@ Player.tscn
 
 ## 8. Known Issues / Tech Debt
 
-- ...
+- None
