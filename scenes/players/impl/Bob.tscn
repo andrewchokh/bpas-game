@@ -5,10 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://kysdun0hnoyi" path="res://assets/sprites/entities/bob.png" id="3_r4gcg"]
 [ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="4_t7bk6"]
 
-[node name="Bob" type="CharacterBody2D" groups=["Players"]]
+[node name="Bob" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent") groups=["Players"]]
 script = ExtResource("1_xhqei")
-DisplayName = "Bob"
-Description = "The first of many."
+MovementComponent = NodePath(".")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(0, 6.05)

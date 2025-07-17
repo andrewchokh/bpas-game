@@ -5,8 +5,14 @@ public partial class MovementComponent : Node2D
 {
 	[Export]
 	public Player Player;
+
 	[Export]
 	public float Speed = 100f;
+
+	public override void _Ready()
+	{
+		base._Ready();
+	}
 	
 	public override void _PhysicsProcess(double delta)
 	{
