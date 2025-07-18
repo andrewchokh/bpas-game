@@ -1,7 +1,7 @@
 ---
 name: Feature Addition
 about: Add new feature to the project.
-title: feature-name
+title: ''
 labels: enhancement
 assignees: ''
 
@@ -29,6 +29,9 @@ assignees: ''
 
 ### ✅ Acceptance Criteria
 > Enter the conditions that define feature as ready.
+- The project launches without any errors;
+- All functional works as intended;
+- ...
 
 ---
 
