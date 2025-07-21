@@ -5,7 +5,6 @@ public partial class MovementComponent : Node2D
 {
 	[Export]
 	public CharacterBody2D Entity;
-
 	[Export]
 	public float Speed = 100f;
 
@@ -16,6 +15,8 @@ public partial class MovementComponent : Node2D
 	
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta);
+
 		Entity.MoveAndSlide();        
 	}
 	

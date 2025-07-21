@@ -19,8 +19,8 @@ public partial class Utils : Node
     {
         var Players = Instance.GetTree().GetNodesInGroup("Players");
 
-        if (Players.Count > 0 && Players[0] is Player firstPlayer)
-            return firstPlayer;
+        if (Players.Count > 0 && Players[0] is Player FirstPlayer)
+            return FirstPlayer;
 
         return null;
     }
