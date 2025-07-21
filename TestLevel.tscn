@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://bynjh4wjs0cwa"]
+[gd_scene load_steps=6 format=4 uid="uid://bynjh4wjs0cwa"]
 
 [ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="1_1kog2"]
 [ext_resource type="Script" uid="uid://b7xv5xuv82gmk" path="res://TestLevel.cs" id="1_waekl"]
 [ext_resource type="PackedScene" uid="uid://ddyq5gfxq5fn4" path="res://scenes/Camera2D.tscn" id="3_2xot7"]
 [ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/impl/Bob.tscn" id="4_waekl"]
+[ext_resource type="PackedScene" uid="uid://dptxrphgnsghg" path="res://scenes/enemies/impl/Steve.tscn" id="5_mvtj7"]
 
 [node name="Level" type="Node"]
 script = ExtResource("1_waekl")
@@ -18,3 +19,6 @@ tile_map_data = PackedByteArray("AAD5//n/AAABAAQAAAD5//r/AAABAAUAAAD6//n/AAABAAQ
 tile_set = ExtResource("1_1kog2")
 
 [node name="Bob" parent="." instance=ExtResource("4_waekl")]
+
+[node name="Steve" parent="." instance=ExtResource("5_mvtj7")]
+position = Vector2(-92.685, 0)
