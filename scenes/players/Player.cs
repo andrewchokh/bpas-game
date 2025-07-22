@@ -8,7 +8,8 @@ public abstract partial class Player : CharacterBody2D
     public HitBoxComponent HitBoxComponent { get; private set; }
     public InputComponent InputComponent { get; private set; }
 
-    public Ability Ability { get; private set; }
+    [Export]
+    public Ability Ability { get; set; }
 
     public override void _Ready()
     {
