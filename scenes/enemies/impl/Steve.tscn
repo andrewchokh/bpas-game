@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=3 uid="uid://dptxrphgnsghg"]
+
+[ext_resource type="Script" uid="uid://c02cdc22njjk1" path="res://scenes/enemies/impl/Steve.cs" id="1_xwm4a"]
+[ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_t47kb"]
+[ext_resource type="Texture2D" uid="uid://kysdun0hnoyi" path="res://assets/sprites/entities/bob.png" id="3_klqqa"]
+[ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="4_dct7n"]
+[ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="5_xwm4a"]
+[ext_resource type="PackedScene" uid="uid://c5f6v54mlqoab" path="res://scenes/components/HitBoxComponent.tscn" id="5_y4g6n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t47kb"]
+size = Vector2(7, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_klqqa"]
+size = Vector2(7, 17)
+
+[node name="Steve" type="CharacterBody2D"]
+script = ExtResource("1_xwm4a")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 6.05)
+texture = ExtResource("2_t47kb")
+
+[node name="Bob" type="Sprite2D" parent="."]
+texture = ExtResource("3_klqqa")
+
+[node name="HitBoxComponent" parent="." node_paths=PackedStringArray("Entity", "HealthComponent") instance=ExtResource("5_y4g6n")]
+Entity = NodePath("..")
+HealthComponent = NodePath("../HealthComponent")
+
+[node name="HitBoxCollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_t47kb")
+
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("5_xwm4a")]
+position = Vector2(275.699, 251.936)
+Entity = NodePath("..")
+Speed = 30.0
+
+[node name="PlayerCollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_klqqa")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_dct7n")]

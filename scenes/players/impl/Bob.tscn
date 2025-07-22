@@ -1,4 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkh0g1ly4lj45"]
+[gd_scene load_steps=9 format=3 uid="uid://dkh0g1ly4lj45"]
+
 
 [ext_resource type="Script" uid="uid://pheect7swqbk" path="res://scenes/players/impl/Bob.cs" id="1_xhqei"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_627ob"]
@@ -6,9 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="4_t7bk6"]
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="5_r4gcg"]
 [ext_resource type="PackedScene" uid="uid://c5f6v54mlqoab" path="res://scenes/components/HitBoxComponent.tscn" id="6_t7bk6"]
+[ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/InputComponent.tscn" id="7_t7bk6"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4gcg"]
-size = Vector2(9, 7)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t7bk6"]
+size = Vector2(7, 17)
 
 [node name="Bob" type="CharacterBody2D" groups=["Players"]]
 script = ExtResource("1_xhqei")
@@ -20,9 +22,10 @@ texture = ExtResource("2_627ob")
 [node name="Bob" type="Sprite2D" parent="."]
 texture = ExtResource("3_r4gcg")
 
-[node name="MovementComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("4_t7bk6")]
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("4_t7bk6")]
 position = Vector2(275.699, 251.936)
-Player = NodePath("..")
+Entity = NodePath("..")
+Speed = 60.0
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("5_r4gcg")]
 Entity = NodePath("..")
@@ -31,6 +34,14 @@ Entity = NodePath("..")
 Entity = NodePath("..")
 HealthComponent = NodePath("../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 6.5)
-shape = SubResource("RectangleShape2D_r4gcg")
+[node name="HitBoxCollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_t7bk6")
+
+[node name="InputComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("7_t7bk6")]
+Entity = NodePath("..")
+
+[node name="PlayerCollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_t7bk6")
+
