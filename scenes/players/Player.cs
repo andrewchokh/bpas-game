@@ -9,8 +9,8 @@ public abstract partial class Player : CharacterBody2D
     public InputComponent InputComponent { get; private set; }
 
     [Export]
-    public Ability Ability;
-                  
+    public Ability Ability { get; set; }
+
     public override void _Ready()
     {
         base._Ready();

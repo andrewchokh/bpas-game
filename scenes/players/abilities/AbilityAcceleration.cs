@@ -3,15 +3,11 @@ using System;
 
 public partial class AbilityAcceleration : Ability
 {
+	[Export]
+	public float MovementSpeedMultiplier = 2.0f;
+
 	public override void _Ready()
 	{
-		var Timer = GetNode<Timer>("AbilityDurationTimer");
-		Timer.Start(3f);
-		Timer.Timeout += () =>
-		{
-			Player.MovementComponent.Speed /= 2;
-			IsAbilityActive = false;
-		};
 		base._Ready();
 	}
 
@@ -19,8 +15,18 @@ public partial class AbilityAcceleration : Ability
 	{
 		base._Process(delta);
 	}
+
 	public override void OnAbilityActivated()
 	{
-		Player.MovementComponent.Speed *= 2;
+		base.OnAbilityActivated();
+
+		Player.MovementComponent.Speed *= MovementSpeedMultiplier;
+	}
+	
+	public override void OnDurationTimeout()
+	{
+		base.OnDurationTimeout();
+
+		Player.MovementComponent.Speed /= MovementSpeedMultiplier;
 	}
 }

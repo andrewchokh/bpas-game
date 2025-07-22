@@ -5,7 +5,10 @@
 [node name="AbilityAcceleration" type="Node2D"]
 script = ExtResource("1_orv7w")
 
-[node name="AbilityDurationTimer" type="Timer" parent="."]
-process_callback = 0
+[node name="DurationTimer" type="Timer" parent="."]
 wait_time = 3.0
+one_shot = true
+
+[node name="CooldownTimer" type="Timer" parent="."]
+wait_time = 6.0
 one_shot = true
