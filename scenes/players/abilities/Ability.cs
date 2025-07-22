@@ -3,8 +3,12 @@ using System;
 
 public abstract partial class Ability : Node
 {
-    [Export]
-    public float Duration = 1.0f;
+    public Player Player;
+
+    public Timer DurationTimer;
+    public Timer CooldownTimer;
+
+    private bool CanUseAbility = true;
 
     [Signal]
     public delegate void AbilityActivatedEventHandler();
@@ -14,6 +18,13 @@ public abstract partial class Ability : Node
         base._Ready();
 
         AbilityActivated += OnAbilityActivated;
+
+        Player = GetParent<Player>();
+        DurationTimer = GetNode<Timer>("DurationTimer");
+        CooldownTimer = GetNode<Timer>("CooldownTimer");
+
+        DurationTimer.Timeout += OnDurationTimeout;
+        CooldownTimer.Timeout += OnCooldownTimeout;
     }
 
     public override void _Process(double delta)
@@ -26,9 +37,19 @@ public abstract partial class Ability : Node
         }
     }
 
-    private void OnAbilityActivated()
+    public virtual void OnAbilityActivated()
     {
-        // Logic to handle the ability activation
+        DurationTimer.Start();
     }
 
+    public virtual void OnDurationTimeout()
+    {
+        CanUseAbility = false;
+        CooldownTimer.Start();
+    }
+
+    public virtual void OnCooldownTimeout()
+    {
+        CanUseAbility = true;
+    }
 }
