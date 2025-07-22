@@ -1,7 +1,6 @@
 using Godot;
 using System;
 
-
 public partial class Steve : Enemy
 {
     public override void _Ready()

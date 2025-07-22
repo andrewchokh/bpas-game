@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://jt4rf60uhw4f"]
+
+[ext_resource type="Script" uid="uid://pwcp7s3x85q" path="res://scenes/players/abilities/AbilityAcceleration.cs" id="1_orv7w"]
+
+[node name="AbilityAcceleration" type="Node2D"]
+script = ExtResource("1_orv7w")
+
+[node name="AbilityDurationTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+one_shot = true

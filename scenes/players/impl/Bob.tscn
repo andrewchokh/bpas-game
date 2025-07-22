@@ -1,5 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dkh0g1ly4lj45"]
-
+[gd_scene load_steps=10 format=3 uid="uid://dkh0g1ly4lj45"]
 
 [ext_resource type="Script" uid="uid://pheect7swqbk" path="res://scenes/players/impl/Bob.cs" id="1_xhqei"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_627ob"]
@@ -8,12 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="5_r4gcg"]
 [ext_resource type="PackedScene" uid="uid://c5f6v54mlqoab" path="res://scenes/components/HitBoxComponent.tscn" id="6_t7bk6"]
 [ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/InputComponent.tscn" id="7_t7bk6"]
+[ext_resource type="PackedScene" uid="uid://jt4rf60uhw4f" path="res://scenes/players/abilities/AbilityAcceleration.tscn" id="8_j4k24"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7bk6"]
 size = Vector2(7, 17)
 
-[node name="Bob" type="CharacterBody2D" groups=["Players"]]
+[node name="Bob" type="CharacterBody2D" node_paths=PackedStringArray("Ability") groups=["Players"]]
 script = ExtResource("1_xhqei")
+Ability = NodePath("AbilityAcceleration")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(0, 6.05)
@@ -45,3 +46,4 @@ Entity = NodePath("..")
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_t7bk6")
 
+[node name="AbilityAcceleration" parent="." instance=ExtResource("8_j4k24")]
