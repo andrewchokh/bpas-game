@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameStateMachine="*res://globals/GameStateMachine.cs"
 Utils="*res://globals/Utils.cs"
 EntityList="*res://globals/EntityList.cs"
+Levels="*res://globals/Levels.cs"
 
 [display]
 
@@ -33,6 +34,8 @@ project/assembly_name="By Prophesy and Sword"
 [global_group]
 
 Players="Player Characters"
+Spawnpoints=""
+Waypoints=""
 
 [input]
 
