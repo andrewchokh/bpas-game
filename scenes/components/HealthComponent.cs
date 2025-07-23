@@ -1,29 +1,58 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Component that manages an entity's health and damage handling.
+/// Emits signals when health changes or the entity dies.
+/// </summary>
 public partial class HealthComponent : Node2D
 {
-	[Export]
-	public Node2D Entity;
+    /// <summary>
+    /// The entity this health component belongs to.
+    /// Usually the parent or owner node.
+    /// </summary>
+    [Export]
+    public Node2D Entity;
 
-	[Export]
-	public int Health = 1;
-	[Export]
-	public int Defense = 0;
+    /// <summary>
+    /// Current health of the entity.
+    /// </summary>
+    [Export]
+    public int Health = 1;
 
-	[Signal]
-	public delegate void HealthChangedEventHandler(int OldHealth, int NewHealth);
-	[Signal]
-	public delegate void EntityDiedEventHandler();
+    /// <summary>
+    /// Damage reduction applied when taking damage.
+    /// </summary>
+    [Export]
+    public int Defense = 0;
 
-	public void TakeDamage(int Damage)
-	{
-		int OldHealth = Health;
-		Health -= Math.Max(1, Damage - Defense);
+    /// <summary>
+    /// Emitted when health is changed.
+    /// <para>OldHealth: Health before taking damage.</para>
+    /// <para>NewHealth: Health after taking damage.</para>
+    /// </summary>
+    [Signal]
+    public delegate void HealthChangedEventHandler(int OldHealth, int NewHealth);
 
-		if (Health <= 0)
-			EmitSignal(SignalName.EntityDied);
-			
-		EmitSignal(SignalName.HealthChanged, OldHealth, Health);
-	}
+    /// <summary>
+    /// Emitted when health reaches 0 or below.
+    /// </summary>
+    [Signal]
+    public delegate void EntityDiedEventHandler();
+
+    /// <summary>
+    /// Applies incoming damage to the entity, accounting for defense.
+    /// Triggers death if health falls to 0 or below, and emits signals.
+    /// </summary>
+    /// <param name="Damage">The raw amount of incoming damage.</param>
+    public void TakeDamage(int Damage)
+    {
+        int OldHealth = Health;
+        Health -= Math.Max(1, Damage - Defense);
+
+        if (Health <= 0)
+            EmitSignal(SignalName.EntityDied);
+
+        EmitSignal(SignalName.HealthChanged, OldHealth, Health);
+    }
 }
