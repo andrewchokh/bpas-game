@@ -42,13 +42,14 @@ public abstract partial class Weapon : Node2D
                 Uses--;
 
             EmitSignal(SignalName.WeaponUsed);
+            GD.Print("ATTACK");
 
             if (Uses == 0)
                 QueueFree();
         }
     }
     
-    private void OnWeaponUsed()
+    public virtual void OnWeaponUsed()
     {
         return; // Placeholder for weapon usage logic;
     }
