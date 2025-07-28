@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ybivjrxoqh3c" path="res://assets/sprites/weapons/spear.png" id="2_ktwcd"]
 
 [node name="Spear" type="Node2D"]
+position = Vector2(8.5, 0)
 script = ExtResource("1_3nvuc")
 Type = 1
 Damage = 1

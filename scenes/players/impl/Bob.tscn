@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dkh0g1ly4lj45"]
+[gd_scene load_steps=14 format=3 uid="uid://dkh0g1ly4lj45"]
 
 [ext_resource type="Script" uid="uid://pheect7swqbk" path="res://scenes/players/impl/Bob.cs" id="1_xhqei"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_627ob"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/InputComponent.tscn" id="7_t7bk6"]
 [ext_resource type="PackedScene" uid="uid://jt4rf60uhw4f" path="res://scenes/players/abilities/AbilityAcceleration.tscn" id="8_j4k24"]
 [ext_resource type="PackedScene" uid="uid://co5f8dmi8lpq2" path="res://scenes/weapons/impl/ArcaneStaff.tscn" id="9_5k3tv"]
+[ext_resource type="PackedScene" uid="uid://b8hchje01oaek" path="res://scenes/components/WeaponComponent.tscn" id="10_15lys"]
+[ext_resource type="PackedScene" uid="uid://woq1haaujfuj" path="res://scenes/weapons/impl/Spear.tscn" id="11_geu65"]
+[ext_resource type="PackedScene" uid="uid://bxgoix6qgdkr4" path="res://scenes/weapons/impl/Dagger.tscn" id="12_geu65"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7bk6"]
 size = Vector2(7, 17)
@@ -49,5 +52,6 @@ shape = SubResource("RectangleShape2D_t7bk6")
 
 [node name="AbilityAcceleration" parent="." instance=ExtResource("8_j4k24")]
 
-[node name="ArcaneStaff" parent="." instance=ExtResource("9_5k3tv")]
-position = Vector2(8.495, 2.595)
+[node name="WeaponComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("10_15lys")]
+Player = NodePath("..")
+Inventory = Array[PackedScene]([ExtResource("9_5k3tv"), ExtResource("12_geu65"), ExtResource("11_geu65")])

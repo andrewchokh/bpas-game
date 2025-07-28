@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bvtuycktpi8m0" path="res://assets/sprites/weapons/arcane_staff.png" id="2_wi8ql"]
 
 [node name="ArcaneStaff" type="Node2D"]
+position = Vector2(8.5, 2)
 script = ExtResource("1_hhrsy")
 Type = 3
 Damage = 5

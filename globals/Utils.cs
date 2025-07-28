@@ -24,4 +24,12 @@ public partial class Utils : Node
 
         return null;
     }
+
+    public void RemoveAllChildren(Node Node)
+    {
+        if (Node == null)
+            return;
+        foreach (var Child in Node.GetChildren())
+            Child.QueueFree();
+    }
 }
