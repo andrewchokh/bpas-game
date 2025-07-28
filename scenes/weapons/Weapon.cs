@@ -80,6 +80,7 @@ public abstract partial class Weapon : Node2D
                 Uses--;
 
             EmitSignal(SignalName.WeaponUsed);
+            GD.Print("ATTACK");
 
             if (Uses == 0)
                 QueueFree();
@@ -90,7 +91,7 @@ public abstract partial class Weapon : Node2D
     /// Handler for weapon usage logic.
     /// Override in subclasses to implement specific weapon behavior.
     /// </summary>
-    private void OnWeaponUsed()
+    public virtual void OnWeaponUsed()
     {
         // Placeholder for weapon usage logic.
     }

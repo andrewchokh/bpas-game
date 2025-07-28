@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://woq1haaujfuj"]
+
+[ext_resource type="Script" uid="uid://cnsdx4dcqw5hr" path="res://scenes/weapons/impl/Spear.cs" id="1_3nvuc"]
+[ext_resource type="Texture2D" uid="uid://ybivjrxoqh3c" path="res://assets/sprites/weapons/spear.png" id="2_ktwcd"]
+
+[node name="Spear" type="Node2D"]
+position = Vector2(8.5, 0)
+script = ExtResource("1_3nvuc")
+Type = 1
+Damage = 1
+CritChance = 5.0
+Speed = 5.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ktwcd")
