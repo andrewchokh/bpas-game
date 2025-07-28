@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameStateMachine="*res://globals/GameStateMachine.cs"
 Utils="*res://globals/Utils.cs"
 EntityList="*res://globals/EntityList.cs"
+Levels="*res://globals/Levels.cs"
 
 [display]
 
@@ -30,9 +31,28 @@ window/size/viewport_height=768
 
 project/assembly_name="By Prophesy and Sword"
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "teal",
+"res://docs/": "gray",
+"res://globals/": "pink",
+"res://resources/": "orange",
+"res://scenes/": "blue",
+"res://scenes/components/": "purple",
+"res://scenes/enemies/": "red",
+"res://scenes/pickups/": "pink",
+"res://scenes/players/": "green",
+"res://scenes/players/abilities/": "yellow",
+"res://scenes/weapons/": "orange",
+"res://scenes/weapons/projectiles/": "yellow"
+}
+
 [global_group]
 
 Players="Player Characters"
+Spawnpoints=""
+Waypoints=""
 
 [input]
 
