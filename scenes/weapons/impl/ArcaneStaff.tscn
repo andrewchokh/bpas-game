@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://co5f8dmi8lpq2"]
+[gd_scene load_steps=4 format=3 uid="uid://co5f8dmi8lpq2"]
 
 [ext_resource type="Script" uid="uid://rhx6frh6iobn" path="res://scenes/weapons/impl/ArcaneStaff.cs" id="1_hhrsy"]
+[ext_resource type="PackedScene" uid="uid://xlxp75oi61qm" path="res://scenes/weapons/impl/ArcaneStaffProjectile.tscn" id="2_dqwu4"]
 [ext_resource type="Texture2D" uid="uid://bvtuycktpi8m0" path="res://assets/sprites/weapons/arcane_staff.png" id="2_wi8ql"]
 
 [node name="ArcaneStaff" type="Node2D"]
 position = Vector2(8.5, 2)
 script = ExtResource("1_hhrsy")
+ArcaneStaffProjectile = ExtResource("2_dqwu4")
 Type = 3
 Damage = 5
 CritChance = 3.0
