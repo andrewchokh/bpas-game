@@ -23,6 +23,7 @@ public partial class WeaponComponent : Node2D
 
         InventoryChanged += SynchronizeWeapons;
         SelectedItemChanged += SynchronizeWeapons;
+        SynchronizeWeapons();
     }
 
     public override void _Process(double delta)
