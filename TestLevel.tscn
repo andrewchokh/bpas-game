@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=4 uid="uid://bynjh4wjs0cwa"]
+[gd_scene load_steps=7 format=4 uid="uid://bynjh4wjs0cwa"]
 
 [ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="1_1kog2"]
 [ext_resource type="Script" uid="uid://b7xv5xuv82gmk" path="res://TestLevel.cs" id="1_waekl"]
 [ext_resource type="PackedScene" uid="uid://ddyq5gfxq5fn4" path="res://scenes/Camera2D.tscn" id="3_2xot7"]
 [ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/impl/Bob.tscn" id="4_waekl"]
 [ext_resource type="PackedScene" uid="uid://dptxrphgnsghg" path="res://scenes/enemies/impl/Steve.tscn" id="5_mvtj7"]
+[ext_resource type="PackedScene" uid="uid://bmihetbslmon" path="res://scenes/pickups/ArcaneStaffPickUp.tscn" id="7_vvvv7"]
 
 [node name="Level" type="Node"]
 script = ExtResource("1_waekl")
@@ -24,3 +25,5 @@ y_sort_enabled = true
 
 [node name="Steve" parent="." instance=ExtResource("5_mvtj7")]
 position = Vector2(-92.685, 0)
+
+[node name="ArcaneStaffPickUp" parent="." instance=ExtResource("7_vvvv7")]

@@ -55,10 +55,13 @@ public abstract partial class Weapon : Node2D
     [Signal]
     public delegate void WeaponUsedEventHandler();
 
+    public Player _Owner { get; set; } 
+
     /// <summary>
     /// Called when the node enters the scene tree.
     /// Connects the WeaponUsed signal to its handler.
     /// </summary>
+
     public override void _Ready()
     {
         base._Ready();
@@ -73,6 +76,11 @@ public abstract partial class Weapon : Node2D
     public override void _Process(double delta)
     {
         base._Process(delta);
+
+        var CurrentOwner = GetParent().GetParent() as Player;
+
+        if (CurrentOwner == null || CurrentOwner != _Owner)
+            return;
 
         if (Input.IsActionJustPressed("use_weapon"))
         {

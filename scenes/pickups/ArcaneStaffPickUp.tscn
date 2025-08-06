@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmihetbslmon"]
+
+[ext_resource type="Texture2D" uid="uid://bvtuycktpi8m0" path="res://assets/sprites/weapons/arcane_staff.png" id="1_1qkps"]
+[ext_resource type="Script" uid="uid://df7mcton1yfb2" path="res://scenes/pickups/ArcaneStaffPickUp.cs" id="1_fttbg"]
+[ext_resource type="PackedScene" uid="uid://co5f8dmi8lpq2" path="res://scenes/weapons/impl/ArcaneStaff.tscn" id="2_tywco"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onvbg"]
+
+[node name="ArcaneStaffPickUp" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_fttbg")
+WeaponScene = ExtResource("2_tywco")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_onvbg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1qkps")

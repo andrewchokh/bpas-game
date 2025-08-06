@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Dynamic;
 
 public partial class WeaponComponent : Node2D
 {
@@ -9,13 +10,13 @@ public partial class WeaponComponent : Node2D
     [Export]
     public Godot.Collections.Array<PackedScene> Inventory = [];
 
-    private int SelectedIndex = 0;
-
     [Signal]
     public delegate void InventoryChangedEventHandler();
 
     [Signal]
     public delegate void SelectedItemChangedEventHandler();
+
+    public int SelectedIndex { get; private set; } = 0; 
 
     public override void _Ready()
     {
@@ -50,7 +51,11 @@ public partial class WeaponComponent : Node2D
 
         Utils.Instance.RemoveAllChildren(this);
 
-        AddChild(Inventory[SelectedIndex].Instantiate());
+        var Weapon = Inventory[SelectedIndex].Instantiate() as Weapon;
+
+        Weapon._Owner = Player;
+
+        AddChild(Weapon);
     }
 
     private void ChangeSelectedIndex()
@@ -83,7 +88,11 @@ public partial class WeaponComponent : Node2D
     {
         // Logic for Pick Ups (No Pick Up system implemented yet.)
         if (Input.IsActionJustPressed("drop_weapon") && Index >= 0 && Index < Inventory.Count && Inventory[Index] != null)
+     // &&  WeaponDropped == false)
+        {
             GD.Print("Drop weapon action triggered, but no pick up system implemented yet.");
-        return;
-    }
+           
+        }
+         //    return;
+        }
 }
