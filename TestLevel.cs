@@ -88,21 +88,43 @@ public partial class TestLevel : Node
         {
             var BattleRooms = LevelData[Levels.RoomType.BATTLE];
             var Room = BattleRooms[GD.RandRange(0, BattleRooms.Length - 1)].Instantiate() as BattleRoom;
-            // var WayPoint1 = SelectRandomWayPoint(Rooms.Last());
-            // var WayPoint2 = SelectRandomWayPoint(Room);
 
-            var WayPoints = GetCompatibleWayPoints(Rooms.Last(), Room);
+            Marker2D WayPoint1 = null;
+            Marker2D WayPoint2 = null;
 
-            // Vector2 Offset1 = Rooms.Last().GlobalPosition + WayPoint1.GlobalPosition;
-            // Vector2 Offset2 = Room.GlobalPosition + WayPoint2.GlobalPosition;
+            const int MaxTries = 1000;
+            int Tries = 0;
+            while (Tries < MaxTries)
+            {
+                Tries++;
+                Room = BattleRooms[GD.RandRange(0, BattleRooms.Length - 1)].Instantiate() as BattleRoom;
+                WayPoint1 = SelectRandomWayPoint(EntranceRoom);
+                WayPoint2 = SelectRandomWayPoint(Room);
 
-            // GD.Print(Offset1, Offset2);
-            // Room.GlobalPosition += Offset1 + Offset2;
+                GD.Print(WayPoint1.Name, WayPoint2.Name);
 
-            Vector2 Offset1 = Rooms.Last().GlobalPosition + WayPoints[0].GlobalPosition;
-            Vector2 Offset2 = Room.GlobalPosition + WayPoints[1].GlobalPosition;
+                if (WayPoint1.Name == "North" && WayPoint2.Name == "South")
+                {
+                    break;
+                }
+                if (WayPoint1.Name == "South" && WayPoint2.Name == "North")
+                {
+                    break;
+                }
+                if (WayPoint1.Name == "West" && WayPoint2.Name == "East")
+                {
+                    break;
+                }
+                if (WayPoint1.Name == "East" && WayPoint2.Name == "West")
+                {
+                    break;
+                }
+            }
 
-            Room.GlobalPosition += Offset1 + Offset2;
+            GD.Print(WayPoint1.GlobalPosition, WayPoint2.GlobalPosition);
+
+            Room.GlobalPosition = WayPoint1.GlobalPosition;
+            Room.GlobalPosition -= WayPoint2.GlobalPosition;
 
             AddChild(Room);
 
@@ -115,7 +137,7 @@ public partial class TestLevel : Node
         Marker2D WayPoint1 = null;
         Marker2D WayPoint2 = null;
 
-        const int MaxTries = 100;
+        const int MaxTries = 1000;
         int Tries = 0;
         while (Tries < MaxTries)
         {
@@ -125,12 +147,22 @@ public partial class TestLevel : Node
 
             GD.Print(WayPoint1.Name, WayPoint2.Name);
 
-            if (WayPoint1.Name != "North" && WayPoint2.Name != "South") continue;
-            if (WayPoint1.Name != "South" && WayPoint2.Name != "North") continue;
-            if (WayPoint1.Name != "West" && WayPoint2.Name != "East") continue;
-            if (WayPoint1.Name != "East" && WayPoint2.Name != "West") continue;
-
-            break;
+            if (WayPoint1.Name == "North" && WayPoint2.Name == "South")
+            {
+                return [WayPoint1, WayPoint2];
+            }
+            if (WayPoint1.Name == "South" && WayPoint2.Name == "North")
+            {
+                return [WayPoint1, WayPoint2];
+            }
+            if (WayPoint1.Name == "West" && WayPoint2.Name == "East")
+            {
+                return [WayPoint1, WayPoint2];
+            }
+            if (WayPoint1.Name == "East" && WayPoint2.Name == "West")
+            {
+                return [WayPoint1, WayPoint2];
+            }
         }
 
         return [WayPoint1, WayPoint2];
