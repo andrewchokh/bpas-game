@@ -21,6 +21,8 @@ GameStateMachine="*res://globals/GameStateMachine.cs"
 Utils="*res://globals/Utils.cs"
 EntityList="*res://globals/EntityList.cs"
 Levels="*res://globals/Levels.cs"
+Constants="*res://globals/Constants.cs"
+LevelGenerator="*res://globals/LevelGenerator.cs"
 
 [display]
 

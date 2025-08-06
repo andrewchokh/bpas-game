@@ -9,12 +9,12 @@ script = ExtResource("1_lhd46")
 WayPoints = [NodePath("Waypoint 1"), NodePath("Waypoint 2")]
 
 [node name="FloorLayer" parent="." instance=ExtResource("1_5t0ds")]
-tile_map_data = PackedByteArray("AAD/////AQAAAAEAAAAAAP//AQACAAEAAAAAAAAAAQACAAEAAAD//wAAAQAAAAEAAAD///7/AQAAAAEAAAAAAP7/AQACAAEAAAD//wEAAQAAAAEAAAAAAAEAAQACAAEAAAAAAAIAAQACAAEAAAAAAAMAAQACAAIAAAD//wMAAQAAAAIAAAD//wIAAQAAAAEAAAD///3/AQAAAAEAAAD///z/AQAAAAAAAAAAAPz/AQACAAAAAAAAAP3/AQACAAEAAAA=")
+tile_map_data = PackedByteArray("AAD/////AQAAAAEAAAAAAP//AQACAAEAAAAAAAAAAQACAAEAAAD//wAAAQAAAAEAAAD///7/AQAAAAEAAAAAAP7/AQACAAEAAAD//wEAAQAAAAEAAAAAAAEAAQACAAEAAAA=")
 
 [node name="WallsLayer" parent="." instance=ExtResource("2_lhd46")]
 
 [node name="Waypoint 1" type="Marker2D" parent="." groups=["Waypoints"]]
-position = Vector2(0, -52)
+position = Vector2(0, -32)
 
 [node name="Waypoint 2" type="Marker2D" parent="." groups=["Waypoints"]]
-position = Vector2(0, 52)
+position = Vector2(0, 32)

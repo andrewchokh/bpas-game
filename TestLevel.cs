@@ -13,8 +13,6 @@ public partial class TestLevel : Node
     /// </summary>
     [Export]
     public PackedScene Camera2DScene;
-    [Export]
-    public LevelGenerationManager LevelGenerationManager;
 
     private int CurrentLevelIndex = 0;
     private Godot.Collections.Array<Room> Rooms = [];
@@ -38,11 +36,11 @@ public partial class TestLevel : Node
     /// Callback invoked when the game state changes.
     /// Logs the old and new states.
     /// </summary>
-    /// <param name="oldState">Previous game state.</param>
-    /// <param name="newState">Current game state.</param>
-    private void OnStateChanged(GameStateMachine.GameState oldState, GameStateMachine.GameState newState)
+    /// <param name="OldState">Previous game state.</param>
+    /// <param name="NewState">Current game state.</param>
+    private void OnStateChanged(GameStateMachine.GameState OldState, GameStateMachine.GameState NewState)
     {
-        GD.Print($"State changed from {oldState} to {newState}");
+        GD.Print($"State changed from {OldState} to {NewState}");
     }
 
     /// <summary>
@@ -58,42 +56,90 @@ public partial class TestLevel : Node
 
     private void GenerateLevel()
     {
+        // var Settings = new LevelGeneratorSettings();
+
+        // var Layout = LevelGenerator.Instance.GenerateLevel(Settings);
+        // var LevelData = GetCurrentLevelData();
+
+        // for (int y = 0; y < LevelGenerator.MAX_HEIGTH; y++)
+        // {
+        //     for (int x = 0; x < LevelGenerator.MAX_WIDTH; x++)
+        //     {
+        //         int RoomIndex = Layout[y, x];
+
+        //         if (RoomIndex == 0) continue;
+
+        //     }
+        // }
+
+        const int MaxRooms = 1;
+        Godot.Collections.Array<Room> Rooms = [];
+
         var LevelData = GetCurrentLevelData();
 
-        var TestRoomScene = LevelData[Levels.RoomType.ENTRANCE][0];
+        var EntranceRooms = LevelData[Levels.RoomType.ENTRANCE];
+        var EntranceRoom = EntranceRooms[GD.RandRange(0, EntranceRooms.Length - 1)].Instantiate() as EntranceRoom;
+        AddChild(EntranceRoom);
+        Rooms.Add(EntranceRoom);
 
-        LevelGenerationManager.GenerateLevelLayout();
 
-        for (int x = 0; x < LevelGenerationManager.Width; x++)
+        int RoomsPlaced = 0;
+        while (RoomsPlaced < MaxRooms)
         {
-            for (int y = 0; y < LevelGenerationManager.Height; y++)
-            {
-                if (LevelGenerationManager.Layout[x, y] == 1) // Assuming 1 indicates a room
-                {
-                    GD.Print($"Generating room at ({new Vector2(x * 300, y * 300)})");
-                    var RoomInstance = TestRoomScene.Instantiate() as Room;
-                    RoomInstance.Position = new Vector2(x * 300, y * 300); // Adjust position based on your layout logic
-                    Rooms.Add(RoomInstance);
-                    AddChild(RoomInstance);
-                }
-            }
+            var BattleRooms = LevelData[Levels.RoomType.BATTLE];
+            var Room = BattleRooms[GD.RandRange(0, BattleRooms.Length - 1)].Instantiate() as BattleRoom;
+            // var WayPoint1 = SelectRandomWayPoint(Rooms.Last());
+            // var WayPoint2 = SelectRandomWayPoint(Room);
+
+            var WayPoints = GetCompatibleWayPoints(Rooms.Last(), Room);
+
+            // Vector2 Offset1 = Rooms.Last().GlobalPosition + WayPoint1.GlobalPosition;
+            // Vector2 Offset2 = Room.GlobalPosition + WayPoint2.GlobalPosition;
+
+            // GD.Print(Offset1, Offset2);
+            // Room.GlobalPosition += Offset1 + Offset2;
+
+            Vector2 Offset1 = Rooms.Last().GlobalPosition + WayPoints[0].GlobalPosition;
+            Vector2 Offset2 = Room.GlobalPosition + WayPoints[1].GlobalPosition;
+
+            Room.GlobalPosition += Offset1 + Offset2;
+
+            AddChild(Room);
+
+            RoomsPlaced++;
         }
-
-        var Bob = EntityList.PlayerScenes[EntityList.PlayerType.Bob].Instantiate() as Player;
-
-        AddChild(Bob);
     }
 
-    // private void GenerateLevelEntrance(Dictionary<Levels.RoomType, PackedScene[]> LevelData)
-    // {
-    //     var EntranceRoomScene = LevelData[Levels.RoomType.ENTRANCE][0];
+    private Marker2D[] GetCompatibleWayPoints(Room Room1, Room Room2)
+    {
+        Marker2D WayPoint1 = null;
+        Marker2D WayPoint2 = null;
 
-    //     var EntranceRoom = EntranceRoomScene.Instantiate() as EntranceRoom;
+        const int MaxTries = 100;
+        int Tries = 0;
+        while (Tries < MaxTries)
+        {
+            Tries++;
+            WayPoint1 = SelectRandomWayPoint(Room1);
+            WayPoint2 = SelectRandomWayPoint(Room2);
 
-    //     Rooms.Add(EntranceRoom);
+            GD.Print(WayPoint1.Name, WayPoint2.Name);
 
-    //     AddChild(EntranceRoom);
-    // }
+            if (WayPoint1.Name != "North" && WayPoint2.Name != "South") continue;
+            if (WayPoint1.Name != "South" && WayPoint2.Name != "North") continue;
+            if (WayPoint1.Name != "West" && WayPoint2.Name != "East") continue;
+            if (WayPoint1.Name != "East" && WayPoint2.Name != "West") continue;
+
+            break;
+        }
+
+        return [WayPoint1, WayPoint2];
+    }
+
+    private Marker2D SelectRandomWayPoint(Room Room)
+    {
+        return Room.WayPoints[GD.RandRange(0, Room.WayPoints.Length - 1)];
+    }
 
     private Dictionary<Levels.RoomType, PackedScene[]> GetCurrentLevelData()
     {
