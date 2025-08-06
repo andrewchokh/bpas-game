@@ -45,6 +45,13 @@ public partial class EntityList : Node
         AbilityAcceleration
     }
 
+    public enum PickUpType
+    {
+        ArcaneStaff,
+        Dagger,
+        Spear 
+    }
+
     /// <summary>
     /// Called when the node enters the scene tree.
     /// Initializes the singleton instance.

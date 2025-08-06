@@ -16,31 +16,16 @@ public partial class ArcaneStaff : Weapon
     {
         base.OnWeaponUsed();
 
-        GD.Print("Damage = " + Damage);
-    }
+        Godot.Vector2 MousePosition = GetGlobalMousePosition();
+        Godot.Vector2 ArcaneStaffPosition = GlobalPosition;
 
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
+        Godot.Vector2 Direction = (MousePosition - ArcaneStaffPosition).Normalized();
 
-        if (Input.IsActionJustPressed("use_weapon"))
-        {
-            if (ArcaneStaffProjectile != null)
-            {
-                Godot.Vector2 MousePosition = GetGlobalMousePosition();
-                Godot.Vector2 ArcaneStaffPosition = GlobalPosition;
+        float BulletRotation = Direction.Angle();
 
-                Godot.Vector2 Direction = (MousePosition - ArcaneStaffPosition).Normalized();
-
-                float BulletRotation = Direction.Angle();
-
-                var BulletInstance = ArcaneStaffProjectile.Instantiate<Node2D>();
-                GetTree().Root.AddChild(BulletInstance);
-                BulletInstance.GlobalPosition = GlobalPosition;
-                BulletInstance.Rotation = BulletRotation;
-            }
-            else
-                GD.PrintErr("ArcaneStaffProjectile is not assigned!");
-        }
+        var BulletInstance = ArcaneStaffProjectile.Instantiate<Node2D>();
+        GetTree().Root.AddChild(BulletInstance);
+        BulletInstance.GlobalPosition = GlobalPosition;
+        BulletInstance.Rotation = BulletRotation;
     }
 }
