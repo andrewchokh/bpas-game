@@ -4,17 +4,17 @@
 [ext_resource type="Script" uid="uid://dbll6b78i7htd" path="res://scenes/levels/TunnelRoom.cs" id="1_lhd46"]
 [ext_resource type="PackedScene" uid="uid://cevs7ae4mrm4" path="res://scenes/levels/forest/tile_layers/WallsLayer.tscn" id="2_lhd46"]
 
-[node name="Tunnel1" type="Node2D" node_paths=PackedStringArray("WayPoints")]
+[node name="Tunnel1" type="Node2D" node_paths=PackedStringArray("Waypoints")]
 script = ExtResource("1_lhd46")
-WayPoints = [NodePath("Waypoint 1"), NodePath("Waypoint 2")]
+Waypoints = [NodePath("North"), NodePath("South")]
 
 [node name="FloorLayer" parent="." instance=ExtResource("1_5t0ds")]
 tile_map_data = PackedByteArray("AAD/////AQAAAAEAAAAAAP//AQACAAEAAAAAAAAAAQACAAEAAAD//wAAAQAAAAEAAAD///7/AQAAAAEAAAAAAP7/AQACAAEAAAD//wEAAQAAAAEAAAAAAAEAAQACAAEAAAA=")
 
 [node name="WallsLayer" parent="." instance=ExtResource("2_lhd46")]
 
-[node name="Waypoint 1" type="Marker2D" parent="." groups=["Waypoints"]]
+[node name="North" type="Marker2D" parent="." groups=["Waypoints"]]
 position = Vector2(0, -32)
 
-[node name="Waypoint 2" type="Marker2D" parent="." groups=["Waypoints"]]
+[node name="South" type="Marker2D" parent="." groups=["Waypoints"]]
 position = Vector2(0, 32)

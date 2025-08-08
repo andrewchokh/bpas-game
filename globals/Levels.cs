@@ -37,13 +37,27 @@ public partial class Levels : Node
                     [
                         GD.Load<PackedScene>("res://scenes/levels/forest/Battle1.tscn"),
                         GD.Load<PackedScene>("res://scenes/levels/forest/Battle2.tscn"),
-                    ] 
+                    ]
                 },
                 { RoomType.TUNNEL,
                     [
-                        GD.Load<PackedScene>("res://scenes/levels/forest/Tunnel1.tscn")
-                    ] 
+                        GD.Load<PackedScene>("res://scenes/levels/forest/Battle1.tscn"),
+                        GD.Load<PackedScene>("res://scenes/levels/forest/Battle2.tscn"),
+                    ]
                 },
+                { RoomType.BOSS,
+                    [
+                        GD.Load<PackedScene>("res://scenes/levels/forest/Battle1.tscn"),
+                        GD.Load<PackedScene>("res://scenes/levels/forest/Battle2.tscn"),
+                    ]
+                },
+                { RoomType.TREASURE,
+                    [
+                        GD.Load<PackedScene>("res://scenes/levels/forest/Battle1.tscn"),
+                        GD.Load<PackedScene>("res://scenes/levels/forest/Battle2.tscn"),
+                    ]
+                },
+                
             }
         },
         { LocationType.DUNGEON, new Dictionary<RoomType, PackedScene[]>() }
@@ -53,4 +67,6 @@ public partial class Levels : Node
     {
         Instance = this;
     }
+    
+
 }

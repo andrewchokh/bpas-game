@@ -16,6 +16,7 @@ public partial class TestLevel : Node
 
     private int CurrentLevelIndex = 0;
     private Godot.Collections.Array<Room> Rooms = [];
+    private Marker2D[] LastWaypoints;
 
     /// <summary>
     /// Called when the node enters the scene tree.
@@ -25,7 +26,7 @@ public partial class TestLevel : Node
     {
         GameStateMachine.Instance.StateChanged += OnStateChanged;
 
-        GenerateLevel();
+        GenerateLevel(new LevelGeneratorSettings());
 
         SetupCamera();
 
@@ -54,123 +55,114 @@ public partial class TestLevel : Node
         Camera2D.MakeCurrent();
     }
 
-    private void GenerateLevel()
+    private void GenerateLevel(LevelGeneratorSettings settings)
     {
-        // var Settings = new LevelGeneratorSettings();
+        // var levelData = GetCurrentLevelData();
 
-        // var Layout = LevelGenerator.Instance.GenerateLevel(Settings);
-        // var LevelData = GetCurrentLevelData();
+        // var EntranceRooms = LevelData[Levels.RoomType.ENTRANCE];
+        // var EntranceRoom = EntranceRooms[GD.RandRange(0, EntranceRooms.Length - 1)].Instantiate() as EntranceRoom;
 
-        // for (int y = 0; y < LevelGenerator.MAX_HEIGTH; y++)
+        // PlaceRoom(EntranceRoom, Vector2.Zero, Vector2.Zero);
+
+        foreach (var roomType in settings.RoomCount.Keys)
+        {
+            for (int i = 0; i < settings.RoomCount[roomType]; i++)
+            {
+                var room = GetRandomRoom(roomType);
+                if (room == null) continue;
+
+                if (Rooms.Count == 0)
+                    PlaceRoom(room, Vector2.Zero, Vector2.Zero);
+                else
+                    ConnectRooms(Rooms.Last(), room);
+            }
+        }
+
+
+        // while (Rooms.Count < settings.MaxRoomCount)
         // {
-        //     for (int x = 0; x < LevelGenerator.MAX_WIDTH; x++)
+        //     var BattleRooms = LevelData[Levels.RoomType.BATTLE];
+        //     var Room = BattleRooms[GD.RandRange(0, BattleRooms.Length - 1)].Instantiate() as BattleRoom;
+
+        //     Marker2D[] Waypoints = [];
+        //     int tries = 0;
+        //     while (tries < settings.MaxTries)
         //     {
-        //         int RoomIndex = Layout[y, x];
+        //         Waypoints = GetCompatibleWaypoints(Rooms.Last(), Room);
 
-        //         if (RoomIndex == 0) continue;
-
+        //         if (Waypoints.Length > 0) break;
         //     }
+
+        //     PlaceRoom(Room, Waypoints[0].GlobalPosition, Waypoints[1].GlobalPosition);
         // }
-
-        const int MaxRooms = 1;
-        Godot.Collections.Array<Room> Rooms = [];
-
-        var LevelData = GetCurrentLevelData();
-
-        var EntranceRooms = LevelData[Levels.RoomType.ENTRANCE];
-        var EntranceRoom = EntranceRooms[GD.RandRange(0, EntranceRooms.Length - 1)].Instantiate() as EntranceRoom;
-        AddChild(EntranceRoom);
-        Rooms.Add(EntranceRoom);
-
-
-        int RoomsPlaced = 0;
-        while (RoomsPlaced < MaxRooms)
-        {
-            var BattleRooms = LevelData[Levels.RoomType.BATTLE];
-            var Room = BattleRooms[GD.RandRange(0, BattleRooms.Length - 1)].Instantiate() as BattleRoom;
-
-            Marker2D WayPoint1 = null;
-            Marker2D WayPoint2 = null;
-
-            const int MaxTries = 1000;
-            int Tries = 0;
-            while (Tries < MaxTries)
-            {
-                Tries++;
-                Room = BattleRooms[GD.RandRange(0, BattleRooms.Length - 1)].Instantiate() as BattleRoom;
-                WayPoint1 = SelectRandomWayPoint(EntranceRoom);
-                WayPoint2 = SelectRandomWayPoint(Room);
-
-                GD.Print(WayPoint1.Name, WayPoint2.Name);
-
-                if (WayPoint1.Name == "North" && WayPoint2.Name == "South")
-                {
-                    break;
-                }
-                if (WayPoint1.Name == "South" && WayPoint2.Name == "North")
-                {
-                    break;
-                }
-                if (WayPoint1.Name == "West" && WayPoint2.Name == "East")
-                {
-                    break;
-                }
-                if (WayPoint1.Name == "East" && WayPoint2.Name == "West")
-                {
-                    break;
-                }
-            }
-
-            GD.Print(WayPoint1.GlobalPosition, WayPoint2.GlobalPosition);
-
-            Room.GlobalPosition = WayPoint1.GlobalPosition;
-            Room.GlobalPosition -= WayPoint2.GlobalPosition;
-
-            AddChild(Room);
-
-            RoomsPlaced++;
-        }
     }
 
-    private Marker2D[] GetCompatibleWayPoints(Room Room1, Room Room2)
+    private void PlaceRoom(Room room, Vector2 position, Vector2 offset)
     {
-        Marker2D WayPoint1 = null;
-        Marker2D WayPoint2 = null;
+        room.GlobalPosition = position;
+        room.GlobalPosition -= offset;
 
-        const int MaxTries = 1000;
-        int Tries = 0;
-        while (Tries < MaxTries)
+        AddChild(room);
+        Rooms.Add(room);
+    }
+    
+    private void ConnectRooms(Room room1, Room room2, int maxTries = 100)
+    {
+        Marker2D[] Waypoints = [];
+
+        int tries = 0;
+        while (tries < maxTries)
         {
-            Tries++;
-            WayPoint1 = SelectRandomWayPoint(Room1);
-            WayPoint2 = SelectRandomWayPoint(Room2);
-
-            GD.Print(WayPoint1.Name, WayPoint2.Name);
-
-            if (WayPoint1.Name == "North" && WayPoint2.Name == "South")
-            {
-                return [WayPoint1, WayPoint2];
-            }
-            if (WayPoint1.Name == "South" && WayPoint2.Name == "North")
-            {
-                return [WayPoint1, WayPoint2];
-            }
-            if (WayPoint1.Name == "West" && WayPoint2.Name == "East")
-            {
-                return [WayPoint1, WayPoint2];
-            }
-            if (WayPoint1.Name == "East" && WayPoint2.Name == "West")
-            {
-                return [WayPoint1, WayPoint2];
-            }
+            Waypoints = GetCompatibleWaypoints(room1, room2);
+            if (Waypoints.Length > 0) break;
+            tries++;
         }
 
-        return [WayPoint1, WayPoint2];
+        GD.Print(Waypoints);
+
+        PlaceRoom(room2, Waypoints[0].GlobalPosition, Waypoints[1].GlobalPosition);
     }
 
-    private Marker2D SelectRandomWayPoint(Room Room)
+    private Room GetRandomRoom(Levels.RoomType roomType)
     {
-        return Room.WayPoints[GD.RandRange(0, Room.WayPoints.Length - 1)];
+        var levelData = GetCurrentLevelData();
+        var rooms = levelData[roomType];
+
+        if (rooms.Length == 0) return null;
+
+        return rooms[GD.RandRange(0, rooms.Length - 1)].Instantiate() as Room;
+    }
+
+    private Marker2D[] GetCompatibleWaypoints(Room room1, Room room2, int maxTries = 100)
+    {
+        Marker2D Waypoint1 = null;
+        Marker2D Waypoint2 = null;
+
+        int tries = 0;
+        while (tries < maxTries)
+        {
+            tries++;
+
+            Waypoint1 = room1.SelectRandomWaypoint();
+            Waypoint2 = room2.SelectRandomWaypoint();
+
+            LastWaypoints = [Waypoint1, Waypoint2];
+
+            GD.Print(Waypoint1.Name, Waypoint2.Name);
+
+            if (Waypoint1.Name == "North" && Waypoint2.Name != "South") continue;
+            else if (Waypoint1.Name == "South" && Waypoint2.Name != "North") continue;
+            else if (Waypoint1.Name == "West" && Waypoint2.Name != "East") continue;
+            else if (Waypoint1.Name == "East" && Waypoint2.Name != "West") continue;
+
+            room2.Waypoints = room2.Waypoints
+                .Where(w => w.Name != Waypoint2.Name)
+                .ToArray();
+
+            return LastWaypoints;
+        }
+
+        return [];
     }
 
     private Dictionary<Levels.RoomType, PackedScene[]> GetCurrentLevelData()
@@ -186,4 +178,18 @@ public partial class TestLevel : Node
                 return null;
         }
     }
+}
+
+public partial class LevelGeneratorSettings
+{
+    public int MaxRoomCount { get; set; } = 5;
+    public int MaxTries { get; set; } = 1000;
+    public Dictionary<Levels.RoomType, int> RoomCount = new()
+    {
+        { Levels.RoomType.ENTRANCE, 1 },
+        { Levels.RoomType.BATTLE, 3 },
+        { Levels.RoomType.TUNNEL, 1 },
+        { Levels.RoomType.BOSS, 1 },
+        { Levels.RoomType.TREASURE, 1 }
+    };
 }
