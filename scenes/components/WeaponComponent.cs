@@ -1,6 +1,5 @@
 using Godot;
-using System;
-using System.Dynamic;
+using Godot.Collections;
 
 public partial class WeaponComponent : Node2D
 {
@@ -8,7 +7,8 @@ public partial class WeaponComponent : Node2D
     public Player Player;
 
     [Export]
-    public Godot.Collections.Array<PackedScene> Inventory = [];
+    public Array<PackedScene> Inventory = [];
+    public int SelectedIndex { get; private set; } = 0; 
 
     [Signal]
     public delegate void InventoryChangedEventHandler();
@@ -16,12 +16,8 @@ public partial class WeaponComponent : Node2D
     [Signal]
     public delegate void SelectedItemChangedEventHandler();
 
-    public int SelectedIndex { get; private set; } = 0; 
-
     public override void _Ready()
     {
-        base._Ready();
-
         InventoryChanged += SynchronizeWeapons;
         SelectedItemChanged += SynchronizeWeapons;
         SynchronizeWeapons();
@@ -29,15 +25,13 @@ public partial class WeaponComponent : Node2D
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-
         if (Input.IsActionJustPressed("switch_weapon"))
             SwitchWeapon();
         if (Input.IsActionJustPressed("drop_weapon"))
             DropWeapon(SelectedIndex);
     }
 
-    private void SwitchWeapon()
+    public void SwitchWeapon()
     {
         ChangeSelectedIndex();
 
@@ -46,16 +40,21 @@ public partial class WeaponComponent : Node2D
 
     private void SynchronizeWeapons()
     {
-        while (Inventory[SelectedIndex] == null)
+        for (var i = 0; i < Inventory.Count - 1; i++)
+        {
+            if (Inventory[i] != null)
+                break;
+            
             ChangeSelectedIndex();
+        }
 
-        Utils.RemoveAllChildren(this);
+        Utils.Instance.RemoveAllChildren(this);
 
-        var Weapon = Inventory[SelectedIndex].Instantiate() as Weapon;
+        var weapon = Inventory[SelectedIndex].Instantiate() as Weapon;
 
-        Weapon._Owner = Player;
+        weapon._owner = Player;
 
-        AddChild(Weapon);
+        AddChild(weapon);
     }
 
     private void ChangeSelectedIndex()
@@ -66,33 +65,28 @@ public partial class WeaponComponent : Node2D
             SelectedIndex = 0;
     }
 
-    public void GiveWeapon(PackedScene WeaponScene)
+    public void GiveWeapon(PackedScene weaponScene, int index = -1)
     {
-        for (int i = 0; i < Inventory.Count; i++)
+        if (index >= 0)
         {
-            if (Inventory[i] == null)
-            {
-                Inventory[i] = WeaponScene;
-                EmitSignal(SignalName.InventoryChanged);
-                return;
-            }
+            if (Inventory[index] == null)
+                DropWeapon(SelectedIndex);
+
+            Inventory[index] = weaponScene;
         }
+        else
+        {
+            if (Inventory[SelectedIndex] == null)
+                DropWeapon(SelectedIndex);
 
-        DropWeapon(SelectedIndex);
-        Inventory[SelectedIndex] = WeaponScene;
-
+            Inventory[SelectedIndex] = weaponScene;
+        }
+        
         EmitSignal(SignalName.InventoryChanged);
     }
 
-    public void DropWeapon(int Index)
+    public void DropWeapon(int index)
     {
         // Logic for Pick Ups (No Pick Up system implemented yet.)
-        if (Input.IsActionJustPressed("drop_weapon") && Index >= 0 && Index < Inventory.Count && Inventory[Index] != null)
-     // &&  WeaponDropped == false)
-        {
-            GD.Print("Drop weapon action triggered, but no pick up system implemented yet.");
-           
-        }
-         //    return;
-        }
+    }
 }

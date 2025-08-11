@@ -1,8 +1,7 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
-public partial class Levels : Node
+public partial class LevelsData : Node
 {
     public enum RoomType : int
     {
@@ -13,17 +12,17 @@ public partial class Levels : Node
         TREASURE = 5
     }
 
-    public enum LocationType
+    public enum LocationId
     {
         FOREST,
         DUNGEON
     }
 
-    public static Levels Instance { get; private set; }
+    public static LevelsData Instance { get; private set; }
 
-    public static readonly Dictionary<LocationType, Dictionary<RoomType, PackedScene[]>> LevelScenes = new()
+    public readonly Dictionary<LocationId, Dictionary<RoomType, PackedScene[]>> LevelScenes = new()
     {
-        { LocationType.FOREST, new Dictionary<RoomType, PackedScene[]>()
+        { LocationId.FOREST, new Dictionary<RoomType, PackedScene[]>()
             {
                 { RoomType.ENTRANCE,
                     [
@@ -60,13 +59,11 @@ public partial class Levels : Node
                 
             }
         },
-        { LocationType.DUNGEON, new Dictionary<RoomType, PackedScene[]>() }
+        { LocationId.DUNGEON, new Dictionary<RoomType, PackedScene[]>() }
     };
 
     public override void _Ready()
     {
         Instance = this;
     }
-    
-
 }

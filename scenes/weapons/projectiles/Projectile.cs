@@ -1,22 +1,15 @@
 using Godot;
 using System;
 
-/// <summary>
-/// Represents a projectile that can deal damage to entities.
-/// </summary>
-public partial class Projectile : Node
+public abstract partial class Projectile : Area2D
 {
-    /// <summary>
-    /// The amount of damage this projectile will inflict.
-    /// </summary>
-    private int _damage;
+    [Export]
+    public float Speed;
 
-    /// <summary>
-    /// Sets the damage value of the projectile.
-    /// </summary>
-    /// <param name="Damage">The damage amount to assign.</param>
-    public void SetDamage(int Damage)
+    public int Damage { get; private set; }
+
+    public void SetDamage(int damage)
     {
-        _damage = Damage;
+        Damage = damage;
     }
 }

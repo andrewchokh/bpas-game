@@ -7,11 +7,6 @@ public partial class ArcaneStaff : Weapon
     [Export]
     public PackedScene ArcaneStaffProjectile;
 
-    public override void _Ready()
-    {
-        base._Ready();
-    }
-
     public override void OnWeaponUsed()
     {
         base.OnWeaponUsed();

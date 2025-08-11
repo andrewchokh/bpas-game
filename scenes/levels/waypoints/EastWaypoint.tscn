@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://gbkwfpbwr8xr"]
+
+[node name="EastWaypoint" type="Marker2D" groups=["Waypoints"]]

@@ -1,15 +1,10 @@
 using Godot;
 using System;
 
-public partial class ArcaneStaffProjectile : Node2D
+public partial class ArcaneStaffProjectile : Projectile
 {
-    [Export]
-    float Speed = 300f;
-
     public override void _Process(double delta)
     {
-        base._Process(delta);
-
         Position += Transform.X * Speed * (float)delta;
     }
 }

@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/InputComponent.tscn" id="7_t7bk6"]
 [ext_resource type="PackedScene" uid="uid://jt4rf60uhw4f" path="res://scenes/players/abilities/impl/AbilityAcceleration.tscn" id="8_j4k24"]
 [ext_resource type="PackedScene" uid="uid://co5f8dmi8lpq2" path="res://scenes/weapons/impl/ArcaneStaff.tscn" id="9_5k3tv"]
-[ext_resource type="PackedScene" path="res://scenes/components/WeaponComponent.tscn" id="10_15lys"]
+[ext_resource type="PackedScene" uid="uid://b8hchje01oaek" path="res://scenes/components/WeaponComponent.tscn" id="10_15lys"]
 [ext_resource type="PackedScene" uid="uid://woq1haaujfuj" path="res://scenes/weapons/impl/Spear.tscn" id="11_geu65"]
 [ext_resource type="PackedScene" uid="uid://bxgoix6qgdkr4" path="res://scenes/weapons/impl/Dagger.tscn" id="12_geu65"]
 
@@ -43,8 +43,9 @@ HealthComponent = NodePath("../HealthComponent")
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_t7bk6")
 
-[node name="InputComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("7_t7bk6")]
+[node name="InputComponent" parent="." node_paths=PackedStringArray("Player", "WeaponComponent") instance=ExtResource("7_t7bk6")]
 Player = NodePath("..")
+WeaponComponent = NodePath("../WeaponComponent")
 
 [node name="PlayerCollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 2.5)
