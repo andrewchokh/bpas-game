@@ -1,10 +1,11 @@
-using System.Linq;
 using Godot;
+using System.Linq;
 using System.Collections.Generic;
 
 using static LevelsData;
+using System;
 
-public partial class TestLevel : Node
+public partial class Level : Node
 {
     [Export]
     public PackedScene Camera2DScene;
@@ -44,12 +45,33 @@ public partial class TestLevel : Node
             for (int i = 0; i < settings.RoomCount[roomType]; i++)
             {
                 var room = GetRandomRoom(roomType);
-                if (room == null) continue;
 
                 if (Rooms.Count == 0)
                     PlaceRoom(room, Vector2.Zero, Vector2.Zero);
                 else
-                    ConnectRooms(Rooms.Last(), room);
+                {
+                    int tries = 0;
+                    while (tries < settings.MaxTries)
+                    {
+                        if (tries > 0) room = GetRandomRoom(roomType);
+
+                        try
+                        {
+                            ConnectRooms(Rooms.Last(), room);
+                            break;
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                            continue;
+                        }
+                        finally
+                        {
+                            tries++;
+                        }
+                    }
+                }
+                    
+                Rooms.Add(room);
             }
         }
     }
@@ -60,24 +82,23 @@ public partial class TestLevel : Node
         room.GlobalPosition -= offset;
 
         AddChild(room);
-        Rooms.Add(room);
     }
 
-    private void ConnectRooms(Room room1, Room room2, int maxTries = 100)
+    private void ConnectRooms(Room room1, Room room2, int maxTries = 10)
     {
-        Marker2D[] Waypoints = [];
+        Marker2D[] waypoints = [];
 
         int tries = 0;
         while (tries < maxTries)
         {
-            Waypoints = GetCompatibleWaypoints(room1, room2);
-            if (Waypoints.Length > 0) break;
+            waypoints = GetCompatibleWaypoints(room1, room2);
+
+            if (waypoints.Length == 2) break;
+
             tries++;
         }
 
-        GD.Print(Waypoints);
-
-        PlaceRoom(room2, Waypoints[0].GlobalPosition, Waypoints[1].GlobalPosition);
+        PlaceRoom(room2, waypoints[0].GlobalPosition, waypoints[1].GlobalPosition);
     }
 
     private Room GetRandomRoom(RoomType roomType)
@@ -90,7 +111,22 @@ public partial class TestLevel : Node
         return rooms[GD.RandRange(0, rooms.Length - 1)].Instantiate() as Room;
     }
 
-    private Marker2D[] GetCompatibleWaypoints(Room room1, Room room2, int maxTries = 100)
+    private RoomType GetRoomType(Room room)
+    {
+        switch (room)
+        {
+            case EntranceRoom:
+                return RoomType.ENTRANCE;
+            case BattleRoom:
+                return RoomType.BATTLE;
+            case TunnelRoom:
+                return RoomType.TUNNEL;
+        }
+
+        return 0;
+    }
+
+    private Marker2D[] GetCompatibleWaypoints(Room room1, Room room2, int maxTries = 10)
     {
         Marker2D Waypoint1 = null;
         Marker2D Waypoint2 = null;
@@ -105,16 +141,47 @@ public partial class TestLevel : Node
 
             LastWaypoints = [Waypoint1, Waypoint2];
 
-            GD.Print(Waypoint1.Name, Waypoint2.Name);
+            GD.Print($"{tries} / {maxTries}: Trying to connect {Waypoint1.Name} with {Waypoint2.Name}");
 
-            if (Waypoint1.Name == "North" && Waypoint2.Name != "South") continue;
-            else if (Waypoint1.Name == "South" && Waypoint2.Name != "North") continue;
-            else if (Waypoint1.Name == "West" && Waypoint2.Name != "East") continue;
-            else if (Waypoint1.Name == "East" && Waypoint2.Name != "West") continue;
+            switch (Waypoint1.Name)
+            {
+                case Constants.NorthWaypointName:
+                    if (Waypoint2.Name == Constants.SouthWaypointName)
+                    {
+                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
+                        break;
+                    }
+                    continue;
+                case Constants.SouthWaypointName:
+                    if (Waypoint2.Name == Constants.NorthWaypointName)
+                    {
+                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
+                        break;
+                    }
+                    continue;
+                case Constants.WestWaypointName:
+                    if (Waypoint2.Name == Constants.EastWaypointName)
+                    {
+                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
+                        break;
+                    }
+                    continue;
+                case Constants.EastWaypointName:
+                    if (Waypoint2.Name == Constants.WestWaypointName)
+                    {
+                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
+                        break;
+                    }
+                    continue;
+                default:
+                    GD.PrintErr("Unknown waypoint name: " + Waypoint1.Name);
+                    continue;
+            }
 
             room2.Waypoints = room2.Waypoints
                 .Where(w => w.Name != Waypoint2.Name)
                 .ToArray();
+
 
             return LastWaypoints;
         }
@@ -139,15 +206,14 @@ public partial class TestLevel : Node
 
 public partial class LevelGeneratorSettings
 {
-    public int MaxRoomCount { get; set; } = 5;
     public int MaxTries { get; set; } = 1000;
 
     public Dictionary<RoomType, int> RoomCount = new()
     {
         { RoomType.ENTRANCE, 1 },
-        { RoomType.BATTLE, 3 },
-        { RoomType.TUNNEL, 1 },
-        { RoomType.BOSS, 1 },
-        { RoomType.TREASURE, 1 }
+        { RoomType.BATTLE, 10 },
+        { RoomType.TUNNEL, 0 },
+        { RoomType.BOSS, 0 },
+        { RoomType.TREASURE, 0 }
     };
 }
