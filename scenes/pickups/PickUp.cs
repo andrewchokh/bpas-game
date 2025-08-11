@@ -1,26 +1,21 @@
 using Godot;
-using System;
-using System.Collections;
 
-/// <summary>
-/// Represents a pickable item in the game world.
-/// Can be extended to implement item-specific pickup behavior.
-/// </summary>
+using static EntityList;
+
 public abstract partial class PickUp : Area2D
 {
     [Export]
-    public EntityList.PickUpType ID;
+    public PickUpSceneId Id;
     [Export]
     public PackedScene WeaponScene;
 
+    private Player _nearestPlayer;
+
     [Signal]
     public delegate void PickedUpEventHandler();
-    private Player NearestPlayer;
-
+    
     public override void _Ready()
     {
-        base._Ready();
-
         AreaEntered += OnAreaEntered;
         AreaExited += OnAreaExited;
         PickedUp += OnPickedUp;
@@ -28,30 +23,28 @@ public abstract partial class PickUp : Area2D
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-
-        if (Input.IsActionJustPressed("use") && NearestPlayer != null)
+        if (Input.IsActionJustPressed("use") && _nearestPlayer != null)
             EmitSignal(SignalName.PickedUp);
     }
 
     public void OnPickedUp()
     {
-        var WeaponComponent = NearestPlayer.GetNode<WeaponComponent>("WeaponComponent");
+        var weaponComponent = _nearestPlayer.GetNode<WeaponComponent>("WeaponComponent");
 
-        Utils.Instance.RemoveAllChildren(WeaponComponent);
-        WeaponComponent.GiveWeapon(WeaponScene); 
+        Utils.Instance.RemoveAllChildren(weaponComponent);
+        weaponComponent.GiveWeapon(WeaponScene); 
         QueueFree();
     }
 
     public void OnAreaEntered(Area2D area)
     {
         if (area is HitBoxComponent HitBox && HitBox.Entity is Player Player)
-            NearestPlayer = Player;
+            _nearestPlayer = Player;
     }
 
     public void OnAreaExited(Area2D area)
     {
-        if (area is HitBoxComponent HitBox && HitBox.Entity is Player Player && NearestPlayer == Player)
-            NearestPlayer = null;
+        if (area is HitBoxComponent HitBox && HitBox.Entity is Player Player && _nearestPlayer == Player)
+            _nearestPlayer = null;
     }
 }

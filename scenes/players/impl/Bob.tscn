@@ -42,8 +42,9 @@ HealthComponent = NodePath("../HealthComponent")
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_t7bk6")
 
-[node name="InputComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("7_t7bk6")]
+[node name="InputComponent" parent="." node_paths=PackedStringArray("Player", "WeaponComponent") instance=ExtResource("7_t7bk6")]
 Player = NodePath("..")
+WeaponComponent = NodePath("../WeaponComponent")
 
 [node name="PlayerCollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 2.5)

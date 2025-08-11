@@ -1,71 +1,58 @@
 using Godot;
-using System;
-using System.Collections.Generic;
+using Godot.Collections;
 
-/// <summary>
-/// Singleton that stores and manages references to entity scenes used in the game.
-/// Provides mappings from enum types to PackedScenes for easy instantiation.
-/// </summary>
 public partial class EntityList : Node
 {
-    /// <summary>
-    /// Singleton instance of the EntityList.
-    /// </summary>
     public static EntityList Instance { get; private set; }
 
-    /// <summary>
-    /// Enum representing the different player types available.
-    /// </summary>
-    public enum PlayerType
+    public enum PlayerSceneId
     {
         Bob
     }
-
-    /// <summary>
-    /// Enum representing the different enemy types available.
-    /// </summary>
-    public enum EnemyType
+    public enum EnemySceneId
     {
-        Bob
+        Steve
     }
-
-    /// <summary>
-    /// Enum representing the different weapon types available.
-    /// </summary>
-    public enum WeaponType
+    public enum WeaponSceneId
     {
         ArcaneStaff
     }
-
-    /// <summary>
-    /// Enum representing the different ability types available.
-    /// </summary>
-    public enum AbilityType
+    public enum AbilitySceneId
     {
         AbilityAcceleration
     }
-
-    public enum PickUpType
+    public enum PickUpSceneId
     {
         ArcaneStaff,
         Dagger,
-        Spear 
+        Spear
     }
 
-    /// <summary>
-    /// Called when the node enters the scene tree.
-    /// Initializes the singleton instance.
-    /// </summary>
+    public readonly Dictionary<PlayerSceneId, PackedScene> PlayerScenes = new()
+    {
+        { PlayerSceneId.Bob, GD.Load<PackedScene>("res://scenes/players/impl/Bob.tscn") },
+    };
+    public readonly Dictionary<EnemySceneId, PackedScene> EnemyScenes = new()
+    {
+        { EnemySceneId.Steve, GD.Load<PackedScene>("res://scenes/enemies/impl/Steve.tscn") },
+    };
+    public readonly Dictionary<WeaponSceneId, PackedScene> WeaponScenes = new()
+    {
+        { WeaponSceneId.ArcaneStaff, GD.Load<PackedScene>("res://scenes/weapons/impl/ArcaneStaff.tscn") },
+        { WeaponSceneId.ArcaneStaff, GD.Load<PackedScene>("res://scenes/weapons/impl/Dagger.tscn") },
+        { WeaponSceneId.ArcaneStaff, GD.Load<PackedScene>("res://scenes/weapons/impl/Spear.tscn") },
+    };
+    public readonly Dictionary<AbilitySceneId, PackedScene> AbilityScenes = new()
+    {
+        { AbilitySceneId.AbilityAcceleration, GD.Load<PackedScene>("res://scenes/abilities/impl/AbilityAcceleration.tscn") },
+    };
+    public readonly Dictionary<PickUpSceneId, PackedScene> PickUpScenes = new()
+    {
+        
+    };
+    
     public override void _Ready()
     {
         Instance = this;
     }
-
-    /// <summary>
-    /// Dictionary mapping player types to their respective PackedScene resources.
-    /// </summary>
-    public static readonly Dictionary<PlayerType, PackedScene> PlayerScenes = new()
-    {
-        { PlayerType.Bob, GD.Load<PackedScene>("res://scenes/players/impl/Bob.tscn") },
-    };
 }
