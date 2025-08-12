@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Camera2d : Camera2D
+public partial class MainCamera : Camera2D
 {
     private Player TargetPlayer;
 

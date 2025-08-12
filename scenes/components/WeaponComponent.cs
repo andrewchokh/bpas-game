@@ -1,92 +1,126 @@
 using Godot;
 using Godot.Collections;
 
+using static EntityList;
+
 public partial class WeaponComponent : Node2D
 {
     [Export]
     public Player Player;
 
     [Export]
-    public Array<PackedScene> Inventory = [];
-    public int SelectedIndex { get; private set; } = 0; 
+    public int MaxSlots = 3;
+
+    public Dictionary<int, Weapon> Weapons = new();
+    public int SelectedSlot = 0;
 
     [Signal]
-    public delegate void InventoryChangedEventHandler();
-
-    [Signal]
-    public delegate void SelectedItemChangedEventHandler();
+    public delegate void WeaponChangedEventHandler();
 
     public override void _Ready()
     {
-        InventoryChanged += SynchronizeWeapons;
-        SelectedItemChanged += SynchronizeWeapons;
-        SynchronizeWeapons();
+        WeaponChanged += UpdateSelectedWeapon;
+
+        GiveWeapon(WeaponSceneId.ArcaneStaff);
+        GiveWeapon(WeaponSceneId.Dagger);
+        GiveWeapon(WeaponSceneId.Spear);
     }
 
     public override void _Process(double delta)
     {
         if (Input.IsActionJustPressed("switch_weapon"))
-            SwitchWeapon();
-        if (Input.IsActionJustPressed("drop_weapon"))
-            DropWeapon(SelectedIndex);
+            SwitchWeapon(SelectedSlot);
     }
 
-    public void SwitchWeapon()
+    public void SwitchWeapon(int slot)
     {
-        ChangeSelectedIndex();
-
-        EmitSignal(SignalName.SelectedItemChanged);
-    }
-
-    private void SynchronizeWeapons()
-    {
-        for (var i = 0; i < Inventory.Count - 1; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
-            if (Inventory[i] != null)
-                break;
-            
-            ChangeSelectedIndex();
+            SelectNextSlot();
+
+            if (Weapons[SelectedSlot] == null)
+                continue;
+
+            GD.Print($"Switching to weapon slot {i}");
+            UpdateSelectedWeapon();
+            break;
+        }
+    }
+
+    public void GiveWeapon(WeaponSceneId weaponSceneId)
+    {
+        if (Weapons.Count >= MaxSlots)
+        {
+            GD.PushWarning("Cannot give weapon, max slots reached.");
+            return;
         }
 
-        Utils.Instance.RemoveAllChildren(this);
-
-        var weapon = Inventory[SelectedIndex].Instantiate() as Weapon;
-
+        var weapon = EntityList.Instance.WeaponScenes[weaponSceneId].Instantiate<Weapon>();
+        AddChild(weapon);
         weapon._owner = Player;
 
-        AddChild(weapon);
+        Weapons.Add(GetLastFreeSlot(), weapon);
+        EmitSignal(SignalName.WeaponChanged);
     }
 
-    private void ChangeSelectedIndex()
+    public void DropWeapon(int slot)
     {
-        SelectedIndex++;
-
-        if (SelectedIndex >= Inventory.Count)
-            SelectedIndex = 0;
+        return;
     }
 
-    public void GiveWeapon(PackedScene weaponScene, int index = -1)
+    public void ReplaceWeapon(WeaponSceneId weaponSceneId, int slot)
     {
-        if (index >= 0)
+        return;
+    }
+
+    private void UpdateSelectedWeapon()
+    {
+        foreach (int key in Weapons.Keys)
         {
-            if (Inventory[index] == null)
-                DropWeapon(SelectedIndex);
+            if (key != SelectedSlot)
+            {
+                Weapons[key].ProcessMode = ProcessModeEnum.Disabled;
+                Weapons[key].Visible = false;
+                continue;
+            }
 
-            Inventory[index] = weaponScene;
-        }
-        else
-        {
-            if (Inventory[SelectedIndex] == null)
-                DropWeapon(SelectedIndex);
+            Weapons[key].ProcessMode = ProcessModeEnum.Inherit;
+            Weapons[key].Visible = true;
 
-            Inventory[SelectedIndex] = weaponScene;
+            Weapons[key].Rotation = Player.Rotation;
+
+            PrintInventory();
         }
-        
-        EmitSignal(SignalName.InventoryChanged);
+
+        PrintInventory();
     }
 
-    public void DropWeapon(int index)
+    private void PrintInventory()
     {
-        // Logic for Pick Ups (No Pick Up system implemented yet.)
+        GD.Print("Current Inventory:");
+        foreach (var weapon in Weapons)
+        {
+            GD.Print($"Slot {weapon.Key}: {weapon.Value.Name}");
+        }
+    }
+
+    private int GetLastFreeSlot()
+    {
+        for (int i = 0; i < MaxSlots; i++)
+        {
+            if (!Weapons.ContainsKey(i))
+                return i;
+        }
+
+        GD.PushWarning("No free slot found in inventory.");
+        return -1;
+    }
+
+    private void SelectNextSlot()
+    {
+        SelectedSlot++;
+
+        if (SelectedSlot >= MaxSlots)
+            SelectedSlot = 0;
     }
 }

@@ -1,17 +1,37 @@
 using Godot;
 
-public abstract partial class Player : CharacterBody2D
+public partial class Player : CharacterBody2D
 {
-    public MovementComponent MovementComponent { get; private set; }
-    public HealthComponent HealthComponent { get; private set; }
-    public HitBoxComponent HitBoxComponent { get; private set; }
-    public InputComponent InputComponent { get; private set; }
+    [Export]
+    public PackedScene UltimateSkillScene;
+
+    [ExportCategory("Components")]
+    [Export]
+    public MovementComponent MovementComponent;
+    [Export]
+    public HealthComponent HealthComponent;
+    [Export]
+    public HitboxComponent HitboxComponent;
+    [Export]
+    public PlayerMovementController PlayerMovementController;
+    [Export]
+    public WeaponComponent WeaponComponent;
 
     public override void _Ready()
     {
-        MovementComponent = GetNode<MovementComponent>("MovementComponent");
-        HealthComponent = GetNode<HealthComponent>("HealthComponent");
-        HitBoxComponent = GetNode<HitBoxComponent>("HitBoxComponent");
-        InputComponent = GetNode<InputComponent>("InputComponent");
+        SetupUltimateSkill();
+    }
+
+    private void SetupUltimateSkill()
+    {
+        if (UltimateSkillScene == null)
+        {
+            GD.PushWarning("UltimateSkillScene is not set for Player.");
+            return;
+        }
+
+        var ultimateSkill = UltimateSkillScene.Instantiate<UltimateSkill>();
+
+        AddChild(ultimateSkill);
     }
 }

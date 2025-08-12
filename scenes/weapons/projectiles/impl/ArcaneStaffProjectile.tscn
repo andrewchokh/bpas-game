@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://xlxp75oi61qm"]
 
 [ext_resource type="Texture2D" uid="uid://bkiwnyiidvipg" path="res://assets/sprites/projectiles/arcane_staff_projectile.png" id="1_nfe6f"]
-[ext_resource type="Script" uid="uid://ditw21nepkp5g" path="res://scenes/weapons/projectiles/impl/ArcaneStaffProjectile.cs" id="1_xjfp5"]
+[ext_resource type="Script" uid="uid://bytw8ajd44rne" path="res://scenes/weapons/projectiles/Projectile.cs" id="1_xufmf"]
 
 [node name="ArcaneStaffProjectile" type="Node2D"]
-script = ExtResource("1_xjfp5")
+script = ExtResource("1_xufmf")
 Speed = 300.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

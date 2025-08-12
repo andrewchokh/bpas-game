@@ -5,10 +5,33 @@ public partial class HealthComponent : Node2D
     [Export]
     public Node2D Entity;
 
+    private int _health;
     [Export]
-    public int Health = 1;
+    public int Health
+    {
+        get => _health;
+        set
+        {
+            int oldHealth = _health;
+            _health = Mathf.Max(0, value);
+            
+            EmitSignal(SignalName.HealthChanged, oldHealth, _health);
+
+            if (_health == 0)
+                EmitSignal(SignalName.EntityDied);
+        }
+    }
+
+    private int _defence;
     [Export]
-    public int Defense = 0;
+    public int Defense
+    {
+        get => _defence;
+        set
+        {
+            _defence = Mathf.Max(0, value);
+        }
+    }
 
     [Signal]
     public delegate void HealthChangedEventHandler(int oldHealth, int newHealth);
@@ -18,12 +41,6 @@ public partial class HealthComponent : Node2D
 
     public void TakeDamage(int damage)
     {
-        int oldHealth = Health;
-        Health -= Mathf.Max(1, damage - Defense);
-
-        EmitSignal(SignalName.HealthChanged, oldHealth, Health);
-
-        if (Health <= 0)
-            EmitSignal(SignalName.EntityDied);
+        Health -= Mathf.Max(1, damage - _defence);
     }
 }

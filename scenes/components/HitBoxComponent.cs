@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class HitBoxComponent : Area2D
+public partial class HitboxComponent : Area2D
 {
     [Export]
     public Node2D Entity;

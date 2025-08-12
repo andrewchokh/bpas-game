@@ -1,6 +1,7 @@
 using Godot;
+using System;
 
-public partial class Steve : Enemy
+public partial class ChasePattern : BehaviorPattern
 {
     public override void _PhysicsProcess(double delta)
     {
@@ -9,9 +10,9 @@ public partial class Steve : Enemy
             return;
 
         var playerPosition = player.GlobalPosition;
-        var direction = (playerPosition - GlobalPosition).Normalized();
+        var direction = (playerPosition - Enemy.GlobalPosition).Normalized();
 
-        MovementComponent.Move(direction, delta);
-        MoveAndSlide();
+        Enemy.MovementComponent.Move(direction, delta);
+        Enemy.MoveAndSlide();
     }
 }

@@ -1,15 +1,15 @@
 using Godot;
 
+public enum WeaponType : int
+{
+    MELEE = 1,
+    RANGED = 2,
+    MAGIC = 3,
+    UNIQUE = 4
+}
+
 public abstract partial class Weapon : Node2D
 {
-    public enum WeaponType : int
-    {
-        MELEE = 1,
-        RANGED = 2,
-        MAGIC = 3,
-        UNIQUE = 4
-    }
-
     [Export]
     public WeaponType Type;
 
@@ -28,7 +28,7 @@ public abstract partial class Weapon : Node2D
     [Signal]
     public delegate void WeaponUsedEventHandler();
 
-    public Player _owner { get; set; } 
+    public Player _owner { get; set; }
 
     public override void _Ready()
     {
@@ -37,8 +37,6 @@ public abstract partial class Weapon : Node2D
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-
         var currentOwner = GetParent().GetParent() as Player;
 
         if (currentOwner == null || currentOwner != _owner)
@@ -56,8 +54,5 @@ public abstract partial class Weapon : Node2D
         }
     }
 
-    public virtual void OnWeaponUsed()
-    {
-        // Placeholder for weapon usage logic.
-    }
+    public abstract void OnWeaponUsed();
 }

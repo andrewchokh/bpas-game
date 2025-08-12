@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public abstract partial class Projectile : Area2D
+public partial class Projectile : Area2D
 {
     [Export]
     public float Speed;
