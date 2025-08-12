@@ -1,5 +1,5 @@
 using Godot;
-using Godot.Collections;
+using System.Collections.Generic;
 
 public partial class EntityList : Node
 {
@@ -15,7 +15,9 @@ public partial class EntityList : Node
     }
     public enum WeaponSceneId
     {
-        ArcaneStaff
+        ArcaneStaff,
+        Dagger,
+        Spear
     }
     public enum AbilitySceneId
     {
@@ -39,12 +41,12 @@ public partial class EntityList : Node
     public readonly Dictionary<WeaponSceneId, PackedScene> WeaponScenes = new()
     {
         { WeaponSceneId.ArcaneStaff, GD.Load<PackedScene>("res://scenes/weapons/impl/ArcaneStaff.tscn") },
-        { WeaponSceneId.ArcaneStaff, GD.Load<PackedScene>("res://scenes/weapons/impl/Dagger.tscn") },
-        { WeaponSceneId.ArcaneStaff, GD.Load<PackedScene>("res://scenes/weapons/impl/Spear.tscn") },
+        { WeaponSceneId.Dagger, GD.Load<PackedScene>("res://scenes/weapons/impl/Dagger.tscn") },
+        { WeaponSceneId.Spear, GD.Load<PackedScene>("res://scenes/weapons/impl/Spear.tscn") },
     };
     public readonly Dictionary<AbilitySceneId, PackedScene> AbilityScenes = new()
     {
-        { AbilitySceneId.AbilityAcceleration, GD.Load<PackedScene>("res://scenes/abilities/impl/AbilityAcceleration.tscn") },
+        { AbilitySceneId.AbilityAcceleration, GD.Load<PackedScene>("res://scenes/players/abilities/impl/AbilityAcceleration.tscn") },
     };
     public readonly Dictionary<PickUpSceneId, PackedScene> PickUpScenes = new()
     {

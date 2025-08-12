@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="By Prophesy and Sword"
-run/main_scene="res://TestLevel.tscn"
+run/main_scene="res://scenes/Level.tscn"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
@@ -20,7 +20,8 @@ config/icon="res://icon.svg"
 GameStateMachine="*res://globals/GameStateMachine.cs"
 Utils="*res://globals/Utils.cs"
 EntityList="*res://globals/EntityList.cs"
-Levels="*res://globals/Levels.cs"
+Constants="*res://globals/Constants.cs"
+LevelsData="*res://globals/LevelsData.cs"
 
 [display]
 
@@ -37,7 +38,7 @@ folder_colors={
 "res://assets/": "teal",
 "res://docs/": "gray",
 "res://globals/": "pink",
-"res://resources/": "orange",
+"res://resources/": "yellow",
 "res://scenes/": "blue",
 "res://scenes/components/": "purple",
 "res://scenes/enemies/": "red",
@@ -45,7 +46,7 @@ folder_colors={
 "res://scenes/players/": "green",
 "res://scenes/players/abilities/": "yellow",
 "res://scenes/weapons/": "orange",
-"res://scenes/weapons/projectiles/": "yellow"
+"res://scenes/weapons/projectiles/": "teal"
 }
 
 [global_group]

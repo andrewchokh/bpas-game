@@ -17,6 +17,7 @@
 size = Vector2(7, 17)
 
 [node name="Bob" type="CharacterBody2D" groups=["Players"]]
+z_index = 1
 script = ExtResource("1_xhqei")
 
 [node name="Shadow" type="Sprite2D" parent="."]
