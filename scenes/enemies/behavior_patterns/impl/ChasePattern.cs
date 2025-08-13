@@ -5,6 +5,8 @@ public partial class ChasePattern : BehaviorPattern
 {
     public override void _PhysicsProcess(double delta)
     {
+        Enemy.Velocity = Vector2.Zero; // Ensure enemy starts with no velocity
+
         var player = Utils.Instance.GetFirstPlayer();
         if (player == null)
             return;

@@ -10,9 +10,11 @@ public partial class WeaponComponent : Node2D
 
     [Export]
     public int MaxSlots = 3;
+    [Export]
+    public Marker2D WeaponPoint;
 
     public Dictionary<int, Weapon> Weapons = new();
-    public int SelectedSlot = 0;
+    public int SelectedSlot { get; private set; } = 0;
 
     [Signal]
     public delegate void WeaponChangedEventHandler();
@@ -22,8 +24,6 @@ public partial class WeaponComponent : Node2D
         WeaponChanged += UpdateSelectedWeapon;
 
         GiveWeapon(WeaponSceneId.ArcaneStaff);
-        GiveWeapon(WeaponSceneId.Dagger);
-        GiveWeapon(WeaponSceneId.Spear);
     }
 
     public override void _Process(double delta)
@@ -38,10 +38,10 @@ public partial class WeaponComponent : Node2D
         {
             SelectNextSlot();
 
-            if (Weapons[SelectedSlot] == null)
+            if (!Weapons.ContainsKey(SelectedSlot))
                 continue;
 
-            GD.Print($"Switching to weapon slot {i}");
+            GD.Print($"Switching to weapon slot {SelectedSlot}");
             UpdateSelectedWeapon();
             break;
         }
@@ -57,20 +57,54 @@ public partial class WeaponComponent : Node2D
 
         var weapon = EntityList.Instance.WeaponScenes[weaponSceneId].Instantiate<Weapon>();
         AddChild(weapon);
-        weapon._owner = Player;
+        SetupWeapon(weapon);
 
         Weapons.Add(GetLastFreeSlot(), weapon);
+
         EmitSignal(SignalName.WeaponChanged);
     }
 
     public void DropWeapon(int slot)
     {
-        return;
+        if (!Weapons.ContainsKey(slot))
+        {
+            GD.PushError($"No weapon found in slot {slot} to drop.");
+            return;
+        }
+
+        if (Weapons[slot] is not Weapon)
+        {
+            GD.PushError($"Slot {slot} does not contain a valid weapon.");
+            return;
+        }
+
+        var pickup = EntityList.Instance.PickUpScenes[Weapons[slot].SceneId].Instantiate<PickUp>();
+        GetTree().Root.CallDeferred("add_child", pickup);
+        pickup.GlobalPosition = GlobalPosition;
+
+        Weapons[slot].QueueFree();
+
+        EmitSignal(SignalName.WeaponChanged);
     }
 
     public void ReplaceWeapon(WeaponSceneId weaponSceneId, int slot)
     {
-        return;
+        if (!Weapons.ContainsKey(slot))
+        {
+            GD.PushError($"No weapon found in slot {slot} to drop.");
+            return;
+        }
+
+        if (Weapons[slot] is Weapon)
+            DropWeapon(slot);
+
+        var weapon = EntityList.Instance.WeaponScenes[weaponSceneId].Instantiate<Weapon>();
+        AddChild(weapon);
+        SetupWeapon(weapon);
+
+        Weapons[slot] = weapon;
+
+        EmitSignal(SignalName.WeaponChanged);
     }
 
     private void UpdateSelectedWeapon()
@@ -88,8 +122,6 @@ public partial class WeaponComponent : Node2D
             Weapons[key].Visible = true;
 
             Weapons[key].Rotation = Player.Rotation;
-
-            PrintInventory();
         }
 
         PrintInventory();
@@ -122,5 +154,11 @@ public partial class WeaponComponent : Node2D
 
         if (SelectedSlot >= MaxSlots)
             SelectedSlot = 0;
+    }
+
+    private void SetupWeapon(Weapon weapon)
+    {
+        weapon.GlobalPosition = WeaponPoint.GlobalPosition;
+        weapon._owner = Player;
     }
 }

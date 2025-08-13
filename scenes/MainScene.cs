@@ -22,7 +22,7 @@ public partial class MainScene : Node
 
         SetupCamera();
 
-        GameStateMachine.Instance.State = GameStateMachine.GameState.FREE_ROAM;
+        GameStateMachine.Instance.State = GameStateMachine.GameState.FreeRoam;
     }
 
     private void OnStateChanged(GameStateMachine.GameState oldState, GameStateMachine.GameState newState)

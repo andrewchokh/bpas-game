@@ -2,5 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ctb70gbiyx5fu" path="res://scenes/components/WeaponComponent.cs" id="1_uxjmp"]
 
-[node name="WeaponComponent" type="Node2D"]
+[node name="WeaponComponent" type="Node2D" node_paths=PackedStringArray("WeaponPoint")]
 script = ExtResource("1_uxjmp")
+WeaponPoint = NodePath("WeaponPoint")
+
+[node name="WeaponPoint" type="Marker2D" parent="."]

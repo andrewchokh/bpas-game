@@ -28,19 +28,19 @@ public partial class MainCamera : Camera2D
     {
         switch (newState)
         {
-            case GameStateMachine.GameState.FREE_ROAM:
+            case GameStateMachine.GameState.FreeRoam:
                 ApplyBehaviorMethod = Utils.Instance.BuildMethod(FreeRoamBehavior);
                 break;
-            case GameStateMachine.GameState.BATTLE:
+            case GameStateMachine.GameState.Battle:
                 ApplyBehaviorMethod = Utils.Instance.BuildMethod(BattleBehavior);
                 break;
-            case GameStateMachine.GameState.CUTSCENE:
+            case GameStateMachine.GameState.Cutscene:
                 ApplyBehaviorMethod = Utils.Instance.BuildMethod(CutsceneBehavior);
                 break;
-            case GameStateMachine.GameState.PAUSE:
+            case GameStateMachine.GameState.Pause:
                 ApplyBehaviorMethod = Utils.Instance.BuildMethod(PauseBehavior);
                 break;
-            case GameStateMachine.GameState.GAME_OVER:
+            case GameStateMachine.GameState.GameOver:
                 ApplyBehaviorMethod = Utils.Instance.BuildMethod(GameOverBehavior);
                 break;
         }
@@ -51,30 +51,30 @@ public partial class MainCamera : Camera2D
         if (TargetPlayer != null)
             Position = TargetPlayer.GlobalPosition;
 
-        return (int)GameStateMachine.GameState.FREE_ROAM;    
+        return (int)GameStateMachine.GameState.FreeRoam;    
     }
 
     private int BattleBehavior()
     {
         // Implement battle behavior here
-        return (int)GameStateMachine.GameState.BATTLE;  
+        return (int)GameStateMachine.GameState.Battle;  
     }
 
     private int CutsceneBehavior()
     {
         // Implement cutscene behavior here
-        return (int)GameStateMachine.GameState.CUTSCENE;  
+        return (int)GameStateMachine.GameState.Cutscene;  
     }
 
     private int PauseBehavior()
     {
         // Implement pause behavior here
-        return (int)GameStateMachine.GameState.PAUSE;  
+        return (int)GameStateMachine.GameState.Pause;  
     }
 
     private int GameOverBehavior()
     {
         // Implement game over behavior here
-        return (int)GameStateMachine.GameState.GAME_OVER;  
+        return (int)GameStateMachine.GameState.GameOver;  
     }
 }

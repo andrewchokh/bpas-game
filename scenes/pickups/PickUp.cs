@@ -29,8 +29,7 @@ public partial class PickUp : Area2D
     {
         var weaponComponent = _nearestPlayer.WeaponComponent;
 
-        Utils.Instance.RemoveAllChildren(weaponComponent);
-        weaponComponent.GiveWeapon(WeaponSceneId);
+        weaponComponent.ReplaceWeapon(WeaponSceneId, weaponComponent.SelectedSlot);
         QueueFree();
     }
 

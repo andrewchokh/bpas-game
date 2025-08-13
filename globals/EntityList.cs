@@ -37,6 +37,7 @@ public partial class EntityList : Node
     public readonly Dictionary<WeaponSceneId, PackedScene> PickUpScenes = new()
     {
         { WeaponSceneId.ArcaneStaff, GD.Load<PackedScene>("res://scenes/pickups/impl/ArcaneStaffPickUp.tscn") },
+        { WeaponSceneId.Spear, GD.Load<PackedScene>("res://scenes/pickups/impl/SpearPickUp.tscn") }
     };
 
     public override void _Ready()

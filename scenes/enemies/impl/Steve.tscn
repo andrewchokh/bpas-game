@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dptxrphgnsghg"]
+[gd_scene load_steps=11 format=3 uid="uid://dptxrphgnsghg"]
 
 [ext_resource type="Script" uid="uid://bwowaqvjt2kf6" path="res://scenes/enemies/Enemy.cs" id="1_t47kb"]
+[ext_resource type="PackedScene" uid="uid://cbun2nbaa1vrt" path="res://scenes/enemies/behavior_patterns/impl/ChasePattern.tscn" id="2_klqqa"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_t47kb"]
+[ext_resource type="PackedScene" uid="uid://cyyxbx5hmkeql" path="res://scenes/enemies/behavior_patterns/impl/RotatingPattern.tscn" id="3_dct7n"]
 [ext_resource type="Texture2D" uid="uid://c6efspti4ho7l" path="res://assets/sprites/entities/enemies/booka.png" id="3_t47kb"]
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="4_dct7n"]
 [ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="5_xwm4a"]
@@ -13,11 +15,13 @@ size = Vector2(7, 17)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t47kb"]
 size = Vector2(7, 17)
 
-[node name="Steve" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "HealthComponent", "HitBoxComponent")]
+[node name="Steve" type="CharacterBody2D" node_paths=PackedStringArray("BehaviorPatternTimer", "MovementComponent", "HealthComponent", "HitboxComponent")]
 script = ExtResource("1_t47kb")
+BehaviorPatternScenes = Array[PackedScene]([ExtResource("2_klqqa"), ExtResource("3_dct7n")])
+BehaviorPatternTimer = NodePath("BehaviorTimer")
 MovementComponent = NodePath("MovementComponent")
 HealthComponent = NodePath("HealthComponent")
-HitBoxComponent = NodePath("HitBoxComponent")
+HitboxComponent = NodePath("HitBoxComponent")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(0, 6.05)
@@ -33,14 +37,21 @@ shape = SubResource("RectangleShape2D_klqqa")
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("5_xwm4a")]
 position = Vector2(275.699, 251.936)
 Entity = NodePath("..")
-Speed = 30.0
+Speed = 10.0
 
 [node name="HitBoxComponent" parent="." node_paths=PackedStringArray("Entity", "HealthComponent") instance=ExtResource("5_y4g6n")]
+collision_layer = 4
+collision_mask = 8
 Entity = NodePath("..")
 HealthComponent = NodePath("../HealthComponent")
 
-[node name="HitBoxCollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_t47kb")
 
-[node name="HealthComponent" parent="." instance=ExtResource("4_dct7n")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("4_dct7n")]
+Entity = NodePath("..")
+Health = 10
+Defense = 1
+
+[node name="BehaviorTimer" type="Timer" parent="."]

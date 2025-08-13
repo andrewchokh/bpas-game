@@ -7,16 +7,17 @@ public partial class ArcaneStaff : Weapon
 
     public override void OnWeaponUsed()
     {
-        Vector2 MousePosition = GetGlobalMousePosition();
-        Vector2 ArcaneStaffPosition = GlobalPosition;
+        var mousePosition = GetGlobalMousePosition();
+        var arcaneStaffPosition = GlobalPosition;
 
-        Vector2 Direction = (MousePosition - ArcaneStaffPosition).Normalized();
+        var direction = (mousePosition - arcaneStaffPosition).Normalized();
 
-        float BulletRotation = Direction.Angle();
+        float bulletRotation = direction.Angle();
 
         var BulletInstance = ArcaneStaffProjectile.Instantiate<Projectile>();
         GetTree().Root.AddChild(BulletInstance);
+        BulletInstance.Damage = Damage;
         BulletInstance.GlobalPosition = GlobalPosition;
-        BulletInstance.Rotation = BulletRotation;
+        BulletInstance.Rotation = bulletRotation;
     }
 }

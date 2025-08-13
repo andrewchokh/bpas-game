@@ -110,6 +110,21 @@ drop_weapon={
 ]
 }
 
+[layer_names]
+
+2d_render/layer_1="Enviroment"
+2d_render/layer_2="Player"
+2d_render/layer_3="Enemy"
+2d_render/layer_4="Player Projectile"
+2d_render/layer_5="Enemy Projectile"
+2d_render/layer_6="Interactable"
+2d_physics/layer_1="Enviroment"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Player Projectile"
+2d_physics/layer_5="Enemy Projectile"
+2d_physics/layer_6="Interactable"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

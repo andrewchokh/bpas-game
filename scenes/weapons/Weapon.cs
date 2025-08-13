@@ -1,27 +1,29 @@
 using Godot;
 
+using static EntityList;
+
 public enum WeaponType : int
 {
-    MELEE = 1,
-    RANGED = 2,
-    MAGIC = 3,
-    UNIQUE = 4
+    Melee = 1,
+    Ranged = 2,
+    Magic = 3,
+    Unique = 4
 }
 
 public abstract partial class Weapon : Node2D
 {
     [Export]
-    public WeaponType Type;
+    public WeaponSceneId SceneId;
 
+    [ExportGroup("Weapon Properties")]
+    [Export]
+    public WeaponType Type;
     [Export]
     public int Damage;
-
     [Export]
     public float CritChance;
-
     [Export]
     public float Speed;
-
     [Export]
     public int Uses = -1;
 

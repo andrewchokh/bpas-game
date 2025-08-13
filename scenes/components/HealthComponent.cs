@@ -18,7 +18,7 @@ public partial class HealthComponent : Node2D
             EmitSignal(SignalName.HealthChanged, oldHealth, _health);
 
             if (_health == 0)
-                EmitSignal(SignalName.EntityDied);
+                EmitSignal(SignalName.EntityDestroyed);
         }
     }
 
@@ -37,10 +37,22 @@ public partial class HealthComponent : Node2D
     public delegate void HealthChangedEventHandler(int oldHealth, int newHealth);
 
     [Signal]
-    public delegate void EntityDiedEventHandler();
+    public delegate void EntityDestroyedEventHandler();
+
+    public override void _Ready()
+    {
+        EntityDestroyed += () =>
+        {
+            GD.Print($"{Entity.Name} has been destroyed.");
+            Entity.QueueFree();
+        };
+    }
 
     public void TakeDamage(int damage)
     {
-        Health -= Mathf.Max(1, damage - _defence);
+        int finalDamage = Mathf.Max(1, damage - Defense);
+        Health -= finalDamage;
+
+        GD.Print($"{Entity.Name} took {finalDamage} damage, remaining health: {Health}");
     }
 }

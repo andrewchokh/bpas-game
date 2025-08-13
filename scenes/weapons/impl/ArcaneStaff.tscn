@@ -6,7 +6,6 @@
 
 [node name="ArcaneStaff" type="Node2D"]
 z_index = 1
-position = Vector2(8.5, 2)
 script = ExtResource("1_hhrsy")
 ArcaneStaffProjectile = ExtResource("2_dqwu4")
 Type = 3
