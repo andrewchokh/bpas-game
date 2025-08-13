@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using static LevelsData;
 using System;
 
-public partial class Level : Node
+public partial class MainScene : Node
 {
     [Export]
-    public PackedScene Camera2DScene;
+    public PackedScene MainCameraScene;
 
-    private int CurrentLevelIndex = 0;
-    private Godot.Collections.Array<Room> Rooms = [];
-    private Marker2D[] LastWaypoints;
+    private int _currentLevelIndex = 0;
+    private Godot.Collections.Array<Room> _rooms = [];
+    private Marker2D[] _lastWaypoints;
 
     public override void _Ready()
     {
@@ -22,7 +22,7 @@ public partial class Level : Node
 
         SetupCamera();
 
-        GameStateMachine.Instance.State = GameStateMachine.GameState.FREE_ROAM;
+        GameStateMachine.Instance.State = GameStateMachine.GameState.FreeRoam;
     }
 
     private void OnStateChanged(GameStateMachine.GameState oldState, GameStateMachine.GameState newState)
@@ -32,7 +32,7 @@ public partial class Level : Node
 
     private void SetupCamera()
     {
-        var camera2D = Camera2DScene.Instantiate() as Camera2D;
+        var camera2D = MainCameraScene.Instantiate() as Camera2D;
         AddChild(camera2D);
 
         camera2D.MakeCurrent();
@@ -46,7 +46,7 @@ public partial class Level : Node
             {
                 var room = GetRandomRoom(roomType);
 
-                if (Rooms.Count == 0)
+                if (_rooms.Count == 0)
                     PlaceRoom(room, Vector2.Zero, Vector2.Zero);
                 else
                 {
@@ -57,7 +57,7 @@ public partial class Level : Node
 
                         try
                         {
-                            ConnectRooms(Rooms.Last(), room);
+                            ConnectRooms(_rooms.Last(), room);
                             break;
                         }
                         catch (IndexOutOfRangeException)
@@ -71,7 +71,7 @@ public partial class Level : Node
                     }
                 }
                     
-                Rooms.Add(room);
+                _rooms.Add(room);
             }
         }
     }
@@ -139,7 +139,7 @@ public partial class Level : Node
             Waypoint1 = room1.SelectRandomWaypoint();
             Waypoint2 = room2.SelectRandomWaypoint();
 
-            LastWaypoints = [Waypoint1, Waypoint2];
+            _lastWaypoints = [Waypoint1, Waypoint2];
 
             GD.Print($"{tries} / {maxTries}: Trying to connect {Waypoint1.Name} with {Waypoint2.Name}");
 
@@ -183,7 +183,7 @@ public partial class Level : Node
                 .ToArray();
 
 
-            return LastWaypoints;
+            return _lastWaypoints;
         }
 
         return [];
@@ -191,7 +191,7 @@ public partial class Level : Node
 
     private Dictionary<RoomType, PackedScene[]> GetCurrentLevelData()
     {
-        switch (CurrentLevelIndex)
+        switch (_currentLevelIndex)
         {
             case 0:
                 return LevelsData.Instance.LevelScenes[LocationId.FOREST];
@@ -211,7 +211,7 @@ public partial class LevelGeneratorSettings
     public Dictionary<RoomType, int> RoomCount = new()
     {
         { RoomType.ENTRANCE, 1 },
-        { RoomType.BATTLE, 10 },
+        { RoomType.BATTLE, 2 },
         { RoomType.TUNNEL, 0 },
         { RoomType.BOSS, 0 },
         { RoomType.TREASURE, 0 }

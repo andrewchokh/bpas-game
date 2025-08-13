@@ -1,11 +1,13 @@
 using Godot;
 
-public abstract partial class Ability : Node2D
+public partial class UltimateSkill : Node2D
 {
-    public Player Player;
-
+    [Export]
     public Timer DurationTimer;
+    [Export]
     public Timer CooldownTimer;
+
+    public Player Player;
 
     private bool _canUseAbility = true;
 
@@ -15,20 +17,15 @@ public abstract partial class Ability : Node2D
     public override void _Ready()
     {
         Player = GetParent<Player>();
+
         AbilityActivated += OnAbilityActivated;
-
-        DurationTimer = GetNode<Timer>("DurationTimer");
-        CooldownTimer = GetNode<Timer>("CooldownTimer");
-
         DurationTimer.Timeout += OnDurationTimeout;
         CooldownTimer.Timeout += OnCooldownTimeout;
     }
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-
-        if (Input.IsActionJustPressed("use_ability") && _canUseAbility)
+        if (Input.IsActionJustPressed("activate_ultimate_skill") && _canUseAbility)
             EmitSignal(SignalName.AbilityActivated);
     }
 

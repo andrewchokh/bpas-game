@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://brlja5gpylw5a"]
+
+[ext_resource type="Script" uid="uid://412xpffvap2w" path="res://scenes/pickups/PickUp.cs" id="1_fv22a"]
+[ext_resource type="Texture2D" uid="uid://ybivjrxoqh3c" path="res://assets/sprites/weapons/spear.png" id="2_fv22a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onvbg"]
+
+[node name="SpearPickUp" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_fv22a")
+WeaponSceneId = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_onvbg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_fv22a")

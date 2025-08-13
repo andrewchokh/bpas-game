@@ -5,8 +5,6 @@ public partial class Spear : Weapon
 {
     public override void OnWeaponUsed()
     {
-        base.OnWeaponUsed();
-
         GD.Print("Damage = " + Damage);
     }
 }

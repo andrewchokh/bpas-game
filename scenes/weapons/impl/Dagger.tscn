@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dtvn148jc2m6" path="res://assets/sprites/weapons/dagger.png" id="1_ru06q"]
 
 [node name="Dagger" type="Node2D"]
-position = Vector2(8.5, 0)
 script = ExtResource("1_7tpx7")
+SceneId = 1
 Type = 1
 Damage = 2
 CritChance = 3.0

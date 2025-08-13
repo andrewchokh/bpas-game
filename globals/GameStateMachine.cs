@@ -7,11 +7,11 @@ public partial class GameStateMachine : Node
 
     public enum GameState : int
     {
-        FREE_ROAM = 1,
-        BATTLE = 2,
-        CUTSCENE = 3,
-        PAUSE = 4,
-        GAME_OVER = 5
+        FreeRoam = 1,
+        Battle = 2,
+        Cutscene = 3,
+        Pause = 4,
+        GameOver = 5
     }
 
     private GameState _state;

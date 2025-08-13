@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://offxlfviecs6"]
+
+[ext_resource type="Script" uid="uid://box2usf2hkj85" path="res://scenes/components/PlayerMovementController.cs" id="1_4f758"]
+
+[node name="PlayerMovementController" type="Node2D"]
+script = ExtResource("1_4f758")

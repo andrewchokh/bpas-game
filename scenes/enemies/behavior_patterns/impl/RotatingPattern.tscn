@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyyxbx5hmkeql"]
+
+[ext_resource type="Script" uid="uid://bgwdnfxbol02g" path="res://scenes/enemies/behavior_patterns/impl/RotatingPattern.cs" id="1_4bw0l"]
+
+[node name="RotatingPattern" type="Node2D"]
+script = ExtResource("1_4bw0l")

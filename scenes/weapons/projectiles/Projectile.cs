@@ -6,10 +6,20 @@ public abstract partial class Projectile : Area2D
     [Export]
     public float Speed;
 
-    public int Damage { get; private set; }
+    public int Damage;
 
-    public void SetDamage(int damage)
+    public override void _Ready()
     {
-        Damage = damage;
+        AreaEntered += OnAreaEntered;
+    }
+
+    public void OnAreaEntered(Area2D area)
+    {
+        if (area is HitboxComponent hitbox)
+        {
+            GD.Print($"Projectile hit: {hitbox.Entity.Name}");
+            hitbox.HealthComponent.TakeDamage(Damage);
+            QueueFree();
+        }
     }
 }

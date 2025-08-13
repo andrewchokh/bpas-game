@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyinbm1osvca8"]
+
+[ext_resource type="Script" uid="uid://412xpffvap2w" path="res://scenes/pickups/PickUp.cs" id="1_bonop"]
+[ext_resource type="Texture2D" uid="uid://dtvn148jc2m6" path="res://assets/sprites/weapons/dagger.png" id="2_bonop"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onvbg"]
+
+[node name="DaggerPickUp" type="Area2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_bonop")
+WeaponSceneId = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_onvbg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_bonop")

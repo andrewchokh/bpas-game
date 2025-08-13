@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Numerics;
 
 public partial class ArcaneStaff : Weapon
 {
@@ -9,18 +7,17 @@ public partial class ArcaneStaff : Weapon
 
     public override void OnWeaponUsed()
     {
-        base.OnWeaponUsed();
+        var mousePosition = GetGlobalMousePosition();
+        var arcaneStaffPosition = GlobalPosition;
 
-        Godot.Vector2 MousePosition = GetGlobalMousePosition();
-        Godot.Vector2 ArcaneStaffPosition = GlobalPosition;
+        var direction = (mousePosition - arcaneStaffPosition).Normalized();
 
-        Godot.Vector2 Direction = (MousePosition - ArcaneStaffPosition).Normalized();
+        float bulletRotation = direction.Angle();
 
-        float BulletRotation = Direction.Angle();
-
-        var BulletInstance = ArcaneStaffProjectile.Instantiate<Node2D>();
+        var BulletInstance = ArcaneStaffProjectile.Instantiate<Projectile>();
         GetTree().Root.AddChild(BulletInstance);
+        BulletInstance.Damage = Damage;
         BulletInstance.GlobalPosition = GlobalPosition;
-        BulletInstance.Rotation = BulletRotation;
+        BulletInstance.Rotation = bulletRotation;
     }
 }
