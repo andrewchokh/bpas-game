@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bic5bhkq2nwe8"]
+[gd_scene load_steps=5 format=3 uid="uid://bjl06w2xpy82k"]
 
-[ext_resource type="Script" uid="uid://c1fuhdohwpxx7" path="res://scenes/MainScene.cs" id="1_ibiss"]
+[ext_resource type="Script" path="res://scenes/MainScene.cs" id="1_ibiss"]
 [ext_resource type="PackedScene" uid="uid://ddyq5gfxq5fn4" path="res://scenes/cameras/MainCamera.tscn" id="2_611at"]
 [ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/impl/Bob.tscn" id="2_c6dvc"]
 [ext_resource type="PackedScene" uid="uid://dptxrphgnsghg" path="res://scenes/enemies/impl/Steve.tscn" id="4_611at"]

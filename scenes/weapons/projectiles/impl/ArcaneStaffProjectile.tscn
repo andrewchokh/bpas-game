@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://xlxp75oi61qm"]
+[gd_scene load_steps=5 format=3 uid="uid://xlxp75oi61qm"]
 
-[ext_resource type="Texture2D" uid="uid://bkiwnyiidvipg" path="res://assets/sprites/projectiles/arcane_staff_projectile.png" id="1_nfe6f"]
 [ext_resource type="Script" uid="uid://dlxfi0vx13a36" path="res://scenes/weapons/projectiles/impl/ArcaneStaffProjectile.cs" id="1_xufmf"]
+[ext_resource type="Texture2D" uid="uid://bvtuycktpi8m0" path="res://assets/sprites/weapons/arcane_staff.png" id="2_xufmf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7w7f"]
+atlas = ExtResource("2_xufmf")
+region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xufmf"]
 radius = 4.0
@@ -13,7 +17,7 @@ script = ExtResource("1_xufmf")
 Speed = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_nfe6f")
+texture = SubResource("AtlasTexture_l7w7f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -0.5)
