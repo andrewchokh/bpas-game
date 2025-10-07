@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Contains utility functions and helpers.
+/// </summary>
 public partial class Utils : Node
 {
     public static Utils Instance { get; private set; }

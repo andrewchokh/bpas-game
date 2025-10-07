@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Manages movement for a CharacterBody2D entity.
+/// </summary>
 public partial class MovementComponent : Node2D
 {
     [Export]
@@ -8,7 +11,7 @@ public partial class MovementComponent : Node2D
     private float _speed;
     [Export]
     public float Speed
-    { 
+    {
         get => _speed;
         set
         {

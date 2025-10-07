@@ -1,9 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class LevelsData : Node
-{
-    public enum RoomType : int
+public enum RoomType : int
     {
         ENTRANCE = 1,
         BATTLE = 2,
@@ -12,6 +10,11 @@ public partial class LevelsData : Node
         TREASURE = 5
     }
 
+/// <summary>
+/// Stores all levels assets for quick and easy access.
+/// </summary>
+public partial class LevelsData : Node
+{
     public enum LocationId
     {
         FOREST,
@@ -56,7 +59,7 @@ public partial class LevelsData : Node
                         GD.Load<PackedScene>("res://scenes/levels/forest/Battle2.tscn"),
                     ]
                 },
-                
+
             }
         },
         { LocationId.DUNGEON, new Dictionary<RoomType, PackedScene[]>() }

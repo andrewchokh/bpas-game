@@ -1,7 +1,8 @@
 using Godot;
 
-using static EntityList;
-
+/// <summary>
+/// Represents a pick-up item in the game.
+/// </summary>
 public partial class PickUp : Area2D
 {
     [Export]

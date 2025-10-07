@@ -2,8 +2,9 @@ using System;
 using Godot;
 using Godot.Collections;
 
-using static EntityList;
-
+/// <summary>
+/// Represents an enemy character in the game.
+/// </summary>
 public partial class Enemy : CharacterBody2D
 {
     [Export]

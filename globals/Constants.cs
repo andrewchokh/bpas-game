@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Stores all constant values used throughout the game.
+/// </summary>
 public partial class Constants : Node
 {
     public static Constants Instance { get; private set; }

@@ -22,10 +22,10 @@ public partial class MainScene : Node
 
         SetupCamera();
 
-        GameStateMachine.Instance.State = GameStateMachine.GameState.FreeRoam;
+        GameStateMachine.Instance.State = GameState.FreeRoam;
     }
 
-    private void OnStateChanged(GameStateMachine.GameState oldState, GameStateMachine.GameState newState)
+    private void OnStateChanged(GameState oldState, GameState newState)
     {
         GD.Print($"State changed from {oldState} to {newState}");
     }

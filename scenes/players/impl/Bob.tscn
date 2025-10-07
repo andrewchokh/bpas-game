@@ -21,7 +21,7 @@ script = ExtResource("1_geu65")
 UltimateSkillScene = ExtResource("8_j4k24")
 MovementComponent = NodePath("MovementComponent")
 HealthComponent = NodePath("HealthComponent")
-HitboxComponent = NodePath("")
+HitboxComponent = NodePath("HitboxComponent")
 PlayerMovementController = NodePath("PlayerMovementController")
 WeaponComponent = NodePath("WeaponComponent")
 

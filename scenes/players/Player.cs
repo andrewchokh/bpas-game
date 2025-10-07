@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Represents a player character in the game.
+/// </summary>
 public partial class Player : CharacterBody2D
 {
     [Export]

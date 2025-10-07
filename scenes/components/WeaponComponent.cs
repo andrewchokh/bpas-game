@@ -1,6 +1,9 @@
 using Godot;
 using Godot.Collections;
 
+/// <summary>
+/// Manages weapon system and inventory for a Player entity.
+/// </summary>
 public partial class WeaponComponent : Node2D
 {
     [Export]

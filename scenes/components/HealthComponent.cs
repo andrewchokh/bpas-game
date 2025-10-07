@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Manages health for a Node2D entity.
+/// </summary>
 public partial class HealthComponent : Node2D
 {
     [Export]
@@ -14,7 +17,7 @@ public partial class HealthComponent : Node2D
         {
             int oldHealth = _health;
             _health = Mathf.Max(0, value);
-            
+
             EmitSignal(SignalName.HealthChanged, oldHealth, _health);
 
             if (_health == 0)

@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Represents a projectile in the game.
+/// </summary>
 public abstract partial class Projectile : Area2D
 {
     [Export]

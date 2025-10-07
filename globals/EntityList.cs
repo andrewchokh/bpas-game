@@ -5,11 +5,12 @@ public enum PlayerCharacterId
 {
     Bob
 }
-    
+
 public enum EnemyCharacterId
 {
     Steve
 }
+
 public enum WeaponId
 {
     ArcaneStaff,
@@ -17,6 +18,9 @@ public enum WeaponId
     Spear
 }
 
+/// <summary>
+/// Stores all entity scenes for quick and easy access.
+/// </summary>
 public partial class EntityList : Node
 {
     public static EntityList Instance { get; private set; }

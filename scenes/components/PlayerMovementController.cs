@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Manages player character movement for a Player entity.
+/// </summary>
 public partial class PlayerMovementController : Node2D
 {
     [Export]

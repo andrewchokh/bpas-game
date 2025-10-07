@@ -1,7 +1,5 @@
 using Godot;
 
-using static EntityList;
-
 public enum WeaponType : int
 {
     Melee = 1,
@@ -10,6 +8,9 @@ public enum WeaponType : int
     Unique = 4
 }
 
+/// <summary>
+/// Represents a weapon in the game.
+/// </summary>
 public abstract partial class Weapon : Node2D
 {
     [Export]
