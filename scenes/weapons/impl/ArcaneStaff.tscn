@@ -1,8 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://co5f8dmi8lpq2"]
+[gd_scene load_steps=7 format=3 uid="uid://co5f8dmi8lpq2"]
 
-[ext_resource type="Script" uid="uid://rhx6frh6iobn" path="res://scenes/weapons/impl/ArcaneStaff.cs" id="1_hhrsy"]
-[ext_resource type="PackedScene" uid="uid://xlxp75oi61qm" path="res://scenes/weapons/projectiles/impl/ArcaneStaffProjectile.tscn" id="2_dqwu4"]
+[ext_resource type="Script" uid="uid://b565nxji257d1" path="res://scenes/weapons/Weapon.cs" id="1_wi8ql"]
+[ext_resource type="PackedScene" uid="uid://xlxp75oi61qm" path="res://scenes/projectiles/impl/ArcaneStaffProjectile.tscn" id="2_dqwu4"]
 [ext_resource type="Texture2D" uid="uid://bvtuycktpi8m0" path="res://assets/sprites/weapons/arcane_staff.png" id="2_wi8ql"]
+[ext_resource type="Script" uid="uid://dnq7ucmwdmnmb" path="res://scenes/weapons/behavior/WeaponRangedBehavior.cs" id="3_dqwu4"]
+
+[sub_resource type="Resource" id="Resource_dqwu4"]
+script = ExtResource("3_dqwu4")
+ProjectileScene = ExtResource("2_dqwu4")
+metadata/_custom_type_script = "uid://dnq7ucmwdmnmb"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wi8ql"]
 atlas = ExtResource("2_wi8ql")
@@ -10,12 +16,12 @@ region = Rect2(0, 0, 16, 16)
 
 [node name="ArcaneStaff" type="Node2D"]
 z_index = 1
-script = ExtResource("1_hhrsy")
-ArcaneStaffProjectile = ExtResource("2_dqwu4")
-Type = 3
+script = ExtResource("1_wi8ql")
+Behavior = SubResource("Resource_dqwu4")
+Type = 2
 Damage = 5
-CritChance = 3.0
-Speed = 1.0
+CritChance = 0.05
+Cooldown = 0.3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_wi8ql")

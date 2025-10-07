@@ -11,51 +11,33 @@ public enum WeaponType : int
 /// <summary>
 /// Represents a weapon in the game.
 /// </summary>
-public abstract partial class Weapon : Node2D
+public partial class Weapon : Node2D
 {
     [Export]
-    public WeaponId SceneId;
+    public WeaponId Id;
+    [Export]
+    public WeaponBehavior Behavior;
 
-    [ExportGroup("Weapon Properties")]
+    [ExportGroup("Properties")]
     [Export]
     public WeaponType Type;
     [Export]
-    public int Damage;
+    public int Damage = 1;
     [Export]
-    public float CritChance;
+    public float CritChance = 0.1f;
     [Export]
-    public float Speed;
+    public float Cooldown = 1.0f; // in seconds
     [Export]
-    public int Uses = -1;
+    public int Uses = -1; // -1 for infinite uses
 
-    [Signal]
-    public delegate void WeaponUsedEventHandler();
-
-    public Player _owner { get; set; }
-
-    public override void _Ready()
+    public void UseWeapon(Marker2D weaponPoint, Vector2 mousePosition)
     {
-        WeaponUsed += OnWeaponUsed;
+        if (Uses != -1)
+            Uses--;
+
+        Behavior.Attack(this, weaponPoint, mousePosition);
+
+        if (Uses == 0)
+            QueueFree();
     }
-
-    public override void _Process(double delta)
-    {
-        var currentOwner = GetParent().GetParent() as Player;
-
-        if (currentOwner == null || currentOwner != _owner)
-            return;
-
-        if (Input.IsActionJustPressed("use_weapon"))
-        {
-            if (Uses != -1)
-                Uses--;
-
-            EmitSignal(SignalName.WeaponUsed);
-
-            if (Uses == 0)
-                QueueFree();
-        }
-    }
-
-    public abstract void OnWeaponUsed();
 }
