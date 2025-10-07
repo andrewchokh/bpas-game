@@ -6,7 +6,7 @@ public partial class SuperAbilityComponent : Node2D
     public Player Player;
 
     [Export]
-    public SuperAbility Ability;
+    public SuperAbility Behavior;
 
     [Export]
     public Timer DurationTimer;
@@ -29,7 +29,7 @@ public partial class SuperAbilityComponent : Node2D
 
     public void ActivateAbility()
     {
-        Ability.Activate(Player);
+        Behavior.Activate(Player);
 
         _canUseAbility = false;
         DurationTimer.Start();
@@ -37,7 +37,7 @@ public partial class SuperAbilityComponent : Node2D
 
     public void OnDurationTimeout()
     {
-        Ability.Deactivate(Player);
+        Behavior.Deactivate(Player);
 
         CooldownTimer.Start();
     }
