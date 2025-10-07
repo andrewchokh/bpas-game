@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 /// <summary>
 /// Represents a player character in the game.
@@ -7,8 +8,6 @@ public partial class Player : CharacterBody2D
 {
     [Export]
     public PlayerCharacterId PlayerSceneId;
-    [Export]
-    public PackedScene UltimateSkillScene;
 
     [ExportCategory("Components")]
     [Export]
@@ -21,22 +20,6 @@ public partial class Player : CharacterBody2D
     public PlayerMovementController PlayerMovementController;
     [Export]
     public WeaponComponent WeaponComponent;
-
-    public override void _Ready()
-    {
-        SetupUltimateSkill();
-    }
-
-    private void SetupUltimateSkill()
-    {
-        if (UltimateSkillScene == null)
-        {
-            GD.PushWarning("UltimateSkillScene is not set for Player.");
-            return;
-        }
-
-        var ultimateSkill = UltimateSkillScene.Instantiate<UltimateSkill>();
-
-        AddChild(ultimateSkill);
-    }
+    [Export]
+    public SuperAbilityComponent SuperAbilityComponent;
 }

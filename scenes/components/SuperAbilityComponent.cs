@@ -1,46 +1,48 @@
 using Godot;
 
-public partial class UltimateSkill : Node2D
+public partial class SuperAbilityComponent : Node2D
 {
+    [Export]
+    public Player Player;
+
+    [Export]
+    public SuperAbility Behavior;
+
     [Export]
     public Timer DurationTimer;
     [Export]
     public Timer CooldownTimer;
 
-    public Player Player;
-
     private bool _canUseAbility = true;
-
-    [Signal]
-    public delegate void AbilityActivatedEventHandler();
 
     public override void _Ready()
     {
-        Player = GetParent<Player>();
-
-        AbilityActivated += OnAbilityActivated;
         DurationTimer.Timeout += OnDurationTimeout;
         CooldownTimer.Timeout += OnCooldownTimeout;
     }
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("activate_ultimate_skill") && _canUseAbility)
-            EmitSignal(SignalName.AbilityActivated);
+        if (Input.IsActionJustPressed("activate_ability") && _canUseAbility)
+            ActivateAbility();
     }
 
-    public virtual void OnAbilityActivated()
+    public void ActivateAbility()
     {
+        Behavior.Activate(Player);
+
         _canUseAbility = false;
         DurationTimer.Start();
     }
 
-    public virtual void OnDurationTimeout()
+    public void OnDurationTimeout()
     {
+        Behavior.Deactivate(Player);
+
         CooldownTimer.Start();
     }
 
-    public virtual void OnCooldownTimeout()
+    public void OnCooldownTimeout()
     {
         _canUseAbility = true;
     }
