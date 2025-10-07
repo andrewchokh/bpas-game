@@ -1,11 +1,9 @@
 using Godot;
 
-using static EntityList;
-
 public partial class Player : CharacterBody2D
 {
     [Export]
-    public PlayerSceneId PlayerSceneId;
+    public PlayerCharacterId PlayerSceneId;
     [Export]
     public PackedScene UltimateSkillScene;
 

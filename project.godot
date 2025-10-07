@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="By Prophesy and Sword"
-run/main_scene="uid://bic5bhkq2nwe8"
+run/main_scene="uid://bjl06w2xpy82k"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 

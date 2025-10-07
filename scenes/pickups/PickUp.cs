@@ -5,7 +5,7 @@ using static EntityList;
 public partial class PickUp : Area2D
 {
     [Export]
-    public WeaponSceneId WeaponSceneId;
+    public WeaponId WeaponSceneId;
 
     private Player _nearestPlayer;
 

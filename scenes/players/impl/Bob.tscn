@@ -21,7 +21,7 @@ script = ExtResource("1_geu65")
 UltimateSkillScene = ExtResource("8_j4k24")
 MovementComponent = NodePath("MovementComponent")
 HealthComponent = NodePath("HealthComponent")
-HitboxComponent = NodePath("HitboxComponent")
+HitboxComponent = NodePath("")
 PlayerMovementController = NodePath("PlayerMovementController")
 WeaponComponent = NodePath("WeaponComponent")
 
@@ -40,6 +40,12 @@ shape = SubResource("RectangleShape2D_t7bk6")
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("5_r4gcg")]
 Entity = NodePath("..")
 
+[node name="WeaponComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("10_15lys")]
+Player = NodePath("..")
+
+[node name="WeaponPoint" parent="WeaponComponent" index="0"]
+position = Vector2(9, 2)
+
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("Entity", "HealthComponent") instance=ExtResource("6_t7bk6")]
 Entity = NodePath("..")
 HealthComponent = NodePath("../HealthComponent")
@@ -47,12 +53,6 @@ HealthComponent = NodePath("../HealthComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_t7bk6")
-
-[node name="WeaponComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("10_15lys")]
-Player = NodePath("..")
-
-[node name="WeaponPoint" parent="WeaponComponent" index="0"]
-position = Vector2(9, 2)
 
 [node name="PlayerMovementController" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("7_t7bk6")]
 Player = NodePath("..")

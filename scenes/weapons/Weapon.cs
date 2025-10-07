@@ -13,7 +13,7 @@ public enum WeaponType : int
 public abstract partial class Weapon : Node2D
 {
     [Export]
-    public WeaponSceneId SceneId;
+    public WeaponId SceneId;
 
     [ExportGroup("Weapon Properties")]
     [Export]

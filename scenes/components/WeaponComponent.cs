@@ -1,8 +1,6 @@
 using Godot;
 using Godot.Collections;
 
-using static EntityList;
-
 public partial class WeaponComponent : Node2D
 {
     [Export]
@@ -23,7 +21,7 @@ public partial class WeaponComponent : Node2D
     {
         WeaponChanged += UpdateSelectedWeapon;
 
-        GiveWeapon(WeaponSceneId.ArcaneStaff);
+        GiveWeapon(WeaponId.ArcaneStaff);
     }
 
     public override void _Process(double delta)
@@ -47,7 +45,7 @@ public partial class WeaponComponent : Node2D
         }
     }
 
-    public void GiveWeapon(WeaponSceneId weaponSceneId)
+    public void GiveWeapon(WeaponId weaponSceneId)
     {
         if (Weapons.Count >= MaxSlots)
         {
@@ -87,7 +85,7 @@ public partial class WeaponComponent : Node2D
         EmitSignal(SignalName.WeaponChanged);
     }
 
-    public void ReplaceWeapon(WeaponSceneId weaponSceneId, int slot)
+    public void ReplaceWeapon(WeaponId weaponSceneId, int slot)
     {
         if (!Weapons.ContainsKey(slot))
         {

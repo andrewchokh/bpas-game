@@ -7,7 +7,7 @@ using static EntityList;
 public partial class Enemy : CharacterBody2D
 {
     [Export]
-    public EnemySceneId EnemySceneId;
+    public EnemyCharacterId EnemySceneId;
 
     [ExportGroup("Behavior Patterns")]
     [Export]
