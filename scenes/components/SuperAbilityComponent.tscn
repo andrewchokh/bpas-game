@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcdeyivnjgmcb"]
+
+[ext_resource type="Script" uid="uid://bottpl6g0wftu" path="res://scenes/components/SuperAbilityComponent.cs" id="1_bchwa"]
+
+[node name="SuperAbilityComponent" type="Node2D" node_paths=PackedStringArray("DurationTimer", "CooldownTimer")]
+script = ExtResource("1_bchwa")
+DurationTimer = NodePath("DurationTimer")
+CooldownTimer = NodePath("CooldownTimer")
+
+[node name="DurationTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
