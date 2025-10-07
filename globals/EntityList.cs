@@ -50,6 +50,18 @@ public partial class EntityList : Node
         Instance = this;
     }
 
+    public Weapon GetWeaponById(WeaponId weaponId)
+    {
+        foreach (var key in WeaponScenes.Keys)
+        {
+            if (key == weaponId)
+                return WeaponScenes[key].Instantiate<Weapon>();
+        }
+
+        GD.PushError($"No Weapon found by Weapon Id: {weaponId}");
+        return null;
+    }
+
     public PickUp GetPickUpByWeaponId(WeaponId weaponId)
     {
         foreach (var key in PickUpScenes.Keys)
@@ -58,7 +70,7 @@ public partial class EntityList : Node
                 return PickUpScenes[key].Instantiate<PickUp>();
         }
 
-        GD.PushError($"No PickUp found for WeaponId: {weaponId}");
+        GD.PushError($"No PickUp found by Weapon Id: {weaponId}");
         return null;
     }
 }

@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Godot;
 using Godot.Collections;
 
@@ -24,6 +25,7 @@ public partial class WeaponComponent : Node2D
     {
         WeaponChanged += UpdateSelectedWeapon;
 
+        // For testing purposes, give the player an initial weapon.
         GiveWeapon(WeaponId.ArcaneStaff);
     }
 
@@ -31,6 +33,9 @@ public partial class WeaponComponent : Node2D
     {
         if (Input.IsActionJustPressed("switch_weapon"))
             SwitchWeapon(SelectedSlot);
+        
+        if (Input.IsActionJustPressed("use_weapon"))
+            Weapons[SelectedSlot]?.UseWeapon(WeaponPoint, GetGlobalMousePosition());
     }
 
     public void SwitchWeapon(int slot)
@@ -48,19 +53,18 @@ public partial class WeaponComponent : Node2D
         }
     }
 
-    public void GiveWeapon(WeaponId weaponSceneId)
+    public void GiveWeapon(WeaponId weaponId, int slot = -1)
     {
         if (Weapons.Count >= MaxSlots)
         {
-            GD.PushWarning("Cannot give weapon, max slots reached.");
+            GD.PushWarning("Failed to give weapon: max slots reached.");
             return;
         }
 
-        var weapon = EntityList.Instance.WeaponScenes[weaponSceneId].Instantiate<Weapon>();
-        AddChild(weapon);
+        var weapon = EntityList.Instance.GetWeaponById(weaponId);
         SetupWeapon(weapon);
 
-        Weapons.Add(GetLastFreeSlot(), weapon);
+        Weapons.Add(slot >= 0 ? slot : GetFirstFreeSlot(), weapon);
 
         EmitSignal(SignalName.WeaponChanged);
     }
@@ -79,7 +83,7 @@ public partial class WeaponComponent : Node2D
             return;
         }
 
-        var pickup = EntityList.Instance.PickUpScenes[Weapons[slot].SceneId].Instantiate<PickUp>();
+        var pickup = EntityList.Instance.GetPickUpByWeaponId(Weapons[slot].Id);
         GetTree().Root.CallDeferred("add_child", pickup);
         pickup.GlobalPosition = GlobalPosition;
 
@@ -88,7 +92,7 @@ public partial class WeaponComponent : Node2D
         EmitSignal(SignalName.WeaponChanged);
     }
 
-    public void ReplaceWeapon(WeaponId weaponSceneId, int slot)
+    public void ReplaceWeapon(WeaponId weaponId, int slot)
     {
         if (!Weapons.ContainsKey(slot))
         {
@@ -99,13 +103,7 @@ public partial class WeaponComponent : Node2D
         if (Weapons[slot] is Weapon)
             DropWeapon(slot);
 
-        var weapon = EntityList.Instance.WeaponScenes[weaponSceneId].Instantiate<Weapon>();
-        AddChild(weapon);
-        SetupWeapon(weapon);
-
-        Weapons[slot] = weapon;
-
-        EmitSignal(SignalName.WeaponChanged);
+        GiveWeapon(weaponId, slot);
     }
 
     private void UpdateSelectedWeapon()
@@ -121,7 +119,6 @@ public partial class WeaponComponent : Node2D
 
             Weapons[key].ProcessMode = ProcessModeEnum.Inherit;
             Weapons[key].Visible = true;
-
             Weapons[key].Rotation = Player.Rotation;
         }
 
@@ -137,7 +134,7 @@ public partial class WeaponComponent : Node2D
         }
     }
 
-    private int GetLastFreeSlot()
+    private int GetFirstFreeSlot()
     {
         for (int i = 0; i < MaxSlots; i++)
         {
@@ -159,7 +156,7 @@ public partial class WeaponComponent : Node2D
 
     private void SetupWeapon(Weapon weapon)
     {
+        AddChild(weapon);
         weapon.GlobalPosition = WeaponPoint.GlobalPosition;
-        weapon._owner = Player;
     }
 }

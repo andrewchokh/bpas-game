@@ -1,7 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://xlxp75oi61qm"]
+[gd_scene load_steps=7 format=3 uid="uid://xlxp75oi61qm"]
 
-[ext_resource type="Script" uid="uid://dlxfi0vx13a36" path="res://scenes/weapons/projectiles/impl/ArcaneStaffProjectile.cs" id="1_xufmf"]
+[ext_resource type="Script" uid="uid://bytw8ajd44rne" path="res://scenes/projectiles/Projectile.cs" id="1_xufmf"]
+[ext_resource type="Script" uid="uid://bsnahk4ahiyjy" path="res://scenes/projectiles/behavior/ProjectileStraightBehavior.cs" id="2_4mm0b"]
 [ext_resource type="Texture2D" uid="uid://bvtuycktpi8m0" path="res://assets/sprites/weapons/arcane_staff.png" id="2_xufmf"]
+
+[sub_resource type="Resource" id="Resource_mp5m4"]
+script = ExtResource("2_4mm0b")
+metadata/_custom_type_script = "uid://bsnahk4ahiyjy"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l7w7f"]
 atlas = ExtResource("2_xufmf")
@@ -14,6 +19,7 @@ radius = 4.0
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("1_xufmf")
+Behavior = SubResource("Resource_mp5m4")
 Speed = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
