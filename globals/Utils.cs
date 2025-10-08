@@ -6,12 +6,19 @@ using System;
 /// </summary>
 public partial class Utils : Node
 {
-    public static Func<object> BuildMethod<T>(Func<T> func)
+    public static Utils Instance { get; private set; }
+
+    public override void _EnterTree()
+    {
+        Instance = this;
+    }
+
+    public Func<object> BuildMethod<T>(Func<T> func)
     {
         return () => func();
     }
 
-    public static Player GetFirstPlayer(SceneTree root)
+    public Player GetFirstPlayer(SceneTree root)
     {
         var players = root.GetNodesInGroup("Players");
 
@@ -27,5 +34,12 @@ public partial class Utils : Node
             return;
         foreach (var Child in Node.GetChildren())
             Child.QueueFree();
+    }
+
+    public T GetRandomElementFromArray<T>(T[] array)
+    {
+        if (array == null || array.Length == 0)
+            return default;
+        return array[GD.Randi() % array.Length];
     }
 }

@@ -1,18 +1,20 @@
 using Godot;
-using System.Linq;
-using System.Collections.Generic;
-
-using static Ids;
+using Godot.Collections;
 using System;
 
-
+using static Ids;
 
 public partial class MainScene : Node
 {
     [Export]
     public PackedScene MainCameraScene;
+
     [Export]
     public LevelDatabase Levels;
+    [Export]
+    public LevelGenerationSettings GenerationSettings;
+    [Export]
+    public LevelLayoutGenerator LayoutGenerator;
 
     private int _currentLevelIndex = 0;
     private Godot.Collections.Array<Room> _rooms = [];
@@ -20,13 +22,15 @@ public partial class MainScene : Node
 
     public override void _Ready()
     {
-        StateMachine.Instance.StateChanged += OnStateChanged;
+        // StateMachine.Instance.StateChanged += OnStateChanged;
 
-        GenerateLevel(new LevelGeneratorSettings());
+        // GenerateLevel(GenerationSettings);
 
-        SetupCamera();
+        // SetupCamera();
 
-        StateMachine.Instance.State = State.FreeRoam;
+        // StateMachine.Instance.State = State.FreeRoam;
+
+        LayoutGenerator.GenerateLayout(GenerationSettings);
     }
 
     private void OnStateChanged(State oldState, State newState)
@@ -42,167 +46,8 @@ public partial class MainScene : Node
         camera2D.MakeCurrent();
     }
 
-    private void GenerateLevel(LevelGeneratorSettings settings)
+    public void GenerateLevel(LevelGenerationSettings settings)
     {
-        foreach (var roomType in settings.RoomCount.Keys)
-        {
-            for (int i = 0; i < settings.RoomCount[roomType]; i++)
-            {
-                var room = GetRandomRoom(roomType);
 
-                if (_rooms.Count == 0)
-                    PlaceRoom(room, Vector2.Zero, Vector2.Zero);
-                else
-                {
-                    int tries = 0;
-                    while (tries < settings.MaxTries)
-                    {
-                        if (tries > 0) room = GetRandomRoom(roomType);
-
-                        try
-                        {
-                            ConnectRooms(_rooms.Last(), room);
-                            break;
-                        }
-                        catch (IndexOutOfRangeException)
-                        {
-                            continue;
-                        }
-                        finally
-                        {
-                            tries++;
-                        }
-                    }
-                }
-
-                _rooms.Add(room);
-            }
-        }
     }
-
-    private void PlaceRoom(Room room, Vector2 position, Vector2 offset)
-    {
-        room.GlobalPosition = position;
-        room.GlobalPosition -= offset;
-
-        AddChild(room);
-    }
-
-    private void ConnectRooms(Room room1, Room room2, int maxTries = 10)
-    {
-        Marker2D[] waypoints = [];
-
-        int tries = 0;
-        while (tries < maxTries)
-        {
-            waypoints = GetCompatibleWaypoints(room1, room2);
-
-            if (waypoints.Length == 2) break;
-
-            tries++;
-        }
-
-        PlaceRoom(room2, waypoints[0].GlobalPosition, waypoints[1].GlobalPosition);
-    }
-
-    private Room GetRandomRoom(RoomId roomType)
-    {
-        var levelData = GetCurrentLevelData();
-        var rooms = levelData[roomType];
-
-        if (rooms.Length == 0) return null;
-
-        return rooms[GD.Randi() % rooms.Length].Instantiate() as Room;
-    }
-
-    private Marker2D[] GetCompatibleWaypoints(Room room1, Room room2, int maxTries = 10)
-    {
-        Marker2D Waypoint1 = null;
-        Marker2D Waypoint2 = null;
-
-        int tries = 0;
-        while (tries < maxTries)
-        {
-            tries++;
-
-            Waypoint1 = room1.SelectRandomWaypoint();
-            Waypoint2 = room2.SelectRandomWaypoint();
-
-            _lastWaypoints = [Waypoint1, Waypoint2];
-
-            GD.Print($"{tries} / {maxTries}: Trying to connect {Waypoint1.Name} with {Waypoint2.Name}");
-
-            switch (Waypoint1.Name)
-            {
-                case Constants.NorthWaypointName:
-                    if (Waypoint2.Name == Constants.SouthWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                case Constants.SouthWaypointName:
-                    if (Waypoint2.Name == Constants.NorthWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                case Constants.WestWaypointName:
-                    if (Waypoint2.Name == Constants.EastWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                case Constants.EastWaypointName:
-                    if (Waypoint2.Name == Constants.WestWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                default:
-                    GD.PrintErr("Unknown waypoint name: " + Waypoint1.Name);
-                    continue;
-            }
-
-            room2.Waypoints = room2.Waypoints
-                .Where(w => w.Name != Waypoint2.Name)
-                .ToArray();
-
-
-            return _lastWaypoints;
-        }
-
-        return [];
-    }
-
-    private Dictionary<RoomId, PackedScene[]> GetCurrentLevelData()
-    {
-        switch (_currentLevelIndex)
-        {
-            case 0:
-                // return Levels.LevelScenes[LocationId.Forest];
-            case 1:
-                // return Levels.LevelScenes[LocationId.Dungeon];
-            default:
-                GD.PrintErr("Invalid level index");
-                return null;
-        }
-    }
-}
-
-public partial class LevelGeneratorSettings
-{
-    public int MaxTries { get; set; } = 1000;
-
-    public Dictionary<RoomId, int> RoomCount = new()
-    {
-        { RoomId.Entrance, 1 },
-        { RoomId.Battle, 2 },
-        { RoomId.Tunnel, 0 },
-        { RoomId.Boss, 0 },
-        { RoomId.Treasure, 0 }
-    };
 }

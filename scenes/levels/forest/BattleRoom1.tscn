@@ -10,6 +10,7 @@
 
 [sub_resource type="Resource" id="Resource_exj34"]
 script = ExtResource("2_n8tkr")
+Location = 1
 Type = 2
 metadata/_custom_type_script = "uid://dm6maro30qv3w"
 

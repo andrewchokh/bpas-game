@@ -8,7 +8,8 @@
 
 [sub_resource type="Resource" id="Resource_faw72"]
 script = ExtResource("2_bxafb")
-Type = 0
+Location = 1
+Type = 1
 metadata/_custom_type_script = "uid://dm6maro30qv3w"
 
 [node name="DownEntrance" type="Node2D" node_paths=PackedStringArray("Waypoints")]

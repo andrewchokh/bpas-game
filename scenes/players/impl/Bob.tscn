@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dkh0g1ly4lj45"]
+[gd_scene load_steps=14 format=3 uid="uid://dkh0g1ly4lj45"]
 
 [ext_resource type="Script" uid="uid://di5s2j2mv4rn3" path="res://scenes/players/Player.cs" id="1_geu65"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_627ob"]
 [ext_resource type="Texture2D" uid="uid://kysdun0hnoyi" path="res://assets/sprites/entities/bob.png" id="3_r4gcg"]
 [ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="4_t7bk6"]
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="5_r4gcg"]
+[ext_resource type="Resource" uid="uid://dj1wsajibmksh" path="res://resources/entities/EntityDatabase.tres" id="6_15lys"]
 [ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitboxComponent.tscn" id="6_t7bk6"]
 [ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/PlayerMovementController.tscn" id="7_t7bk6"]
 [ext_resource type="PackedScene" uid="uid://bcdeyivnjgmcb" path="res://scenes/components/SuperAbilityComponent.tscn" id="9_6fhgy"]
@@ -46,8 +47,10 @@ shape = SubResource("RectangleShape2D_t7bk6")
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("5_r4gcg")]
 Entity = NodePath("..")
 
-[node name="WeaponComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("10_15lys")]
+[node name="WeaponComponent" parent="." node_paths=PackedStringArray("Player", "WeaponPosition") instance=ExtResource("10_15lys")]
 Player = NodePath("..")
+Entities = ExtResource("6_15lys")
+WeaponPosition = NodePath("WeaponPoint")
 
 [node name="WeaponPoint" parent="WeaponComponent" index="0"]
 position = Vector2(9, 2)

@@ -30,7 +30,7 @@ public partial class WeaponComponent : Node2D
         WeaponChanged += UpdateSelectedWeapon;
 
         // For testing purposes, give the player an initial weapon.
-        // GiveWeapon(WeaponId.ArcaneStaff);
+        GiveWeapon(WeaponId.ArcaneStaff);
     }
 
     public override void _Process(double delta)

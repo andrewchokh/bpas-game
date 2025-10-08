@@ -8,7 +8,8 @@
 
 [sub_resource type="Resource" id="Resource_3rlbu"]
 script = ExtResource("2_qk1it")
-Type = 0
+Location = 1
+Type = 2
 metadata/_custom_type_script = "uid://dm6maro30qv3w"
 
 [node name="BattleRoom2" type="Node2D" node_paths=PackedStringArray("Waypoints")]

@@ -13,7 +13,7 @@ public partial class MainCamera : Camera2D
 
         StateMachine.Instance.StateChanged += ChangeBehavior;
 
-        TargetPlayer = Utils.GetFirstPlayer(GetTree());
+        TargetPlayer = Utils.Instance.GetFirstPlayer(GetTree());
 
         GD.Print($"Camera2D ready. TargetPlayer: {TargetPlayer}");
     }
@@ -29,19 +29,19 @@ public partial class MainCamera : Camera2D
         switch (newState)
         {
             case State.FreeRoam:
-                ApplyBehaviorMethod = Utils.BuildMethod(FreeRoamBehavior);
+                ApplyBehaviorMethod = Utils.Instance.BuildMethod(FreeRoamBehavior);
                 break;
             case State.Battle:
-                ApplyBehaviorMethod = Utils.BuildMethod(BattleBehavior);
+                ApplyBehaviorMethod = Utils.Instance.BuildMethod(BattleBehavior);
                 break;
             case State.Cutscene:
-                ApplyBehaviorMethod = Utils.BuildMethod(CutsceneBehavior);
+                ApplyBehaviorMethod = Utils.Instance.BuildMethod(CutsceneBehavior);
                 break;
             case State.Pause:
-                ApplyBehaviorMethod = Utils.BuildMethod(PauseBehavior);
+                ApplyBehaviorMethod = Utils.Instance.BuildMethod(PauseBehavior);
                 break;
             case State.GameOver:
-                ApplyBehaviorMethod = Utils.BuildMethod(GameOverBehavior);
+                ApplyBehaviorMethod = Utils.Instance.BuildMethod(GameOverBehavior);
                 break;
         }
     }

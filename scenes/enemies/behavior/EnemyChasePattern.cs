@@ -16,7 +16,7 @@ public partial class EnemyChasePattern : EnemyBehavior
     {
         enemy.Velocity = Vector2.Zero; // Ensure enemy starts with no velocity
 
-        var player = Utils.GetFirstPlayer(enemy.GetTree());
+        var player = Utils.Instance.GetFirstPlayer(enemy.GetTree());
         if (player == null)
             return;
 
