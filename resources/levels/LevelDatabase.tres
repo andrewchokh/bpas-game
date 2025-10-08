@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LevelDatabase" load_steps=9 format=3 uid="uid://dmtkom5l3yr2i"]
+
+[ext_resource type="PackedScene" uid="uid://cvo8gs16ghilh" path="res://scenes/levels/forest/BattleRoom1.tscn" id="1_f26d0"]
+[ext_resource type="Script" uid="uid://b4kii20t7ergx" path="res://resources/levels/LevelDatabase.cs" id="1_nqexi"]
+[ext_resource type="PackedScene" uid="uid://dkt3ornghkhbf" path="res://scenes/levels/forest/BattleRoom2.tscn" id="2_kl4fc"]
+[ext_resource type="PackedScene" uid="uid://2qsay08qqtin" path="res://scenes/levels/forest/DownEntrance.tscn" id="3_wj36a"]
+[ext_resource type="PackedScene" uid="uid://6dhintqtibhl" path="res://scenes/levels/forest/LeftEntrance.tscn" id="4_1vkdj"]
+[ext_resource type="PackedScene" uid="uid://cap2b601tmdm6" path="res://scenes/levels/forest/RightEntrance.tscn" id="5_80mcx"]
+[ext_resource type="PackedScene" uid="uid://c8xmuy35oikss" path="res://scenes/levels/forest/TunnelRoom1.tscn" id="6_va3vp"]
+[ext_resource type="PackedScene" uid="uid://br5uuywu4hj2g" path="res://scenes/levels/forest/UpEntrance.tscn" id="7_rclgh"]
+
+[resource]
+script = ExtResource("1_nqexi")
+LevelScenes = [ExtResource("1_f26d0"), ExtResource("2_kl4fc"), ExtResource("3_wj36a"), ExtResource("4_1vkdj"), ExtResource("5_80mcx"), ExtResource("6_va3vp"), ExtResource("7_rclgh")]
+metadata/_custom_type_script = "uid://b4kii20t7ergx"

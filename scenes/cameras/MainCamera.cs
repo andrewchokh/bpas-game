@@ -11,9 +11,9 @@ public partial class MainCamera : Camera2D
     {
         base._Ready();
 
-        GameStateMachine.Instance.StateChanged += ChangeBehavior;
+        StateMachine.Instance.StateChanged += ChangeBehavior;
 
-        TargetPlayer = Utils.Instance.GetFirstPlayer();
+        TargetPlayer = Utils.GetFirstPlayer(GetTree());
 
         GD.Print($"Camera2D ready. TargetPlayer: {TargetPlayer}");
     }
@@ -24,24 +24,24 @@ public partial class MainCamera : Camera2D
             ApplyBehaviorMethod();
     }
 
-    public void ChangeBehavior(GameState oldState, GameState newState)
+    public void ChangeBehavior(State oldState, State newState)
     {
         switch (newState)
         {
-            case GameState.FreeRoam:
-                ApplyBehaviorMethod = Utils.Instance.BuildMethod(FreeRoamBehavior);
+            case State.FreeRoam:
+                ApplyBehaviorMethod = Utils.BuildMethod(FreeRoamBehavior);
                 break;
-            case GameState.Battle:
-                ApplyBehaviorMethod = Utils.Instance.BuildMethod(BattleBehavior);
+            case State.Battle:
+                ApplyBehaviorMethod = Utils.BuildMethod(BattleBehavior);
                 break;
-            case GameState.Cutscene:
-                ApplyBehaviorMethod = Utils.Instance.BuildMethod(CutsceneBehavior);
+            case State.Cutscene:
+                ApplyBehaviorMethod = Utils.BuildMethod(CutsceneBehavior);
                 break;
-            case GameState.Pause:
-                ApplyBehaviorMethod = Utils.Instance.BuildMethod(PauseBehavior);
+            case State.Pause:
+                ApplyBehaviorMethod = Utils.BuildMethod(PauseBehavior);
                 break;
-            case GameState.GameOver:
-                ApplyBehaviorMethod = Utils.Instance.BuildMethod(GameOverBehavior);
+            case State.GameOver:
+                ApplyBehaviorMethod = Utils.BuildMethod(GameOverBehavior);
                 break;
         }
     }
@@ -51,30 +51,30 @@ public partial class MainCamera : Camera2D
         if (TargetPlayer != null)
             Position = TargetPlayer.GlobalPosition;
 
-        return (int)GameState.FreeRoam;    
+        return (int)State.FreeRoam;    
     }
 
     private int BattleBehavior()
     {
         // Implement battle behavior here
-        return (int)GameState.Battle;  
+        return (int)State.Battle;  
     }
 
     private int CutsceneBehavior()
     {
         // Implement cutscene behavior here
-        return (int)GameState.Cutscene;  
+        return (int)State.Cutscene;  
     }
 
     private int PauseBehavior()
     {
         // Implement pause behavior here
-        return (int)GameState.Pause;  
+        return (int)State.Pause;  
     }
 
     private int GameOverBehavior()
     {
         // Implement game over behavior here
-        return (int)GameState.GameOver;  
+        return (int)State.GameOver;  
     }
 }

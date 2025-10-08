@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+using static Ids;
+
 /// <summary>
 /// Represents a player character in the game.
 /// </summary>

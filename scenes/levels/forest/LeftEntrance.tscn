@@ -1,13 +1,19 @@
-[gd_scene load_steps=5 format=4 uid="uid://6dhintqtibhl"]
+[gd_scene load_steps=7 format=4 uid="uid://6dhintqtibhl"]
 
-[ext_resource type="Script" uid="uid://cvj83x4o57gsy" path="res://scenes/levels/EntranceRoom.cs" id="1_c5fip"]
+[ext_resource type="Script" uid="uid://cewggm00fwrt0" path="res://scenes/levels/Room.cs" id="1_5rwot"]
+[ext_resource type="Script" uid="uid://dm6maro30qv3w" path="res://resources/levels/RoomData.cs" id="2_d508c"]
 [ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="2_yn4cs"]
 [ext_resource type="PackedScene" uid="uid://ce72m3217wgvt" path="res://scenes/levels/waypoints/Spawnpoint.tscn" id="3_tfwmd"]
 [ext_resource type="PackedScene" uid="uid://c2i4l6rqklnl8" path="res://scenes/levels/waypoints/WestWaypoint.tscn" id="4_5rwot"]
 
-[node name="LeftEntrance" type="Node2D" node_paths=PackedStringArray("SpawnPoint", "Waypoints")]
-script = ExtResource("1_c5fip")
-SpawnPoint = NodePath("Spawnpoint")
+[sub_resource type="Resource" id="Resource_xoonc"]
+script = ExtResource("2_d508c")
+Type = 0
+metadata/_custom_type_script = "uid://dm6maro30qv3w"
+
+[node name="LeftEntrance" type="Node2D" node_paths=PackedStringArray("Waypoints")]
+script = ExtResource("1_5rwot")
+Data = SubResource("Resource_xoonc")
 Waypoints = [NodePath("WestWaypoint")]
 
 [node name="FloorLayer" type="TileMapLayer" parent="."]
