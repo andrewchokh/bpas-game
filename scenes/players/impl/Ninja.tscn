@@ -1,0 +1,71 @@
+[gd_scene load_steps=14 format=3 uid="uid://byv0naipg8u4y"]
+
+[ext_resource type="Script" uid="uid://di5s2j2mv4rn3" path="res://scenes/players/Player.cs" id="1_wyn8t"]
+[ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="2_k3qyf"]
+[ext_resource type="Texture2D" uid="uid://kysdun0hnoyi" path="res://assets/sprites/entities/bob.png" id="2_ss1ov"]
+[ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="3_ss1ov"]
+[ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitboxComponent.tscn" id="4_cc36t"]
+[ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/PlayerMovementController.tscn" id="5_opqi6"]
+[ext_resource type="PackedScene" uid="uid://b8hchje01oaek" path="res://scenes/components/WeaponComponent.tscn" id="6_ce6n8"]
+[ext_resource type="PackedScene" uid="uid://bcdeyivnjgmcb" path="res://scenes/components/SuperAbilityComponent.tscn" id="7_386rb"]
+[ext_resource type="Resource" uid="uid://dj1wsajibmksh" path="res://resources/entities/EntityDatabase.tres" id="8_cc36t"]
+[ext_resource type="Script" uid="uid://6josy16ms66b" path="res://scenes/players/super_abilities/SpeedBoostAbility.cs" id="9_ss1ov"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3qyf"]
+size = Vector2(9, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cc36t"]
+size = Vector2(9, 19)
+
+[sub_resource type="Resource" id="Resource_cc36t"]
+script = ExtResource("9_ss1ov")
+MovementSpeedMultiplier = 2.0
+metadata/_custom_type_script = "uid://6josy16ms66b"
+
+[node name="Ninja" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "HealthComponent", "HitboxComponent", "PlayerMovementController", "WeaponComponent", "SuperAbilityComponent")]
+script = ExtResource("1_wyn8t")
+MovementComponent = NodePath("MovementComponent")
+HealthComponent = NodePath("HealthComponent")
+HitboxComponent = NodePath("HitboxComponent")
+PlayerMovementController = NodePath("PlayerMovementController")
+WeaponComponent = NodePath("WeaponComponent")
+SuperAbilityComponent = NodePath("SuperAbilityComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ss1ov")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 7)
+shape = SubResource("RectangleShape2D_k3qyf")
+
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("2_k3qyf")]
+Entity = NodePath("..")
+Speed = 30.0
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("3_ss1ov")]
+Entity = NodePath("..")
+Health = 10
+Defense = 1
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("Entity", "HealthComponent") instance=ExtResource("4_cc36t")]
+Entity = NodePath("..")
+HealthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_cc36t")
+
+[node name="PlayerMovementController" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("5_opqi6")]
+Player = NodePath("..")
+
+[node name="WeaponComponent" parent="." node_paths=PackedStringArray("Player", "WeaponPosition") instance=ExtResource("6_ce6n8")]
+Player = NodePath("..")
+Entities = ExtResource("8_cc36t")
+WeaponPosition = NodePath("WeaponPoint")
+
+[node name="SuperAbilityComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("7_386rb")]
+Player = NodePath("..")
+Behavior = SubResource("Resource_cc36t")
+
+[editable path="HitboxComponent"]
+[editable path="WeaponComponent"]

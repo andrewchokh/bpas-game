@@ -1,14 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bjl06w2xpy82k"]
+[gd_scene load_steps=9 format=3 uid="uid://dylbecgggnl24"]
 
 [ext_resource type="Script" uid="uid://c1fuhdohwpxx7" path="res://scenes/MainScene.cs" id="1_ibiss"]
 [ext_resource type="PackedScene" uid="uid://ddyq5gfxq5fn4" path="res://scenes/cameras/MainCamera.tscn" id="2_611at"]
-[ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/impl/Bob.tscn" id="2_c6dvc"]
+[ext_resource type="PackedScene" uid="uid://byv0naipg8u4y" path="res://scenes/players/impl/Ninja.tscn" id="2_ibiss"]
 [ext_resource type="Resource" uid="uid://dmtkom5l3yr2i" path="res://resources/levels/LevelDatabase.tres" id="3_k24pf"]
-[ext_resource type="PackedScene" uid="uid://dptxrphgnsghg" path="res://scenes/enemies/impl/Steve.tscn" id="4_611at"]
 [ext_resource type="Script" uid="uid://72qlplg1ffin" path="res://resources/levels/LevelGenerationSettings.cs" id="4_ygjfp"]
 [ext_resource type="Script" uid="uid://cwokqhhi238tc" path="res://resources/levels/LevelLayoutGenerator.cs" id="5_1wiy7"]
 
-[sub_resource type="Resource" id="Resource_1wiy7"]
+[sub_resource type="Resource" id="Resource_ygjfp"]
 script = ExtResource("4_ygjfp")
 MaxTries = 1000
 RoomCount = Dictionary[int, int]({
@@ -20,7 +19,7 @@ RoomCount = Dictionary[int, int]({
 LayoutSize = Vector2(12, 9)
 metadata/_custom_type_script = "uid://72qlplg1ffin"
 
-[sub_resource type="Resource" id="Resource_u1u68"]
+[sub_resource type="Resource" id="Resource_1wiy7"]
 script = ExtResource("5_1wiy7")
 metadata/_custom_type_script = "uid://cwokqhhi238tc"
 
@@ -28,11 +27,7 @@ metadata/_custom_type_script = "uid://cwokqhhi238tc"
 script = ExtResource("1_ibiss")
 MainCameraScene = ExtResource("2_611at")
 Levels = ExtResource("3_k24pf")
-GenerationSettings = SubResource("Resource_1wiy7")
-LayoutGenerator = SubResource("Resource_u1u68")
+GenerationSettings = SubResource("Resource_ygjfp")
+LayoutGenerator = SubResource("Resource_1wiy7")
 
-[node name="Bob" parent="." instance=ExtResource("2_c6dvc")]
-
-[node name="Steve" parent="." instance=ExtResource("4_611at")]
-z_index = 1
-position = Vector2(-15, 0)
+[node name="Ninja" parent="." instance=ExtResource("2_ibiss")]

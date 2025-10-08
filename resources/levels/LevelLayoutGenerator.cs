@@ -82,6 +82,32 @@ public partial class LevelLayoutGenerator : Resource
         return neighborsInfo;
     }
 
+    public List<Vector2> GetDeadEnds(int[,] layout)
+    {
+        var deadEnds = new List<Vector2>();
+
+        for (int y = 0; y < layout.GetLength(0); y++)
+        {
+            for (int x = 0; x < layout.GetLength(1); x++)
+            {
+                if (layout[y, x] > 0)
+                {
+                    int freeNeighborCount = 0;
+                    foreach (var (position, isFree) in CheckNeighbors(layout, new Vector2(x, y)))
+                    {
+                        if (isFree)
+                            freeNeighborCount++;
+                    }
+
+                    if (freeNeighborCount == 1)
+                        deadEnds.Add(new Vector2(x, y));
+                }
+            }
+        }
+
+        return deadEnds;
+    }
+
     private void PlaceRoom(int[,] layout, Vector2 position)
     {
         layout[(int)position.Y, (int)position.X] = 1;

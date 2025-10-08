@@ -17,7 +17,7 @@ public partial class MainScene : Node
     public LevelLayoutGenerator LayoutGenerator;
 
     private int _currentLevelIndex = 0;
-    private Godot.Collections.Array<Room> _rooms = [];
+    private Array<Room> _rooms = [];
     private Marker2D[] _lastWaypoints;
 
     public override void _Ready()

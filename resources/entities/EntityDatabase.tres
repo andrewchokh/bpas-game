@@ -1,17 +1,14 @@
-[gd_resource type="Resource" script_class="EntityDatabase" load_steps=7 format=3 uid="uid://dj1wsajibmksh"]
+[gd_resource type="Resource" script_class="EntityDatabase" load_steps=6 format=3 uid="uid://dj1wsajibmksh"]
 
 [ext_resource type="PackedScene" uid="uid://dptxrphgnsghg" path="res://scenes/enemies/impl/Steve.tscn" id="1_awdpb"]
 [ext_resource type="Script" uid="uid://bdwtg5pm7nfrq" path="res://resources/entities/EntityDatabase.cs" id="1_ppi52"]
-[ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/impl/Bob.tscn" id="2_b1iv1"]
 [ext_resource type="PackedScene" uid="uid://co5f8dmi8lpq2" path="res://scenes/weapons/impl/ArcaneStaff.tscn" id="3_60h7p"]
 [ext_resource type="PackedScene" uid="uid://bxgoix6qgdkr4" path="res://scenes/weapons/impl/Dagger.tscn" id="4_pk1af"]
 [ext_resource type="PackedScene" uid="uid://woq1haaujfuj" path="res://scenes/weapons/impl/Spear.tscn" id="5_31uq3"]
 
 [resource]
 script = ExtResource("1_ppi52")
-PlayerScenes = Dictionary[int, PackedScene]({
-0: ExtResource("2_b1iv1")
-})
+PlayerScenes = Dictionary[int, PackedScene]({})
 EnemyScenes = Dictionary[int, PackedScene]({
 0: ExtResource("1_awdpb")
 })
