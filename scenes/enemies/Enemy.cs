@@ -1,6 +1,8 @@
 using System;
 using Godot;
 
+using static Ids;
+
 /// <summary>
 /// Represents an enemy character in the game.
 /// </summary>
@@ -35,7 +37,7 @@ public partial class Enemy : CharacterBody2D
         AddChild(_behaviorTimer);
         _behaviorTimer.OneShot = true;
         _behaviorTimer.Timeout += OnBehaviorTimerTimeout;
-        
+
         SetRandomBehavior();
     }
 

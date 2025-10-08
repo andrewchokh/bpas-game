@@ -17,11 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameStateMachine="*res://globals/GameStateMachine.cs"
-Utils="*res://globals/Utils.cs"
-EntityList="*res://globals/EntityList.cs"
 Constants="*res://globals/Constants.cs"
-LevelsData="*res://globals/LevelsData.cs"
+Ids="*res://globals/Ids.cs"
+Utils="*res://globals/Utils.cs"
+StateMachine="*res://globals/StateMachine.cs"
 
 [display]
 

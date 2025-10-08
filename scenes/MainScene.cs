@@ -2,13 +2,17 @@ using Godot;
 using System.Linq;
 using System.Collections.Generic;
 
-using static LevelsData;
+using static Ids;
 using System;
+
+
 
 public partial class MainScene : Node
 {
     [Export]
     public PackedScene MainCameraScene;
+    [Export]
+    public LevelDatabase Levels;
 
     private int _currentLevelIndex = 0;
     private Godot.Collections.Array<Room> _rooms = [];
@@ -16,16 +20,16 @@ public partial class MainScene : Node
 
     public override void _Ready()
     {
-        GameStateMachine.Instance.StateChanged += OnStateChanged;
+        StateMachine.Instance.StateChanged += OnStateChanged;
 
         GenerateLevel(new LevelGeneratorSettings());
 
         SetupCamera();
 
-        GameStateMachine.Instance.State = GameState.FreeRoam;
+        StateMachine.Instance.State = State.FreeRoam;
     }
 
-    private void OnStateChanged(GameState oldState, GameState newState)
+    private void OnStateChanged(State oldState, State newState)
     {
         GD.Print($"State changed from {oldState} to {newState}");
     }
@@ -70,7 +74,7 @@ public partial class MainScene : Node
                         }
                     }
                 }
-                    
+
                 _rooms.Add(room);
             }
         }
@@ -101,29 +105,14 @@ public partial class MainScene : Node
         PlaceRoom(room2, waypoints[0].GlobalPosition, waypoints[1].GlobalPosition);
     }
 
-    private Room GetRandomRoom(RoomType roomType)
+    private Room GetRandomRoom(RoomId roomType)
     {
         var levelData = GetCurrentLevelData();
         var rooms = levelData[roomType];
 
         if (rooms.Length == 0) return null;
 
-        return rooms[GD.RandRange(0, rooms.Length - 1)].Instantiate() as Room;
-    }
-
-    private RoomType GetRoomType(Room room)
-    {
-        switch (room)
-        {
-            case EntranceRoom:
-                return RoomType.ENTRANCE;
-            case BattleRoom:
-                return RoomType.BATTLE;
-            case TunnelRoom:
-                return RoomType.TUNNEL;
-        }
-
-        return 0;
+        return rooms[GD.Randi() % rooms.Length].Instantiate() as Room;
     }
 
     private Marker2D[] GetCompatibleWaypoints(Room room1, Room room2, int maxTries = 10)
@@ -189,14 +178,14 @@ public partial class MainScene : Node
         return [];
     }
 
-    private Dictionary<RoomType, PackedScene[]> GetCurrentLevelData()
+    private Dictionary<RoomId, PackedScene[]> GetCurrentLevelData()
     {
         switch (_currentLevelIndex)
         {
             case 0:
-                return LevelsData.Instance.LevelScenes[LocationId.FOREST];
+                // return Levels.LevelScenes[LocationId.Forest];
             case 1:
-                return LevelsData.Instance.LevelScenes[LocationId.DUNGEON];
+                // return Levels.LevelScenes[LocationId.Dungeon];
             default:
                 GD.PrintErr("Invalid level index");
                 return null;
@@ -208,12 +197,12 @@ public partial class LevelGeneratorSettings
 {
     public int MaxTries { get; set; } = 1000;
 
-    public Dictionary<RoomType, int> RoomCount = new()
+    public Dictionary<RoomId, int> RoomCount = new()
     {
-        { RoomType.ENTRANCE, 1 },
-        { RoomType.BATTLE, 2 },
-        { RoomType.TUNNEL, 0 },
-        { RoomType.BOSS, 0 },
-        { RoomType.TREASURE, 0 }
+        { RoomId.Entrance, 1 },
+        { RoomId.Battle, 2 },
+        { RoomId.Tunnel, 0 },
+        { RoomId.Boss, 0 },
+        { RoomId.Treasure, 0 }
     };
 }

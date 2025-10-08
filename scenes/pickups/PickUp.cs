@@ -1,4 +1,7 @@
 using Godot;
+using System;
+
+using static Ids;
 
 /// <summary>
 /// Represents a pick-up item in the game.

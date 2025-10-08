@@ -1,5 +1,7 @@
 using Godot;
 
+using static Ids;
+
 public enum WeaponType : int
 {
     Melee = 1,

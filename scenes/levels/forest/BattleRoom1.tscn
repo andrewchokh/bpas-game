@@ -1,33 +1,40 @@
-[gd_scene load_steps=7 format=4 uid="uid://cvo8gs16ghilh"]
+[gd_scene load_steps=9 format=4 uid="uid://cvo8gs16ghilh"]
 
-[ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="1_ldjat"]
-[ext_resource type="Script" uid="uid://daycre37a1dsk" path="res://scenes/levels/BattleRoom.cs" id="1_xjkm8"]
-[ext_resource type="PackedScene" uid="uid://c2i4l6rqklnl8" path="res://scenes/levels/waypoints/WestWaypoint.tscn" id="3_evhih"]
-[ext_resource type="PackedScene" uid="uid://gbkwfpbwr8xr" path="res://scenes/levels/waypoints/EastWaypoint.tscn" id="4_g6mpy"]
-[ext_resource type="PackedScene" uid="uid://dlaj8yma4msn6" path="res://scenes/levels/waypoints/NorthWaypoint.tscn" id="5_exj34"]
-[ext_resource type="PackedScene" uid="uid://cpkipde5j8dch" path="res://scenes/levels/waypoints/SouthWaypoint.tscn" id="6_2fa5i"]
+[ext_resource type="Script" uid="uid://cewggm00fwrt0" path="res://scenes/levels/Room.cs" id="1_1ogbb"]
+[ext_resource type="Script" uid="uid://dm6maro30qv3w" path="res://resources/levels/RoomData.cs" id="2_n8tkr"]
+[ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="3_s3xgr"]
+[ext_resource type="PackedScene" uid="uid://dlaj8yma4msn6" path="res://scenes/levels/waypoints/NorthWaypoint.tscn" id="4_bckfl"]
+[ext_resource type="PackedScene" uid="uid://c2i4l6rqklnl8" path="res://scenes/levels/waypoints/WestWaypoint.tscn" id="5_48hww"]
+[ext_resource type="PackedScene" uid="uid://cpkipde5j8dch" path="res://scenes/levels/waypoints/SouthWaypoint.tscn" id="6_07tpt"]
+[ext_resource type="PackedScene" uid="uid://gbkwfpbwr8xr" path="res://scenes/levels/waypoints/EastWaypoint.tscn" id="7_iqeka"]
 
-[node name="Battle1" type="Node2D" node_paths=PackedStringArray("Waypoints")]
-script = ExtResource("1_xjkm8")
+[sub_resource type="Resource" id="Resource_exj34"]
+script = ExtResource("2_n8tkr")
+Type = 2
+metadata/_custom_type_script = "uid://dm6maro30qv3w"
+
+[node name="BattleRoom1" type="Node2D" node_paths=PackedStringArray("Waypoints")]
+script = ExtResource("1_1ogbb")
+Data = SubResource("Resource_exj34")
 Waypoints = [NodePath("NorthWaypoint"), NodePath("WestWaypoint"), NodePath("SouthWaypoint"), NodePath("EastWaypoint")]
 
 [node name="FloorLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD///v/AQADAAEAAAAAAPv/AQADAAAAAAD///r/AQAAAAEAAAAAAPr/AQACAAEAAAAAAPz/AQABAAEAAAD///z/AQABAAEAAAD///3/AQABAAEAAAD///7/AQABAAEAAAD/////AQABAAEAAAD//wAAAQABAAEAAAD//wEAAQABAAEAAAD//wIAAQABAAEAAAD//wMAAQABAAEAAAD//wQAAQAEAAEAAAD//wUAAQAAAAEAAAAAAAUAAQACAAEAAAAAAAQAAQAEAAAAAAAAAAMAAQABAAEAAAAAAAIAAQABAAEAAAAAAAEAAQABAAEAAAAAAAAAAQABAAEAAAAAAP//AQABAAEAAAAAAP7/AQABAAEAAAAAAP3/AQABAAEAAAD+//z/AQABAAEAAAD+//v/AQABAAAAAAD9//z/AQAAAAEAAAD9//3/AQAAAAEAAAD9//7/AQAAAAEAAAD9////AQADAAEAAAD9/wAAAQAEAAEAAAD9/wEAAQAAAAEAAAD9/wIAAQAAAAEAAAD9/wMAAQAAAAEAAAD+/wMAAQABAAEAAAD+/wQAAQABAAIAAAABAAQAAQABAAIAAAABAAMAAQABAAEAAAABAAIAAQABAAEAAAACAAIAAQACAAEAAAACAAMAAQACAAEAAAACAAEAAQACAAEAAAACAAAAAQAEAAAAAAACAP//AQADAAAAAAACAP7/AQACAAEAAAABAP7/AQABAAEAAAABAP3/AQABAAEAAAD+//3/AQABAAEAAAD+//7/AQABAAEAAAD+////AQABAAEAAAD+/wAAAQABAAEAAAD+/wEAAQABAAEAAAABAAAAAQABAAEAAAABAP//AQABAAEAAAABAPz/AQABAAEAAAABAPv/AQABAAAAAAACAPz/AQACAAEAAAACAP3/AQACAAEAAAD+/wIAAQABAAEAAAABAAEAAQABAAEAAAD8/wAAAQABAAIAAAD8////AQABAAAAAAADAP//AQABAAAAAAADAAAAAQABAAIAAAD7////AQABAAAAAAD7/wAAAQABAAIAAAAEAP//AQABAAAAAAAEAAAAAQABAAIAAAD9//v/AQAAAAAAAAACAPv/AQACAAAAAAD9/wQAAQAAAAIAAAACAAQAAQACAAIAAAD///n/AQAAAAEAAAAAAPn/AQACAAEAAAAAAAYAAQACAAEAAAD//wYAAQAAAAEAAAA=")
-tile_set = ExtResource("1_ldjat")
+tile_set = ExtResource("3_s3xgr")
 
 [node name="WallsLayer" type="TileMapLayer" parent="."]
 y_sort_enabled = true
 tile_map_data = PackedByteArray("AAD3/wEAAQAAAAUAAAD3/wIAAQAAAAUAAAD3/wMAAQAAAAUAAAD3/wAAAQAAAAUAAAD3////AQAAAAUAAAD3//7/AQAAAAUAAAD3//3/AQAAAAUAAAD3//z/AQAAAAUAAAD3//v/AQAAAAUAAAD9////AQABAAgAAAD7//3/AQAAAAcAAAD7//7/AQAAAAgAAAD8//3/AQABAAcAAAD8//7/AQABAAgAAAADAP3/AQAAAAcAAAADAP7/AQAAAAgAAAAEAP3/AQABAAcAAAAEAP7/AQABAAgAAAADAAAAAQACAAcAAAADAAEAAQACAAgAAAAEAAAAAQADAAcAAAAEAAEAAQADAAgAAAD7/wAAAQACAAcAAAD7/wEAAQACAAgAAAD8/wAAAQADAAcAAAD8/wEAAQADAAgAAAD9/wQAAQACAAcAAAD9/wUAAQACAAgAAAD+/wQAAQADAAcAAAD+/wUAAQADAAgAAAABAAQAAQACAAcAAAABAAUAAQACAAgAAAACAAQAAQADAAcAAAACAAUAAQADAAgAAAD9//n/AQAAAAcAAAD9//r/AQAAAAgAAAD+//n/AQABAAcAAAD+//r/AQABAAgAAAABAPn/AQAAAAcAAAABAPr/AQAAAAgAAAACAPn/AQABAAcAAAACAPr/AQABAAgAAAADAAIAAQAAAAUAAAADAAMAAQAAAAUAAAADAAQAAQAAAAUAAAD8/wIAAQAAAAUAAAD8/wMAAQAAAAUAAAD8/wQAAQAAAAUAAAD8//z/AQAAAAUAAAD8//v/AQAAAAUAAAADAPz/AQAAAAUAAAADAPv/AQAAAAUAAAA=")
-tile_set = ExtResource("1_ldjat")
+tile_set = ExtResource("3_s3xgr")
 
-[node name="NorthWaypoint" parent="." instance=ExtResource("5_exj34")]
+[node name="NorthWaypoint" parent="." instance=ExtResource("4_bckfl")]
 position = Vector2(0, -112)
 
-[node name="WestWaypoint" parent="." instance=ExtResource("3_evhih")]
+[node name="WestWaypoint" parent="." instance=ExtResource("5_48hww")]
 position = Vector2(-80, 0)
 
-[node name="SouthWaypoint" parent="." instance=ExtResource("6_2fa5i")]
+[node name="SouthWaypoint" parent="." instance=ExtResource("6_07tpt")]
 position = Vector2(0, 112)
 
-[node name="EastWaypoint" parent="." instance=ExtResource("4_g6mpy")]
+[node name="EastWaypoint" parent="." instance=ExtResource("7_iqeka")]
 position = Vector2(80, 0)
