@@ -14,7 +14,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7bk6"]
 size = Vector2(7, 17)
 
-[sub_resource type="Resource" id="Resource_rbpuw"]
+[sub_resource type="Resource" id="Resource_6fhgy"]
 script = ExtResource("10_geu65")
 MovementSpeedMultiplier = 2.0
 metadata/_custom_type_script = "uid://6josy16ms66b"
@@ -69,7 +69,7 @@ Speed = 60.0
 
 [node name="SuperAbilityComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("9_6fhgy")]
 Player = NodePath("..")
-Ability = SubResource("Resource_rbpuw")
+Behavior = SubResource("Resource_6fhgy")
 
 [node name="DurationTimer" parent="SuperAbilityComponent" index="0"]
 wait_time = 3.0
