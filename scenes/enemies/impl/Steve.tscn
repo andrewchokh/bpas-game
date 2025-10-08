@@ -1,13 +1,18 @@
 [gd_scene load_steps=11 format=3 uid="uid://dptxrphgnsghg"]
 
 [ext_resource type="Script" uid="uid://bwowaqvjt2kf6" path="res://scenes/enemies/Enemy.cs" id="1_t47kb"]
-[ext_resource type="PackedScene" uid="uid://cbun2nbaa1vrt" path="res://scenes/enemies/behavior_patterns/impl/ChasePattern.tscn" id="2_klqqa"]
+[ext_resource type="Script" uid="uid://besgnwkpdjnbu" path="res://scenes/enemies/behavior/EnemyChasePattern.cs" id="2_klqqa"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="2_t47kb"]
-[ext_resource type="PackedScene" uid="uid://cyyxbx5hmkeql" path="res://scenes/enemies/behavior_patterns/impl/RotatingPattern.tscn" id="3_dct7n"]
 [ext_resource type="Texture2D" uid="uid://c6efspti4ho7l" path="res://assets/sprites/entities/enemies/booka.png" id="3_t47kb"]
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="4_dct7n"]
 [ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="5_xwm4a"]
 [ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitboxComponent.tscn" id="5_y4g6n"]
+
+[sub_resource type="Resource" id="Resource_dct7n"]
+script = ExtResource("2_klqqa")
+IsProcessEnabled = false
+IsPhysicsProcessEnabled = true
+metadata/_custom_type_script = "uid://besgnwkpdjnbu"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_klqqa"]
 size = Vector2(7, 17)
@@ -15,10 +20,9 @@ size = Vector2(7, 17)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t47kb"]
 size = Vector2(7, 17)
 
-[node name="Steve" type="CharacterBody2D" node_paths=PackedStringArray("BehaviorPatternTimer", "MovementComponent", "HealthComponent", "HitboxComponent")]
+[node name="Steve" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "HealthComponent", "HitboxComponent")]
 script = ExtResource("1_t47kb")
-BehaviorPatternScenes = Array[PackedScene]([ExtResource("2_klqqa"), ExtResource("3_dct7n")])
-BehaviorPatternTimer = NodePath("BehaviorTimer")
+BehaviorList = Array[Object]([SubResource("Resource_dct7n")])
 MovementComponent = NodePath("MovementComponent")
 HealthComponent = NodePath("HealthComponent")
 HitboxComponent = NodePath("HitboxComponent")
@@ -53,5 +57,3 @@ shape = SubResource("RectangleShape2D_t47kb")
 Entity = NodePath("..")
 Health = 10
 Defense = 1
-
-[node name="BehaviorTimer" type="Timer" parent="."]
