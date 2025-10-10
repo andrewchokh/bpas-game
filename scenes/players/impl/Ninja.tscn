@@ -22,7 +22,8 @@ script = ExtResource("9_ss1ov")
 MovementSpeedMultiplier = 2.0
 metadata/_custom_type_script = "uid://6josy16ms66b"
 
-[node name="Ninja" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "HealthComponent", "HitboxComponent", "PlayerMovementController", "WeaponComponent", "SuperAbilityComponent")]
+[node name="Ninja" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "HealthComponent", "HitboxComponent", "PlayerMovementController", "WeaponComponent", "SuperAbilityComponent") groups=["Players"]]
+z_index = 1
 script = ExtResource("1_wyn8t")
 MovementComponent = NodePath("MovementComponent")
 HealthComponent = NodePath("HealthComponent")
@@ -40,7 +41,7 @@ shape = SubResource("RectangleShape2D_k3qyf")
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("2_k3qyf")]
 Entity = NodePath("..")
-Speed = 30.0
+Speed = 60.0
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity") instance=ExtResource("3_ss1ov")]
 Entity = NodePath("..")
@@ -62,6 +63,9 @@ Player = NodePath("..")
 Player = NodePath("..")
 Entities = ExtResource("8_cc36t")
 WeaponPosition = NodePath("WeaponPoint")
+
+[node name="WeaponPoint" parent="WeaponComponent" index="0"]
+position = Vector2(9, 2)
 
 [node name="SuperAbilityComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("7_386rb")]
 Player = NodePath("..")

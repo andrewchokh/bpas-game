@@ -3,25 +3,34 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
+using static Ids;
+
 [GlobalClass]
 public partial class LevelLayoutGenerator : Resource
 {
-    public int[,] GenerateLayout(LevelGenerationSettings settings, int level = 1)
-    {
-        int width = (int)settings.LayoutSize.X;
-        int height = (int)settings.LayoutSize.Y;
-        int[,] layout = new int[height, width];
+    public int[,] Layout { get; private set; }
+    public Vector2 Cursor { get; private set; }
 
-        Vector2 cursor = new(Mathf.Floor(width / 2f), Mathf.Floor(height / 2f));
-        PlaceRoom(layout, cursor);
-        
+    public void GenerateLayout(LevelGenerationSettings settings, int level = 1)
+    {
+        MakeFloorplan(settings, level);
+        PlaceRoomsOnFloorplan(settings);
+    }
+
+    private void MakeFloorplan(LevelGenerationSettings settings, int level)
+    {
+        Layout = new int[(int)settings.LayoutSize.Y, (int)settings.LayoutSize.X];
+
+        Cursor = GetCenterPosition();
+        MarkRoom(Cursor);
+
         int roomCount = GD.RandRange(0, 2) + 5 + level * 2;
         int roomsPlaced = 1;
 
         while (roomsPlaced <= roomCount)
         {
             var freeNeighbors = new List<Vector2>();
-            foreach (var (position, isFree) in CheckNeighbors(layout, cursor))
+            foreach (var (position, isFree) in CheckNeighbors(Cursor))
             {
                 if (isFree)
                     freeNeighbors.Add(position);
@@ -37,21 +46,56 @@ public partial class LevelLayoutGenerator : Resource
             for (int i = 0; i < roomsPerStep && freeNeighbors.Count > 0; i++)
             {
                 int randomIndex = GD.RandRange(0, freeNeighbors.Count - 1);
-                var pos = freeNeighbors[randomIndex];
+                var position = freeNeighbors[randomIndex];
                 freeNeighbors.RemoveAt(randomIndex);
 
-                PlaceRoom(layout, pos);
-                placedPerStep.Add(pos);
+                MarkRoom(position);
+                placedPerStep.Add(position);
                 roomsPlaced++;
             }
-            cursor = Utils.Instance.GetRandomElementFromArray(placedPerStep.ToArray());
-        }
 
-        PrintLayout(layout);
-        return layout;
+            Cursor = Utils.Instance.GetRandomElementFromArray(placedPerStep.ToArray());
+        }
     }
 
-    private Dictionary<Vector2, bool> CheckNeighbors(int[,] layout, Vector2 position)
+    private void PlaceRoomsOnFloorplan(LevelGenerationSettings settings)
+    {
+        Cursor = GetCenterPosition();
+        var deadEnds = GetDeadEnds();
+
+        // Place entrance room at center
+        Layout[(int)Cursor.Y, (int)Cursor.X] = (int)RoomId.Entrance;
+
+        // Place boss room at a random dead end
+        var bossRoomPosition = Utils.Instance.GetRandomElementFromArray(deadEnds.ToArray());
+        Layout[(int)bossRoomPosition.Y, (int)bossRoomPosition.X] = (int)RoomId.Boss;
+        deadEnds.Remove(bossRoomPosition);
+
+        // Place special rooms
+        foreach (var (roomId, count) in settings.SpecialRooms)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var roomPosition = GetRandomRoom(RoomId.Empty);
+                if (roomPosition != new Vector2(-1, -1))
+                {
+                    Layout[(int)roomPosition.Y, (int)roomPosition.X] = (int)roomId;
+                }
+            }
+        }
+
+        // Filling remaining empty rooms with battle rooms
+        for (int y = 0; y < Layout.GetLength(0); y++)
+        {
+            for (int x = 0; x < Layout.GetLength(1); x++)
+            {
+                if (Layout[y, x] == (int)RoomId.Empty)
+                    Layout[y, x] = (int)RoomId.Battle;
+            }
+        }
+    }
+
+    private Dictionary<Vector2, bool> CheckNeighbors(Vector2 position)
     {
         Dictionary<Vector2, bool> neighborsInfo = new();
 
@@ -70,7 +114,7 @@ public partial class LevelLayoutGenerator : Resource
                     x != (int)position.X && y != (int)position.Y)
                         continue;
 
-                    neighborsInfo[neighborPosition] = IsPositionFree(layout, neighborPosition);
+                    neighborsInfo[neighborPosition] = IsPositionFree(neighborPosition);
                 }
             }
         }
@@ -82,24 +126,24 @@ public partial class LevelLayoutGenerator : Resource
         return neighborsInfo;
     }
 
-    public List<Vector2> GetDeadEnds(int[,] layout)
+    public List<Vector2> GetDeadEnds()
     {
         var deadEnds = new List<Vector2>();
 
-        for (int y = 0; y < layout.GetLength(0); y++)
+        for (int y = 0; y < Layout.GetLength(0); y++)
         {
-            for (int x = 0; x < layout.GetLength(1); x++)
+            for (int x = 0; x < Layout.GetLength(1); x++)
             {
-                if (layout[y, x] > 0)
+                if (Layout[y, x] > 0)
                 {
-                    int freeNeighborCount = 0;
-                    foreach (var (position, isFree) in CheckNeighbors(layout, new Vector2(x, y)))
+                    int occupiedNeighborCount = 0;
+                    foreach (var (position, isFree) in CheckNeighbors(new Vector2(x, y)))
                     {
-                        if (isFree)
-                            freeNeighborCount++;
+                        if (!isFree)
+                            occupiedNeighborCount++;
                     }
 
-                    if (freeNeighborCount == 1)
+                    if (occupiedNeighborCount == 1)
                         deadEnds.Add(new Vector2(x, y));
                 }
             }
@@ -108,27 +152,70 @@ public partial class LevelLayoutGenerator : Resource
         return deadEnds;
     }
 
-    private void PlaceRoom(int[,] layout, Vector2 position)
+    private Vector2 GetRandomRoom(RoomId roomId = 0)
     {
-        layout[(int)position.Y, (int)position.X] = 1;
+        int width = Layout.GetLength(1);
+        int height = Layout.GetLength(0);
+
+        const int maxTries = 1000;
+        for (var t = 0; t < maxTries; t++)
+        {
+            int randomX = GD.RandRange(0, width - 1);
+            int randomY = GD.RandRange(0, height - 1);
+
+            if (Layout[randomY, randomX] == 0)
+                continue;
+            
+            if (roomId != 0 && Layout[randomY, randomX] != (int)roomId)
+                continue;
+
+            return new Vector2(randomX, randomY);
+        }
+        
+        return new Vector2(-1, -1); // Failed to find a room
     }
 
-    private bool IsPositionFree(int[,] layout, Vector2 position)
+    private void MarkRoom(Vector2 position)
     {
-        return layout[(int)position.Y, (int)position.X] == 0;
+        Layout[(int)position.Y, (int)position.X] = (int)RoomId.Empty;
     }
 
-    private void PrintLayout(int[,] layout)
+    private bool IsPositionFree(Vector2 position)
     {
-        for (int y = 0; y < layout.GetLength(0); y++)
+        return Layout[(int)position.Y, (int)position.X] == 0;
+    }
+
+    private Vector2 GetCenterPosition()
+    {
+        int width = Layout.GetLength(1);
+        int height = Layout.GetLength(0);
+        return new Vector2(Mathf.Floor(width / 2f), Mathf.Floor(height / 2f));
+    }
+
+    private void PrintLayout()
+    {
+        for (int y = 0; y < Layout.GetLength(0); y++)
         {
             var str = "";
-            for (int x = 0; x < layout.GetLength(1); x++)
+            for (int x = 0; x < Layout.GetLength(1); x++)
             {
-                str += layout[y, x] + " ";
+                str += Layout[y, x] + " ";
             }
 
             GD.Print(str);
         }
     }
+    public bool IsPositionOutOfBounds(Vector2 position)
+    {
+        try
+        {
+            return Layout[(int)position.Y, (int)position.X] == 0;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            GD.Print("Position is out of bounds.");
+            return true;
+        }
+    }
+
 }

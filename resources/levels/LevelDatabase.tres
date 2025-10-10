@@ -1,8 +1,13 @@
-[gd_resource type="Resource" script_class="LevelDatabase" load_steps=2 format=3 uid="uid://dmtkom5l3yr2i"]
+[gd_resource type="Resource" script_class="LevelDatabase" load_steps=7 format=3 uid="uid://dmtkom5l3yr2i"]
 
 [ext_resource type="Script" uid="uid://b4kii20t7ergx" path="res://resources/levels/LevelDatabase.cs" id="1_nqexi"]
+[ext_resource type="PackedScene" uid="uid://cvo8gs16ghilh" path="res://scenes/levels/forest/BattleRoom1.tscn" id="1_wj36a"]
+[ext_resource type="PackedScene" uid="uid://dkt3ornghkhbf" path="res://scenes/levels/forest/BattleRoom2.tscn" id="2_cgo1s"]
+[ext_resource type="PackedScene" uid="uid://bpxxo87entbp6" path="res://scenes/levels/forest/BossRoom1.tscn" id="3_1vkdj"]
+[ext_resource type="PackedScene" uid="uid://br5uuywu4hj2g" path="res://scenes/levels/forest/Entrance.tscn" id="4_80mcx"]
+[ext_resource type="PackedScene" uid="uid://cowyn0bf72u8r" path="res://scenes/levels/forest/TreasureRoom1.tscn" id="5_va3vp"]
 
 [resource]
 script = ExtResource("1_nqexi")
-RoomScenes = []
+RoomScenes = [ExtResource("1_wj36a"), ExtResource("2_cgo1s"), ExtResource("3_1vkdj"), ExtResource("4_80mcx"), ExtResource("5_va3vp")]
 metadata/_custom_type_script = "uid://b4kii20t7ergx"

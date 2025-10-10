@@ -1,3 +1,0 @@
-[gd_scene format=3 uid="uid://ce72m3217wgvt"]
-
-[node name="Spawnpoint" type="Marker2D" groups=["Spawnpoints"]]

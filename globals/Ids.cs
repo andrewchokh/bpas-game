@@ -28,10 +28,19 @@ public partial class Ids : Node
 
     public enum RoomId : int
     {
-        Entrance = 1,
-        Battle = 2,
-        Tunnel = 3,
-        Boss = 4,
-        Treasure = 5
+        Empty = 1,
+        Entrance = 2,
+        Battle = 3,
+        Tunnel = 4,
+        Treasure = 5,
+        Boss = 6
+    }
+
+    public enum WaypointId
+    {
+        NorthWaypoint,
+        SouthWaypoint,
+        EastWaypoint,
+        WestWaypoint,
     }
 }

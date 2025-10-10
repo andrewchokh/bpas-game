@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://gbkwfpbwr8xr"]
+[gd_scene load_steps=3 format=3 uid="uid://gbkwfpbwr8xr"]
 
-[node name="EastWaypoint" type="Marker2D" groups=["Waypoints"]]
+[ext_resource type="Script" uid="uid://gdqxsp3t27bl" path="res://scenes/levels/Waypoint.cs" id="1_6wp4b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6wp4b"]
+size = Vector2(16, 32)
+
+[node name="EastWaypoint" type="Area2D" groups=["Waypoints"]]
+script = ExtResource("1_6wp4b")
+Id = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6wp4b")

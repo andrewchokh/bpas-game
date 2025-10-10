@@ -7,9 +7,9 @@ public partial class Room : Node2D
     public RoomData Data;
     
     [Export]
-    public Marker2D[] Waypoints;
+    public Area2D[] Waypoints;
 
-    public Marker2D SelectRandomWaypoint()
+    public Area2D SelectRandomWaypoint()
     {
         return Waypoints[GD.Randi() % Waypoints.Length];
     }
