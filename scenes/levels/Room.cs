@@ -5,9 +5,11 @@ public partial class Room : Node2D
 {
     [Export]
     public RoomData Data;
-    
+
     [Export]
     public Area2D[] Waypoints;
+    [Export]
+    public LevelTileMapLayers levelTileMapLayers;
 
     public Area2D SelectRandomWaypoint()
     {

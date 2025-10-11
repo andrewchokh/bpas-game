@@ -24,6 +24,7 @@ metadata/_custom_type_script = "uid://6josy16ms66b"
 
 [node name="Ninja" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "HealthComponent", "HitboxComponent", "PlayerMovementController", "WeaponComponent", "SuperAbilityComponent") groups=["Players"]]
 z_index = 1
+collision_layer = 2
 script = ExtResource("1_wyn8t")
 MovementComponent = NodePath("MovementComponent")
 HealthComponent = NodePath("HealthComponent")

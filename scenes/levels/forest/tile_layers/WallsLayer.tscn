@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=4 uid="uid://cevs7ae4mrm4"]
-
-[ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="1_0w88p"]
-
-[node name="WallsLayer" type="TileMapLayer"]
-y_sort_enabled = true
-tile_map_data = PackedByteArray("AAD3/wEAAQAAAAUAAAD3/wIAAQAAAAUAAAD3/wMAAQAAAAUAAAD3/wAAAQAAAAUAAAD3////AQAAAAUAAAD3//7/AQAAAAUAAAD3//3/AQAAAAUAAAD3//z/AQAAAAUAAAD3//v/AQAAAAUAAAA=")
-tile_set = ExtResource("1_0w88p")

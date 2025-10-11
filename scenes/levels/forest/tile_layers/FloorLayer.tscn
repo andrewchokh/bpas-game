@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtull45x16vso"]
-
-[ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/TestLevelTileSet.tres" id="1_5mbre"]
-
-[node name="FloorLayer" type="TileMapLayer"]
-y_sort_enabled = true
-tile_set = ExtResource("1_5mbre")

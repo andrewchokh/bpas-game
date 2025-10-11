@@ -121,13 +121,11 @@ public partial class MainScene : Node
 
         if (LayoutGenerator.IsPositionOutOfBounds(newRoomPosition))
         {
-            GD.Print("No room in that direction.");
+            GD.PushWarning("No room in that direction.");
             return;
         }
 
         _currentRoomPosition = newRoomPosition;
-
-        _roomsPositions.Keys.ToList().ForEach(key => GD.Print(key));
 
         var oldRoom = _roomsPositions[oldRoomPosition];
         var newRoom = _roomsPositions[_currentRoomPosition];
@@ -150,12 +148,22 @@ public partial class MainScene : Node
 
     private void ShowRoom(Room room)
     {
+        // Enabling/Disabling collisions manually is neccessary
+        // because process mode does not affect CollisionObject
+        room.levelTileMapLayers.FloorTileMapLayer.CollisionEnabled = true;
+        room.levelTileMapLayers.WallsTileMapLayer.CollisionEnabled = true;
+
         room.Visible = true;
         room.ProcessMode = ProcessModeEnum.Inherit;
     }
 
     private void HideRoom(Room room)
     {
+        // Enabling/Disabling collisions manually is neccessary
+        // because process mode does not affect CollisionObject
+        room.levelTileMapLayers.FloorTileMapLayer.CollisionEnabled = false;
+        room.levelTileMapLayers.WallsTileMapLayer.CollisionEnabled = false;
+        
         room.Visible = false;
         room.ProcessMode = ProcessModeEnum.Disabled;
     }
