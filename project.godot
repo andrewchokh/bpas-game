@@ -11,17 +11,15 @@ config_version=5
 [application]
 
 config/name="By Prophesy and Sword"
-run/main_scene="uid://bjl06w2xpy82k"
+run/main_scene="uid://dylbecgggnl24"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GameStateMachine="*res://globals/GameStateMachine.cs"
+Ids="*res://globals/Ids.cs"
 Utils="*res://globals/Utils.cs"
-EntityList="*res://globals/EntityList.cs"
-Constants="*res://globals/Constants.cs"
-LevelsData="*res://globals/LevelsData.cs"
+StateMachine="*res://globals/StateMachine.cs"
 
 [display]
 
@@ -134,4 +132,4 @@ use={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0.0627451, 0.0705882, 0.109804, 1)
+environment/defaults/default_clear_color=Color(0.191013, 0.207139, 0.2874, 1)

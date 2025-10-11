@@ -1,31 +1,49 @@
 using Godot;
-using System.Linq;
-using System.Collections.Generic;
-
-using static LevelsData;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using static Ids;
 
 public partial class MainScene : Node
 {
     [Export]
     public PackedScene MainCameraScene;
 
+    [Export]
+    public LevelDatabase Levels;
+    [Export]
+    public LevelGenerationSettings GenerationSettings;
+    [Export]
+    public LevelLayoutGenerator LayoutGenerator;
+
     private int _currentLevelIndex = 0;
-    private Godot.Collections.Array<Room> _rooms = [];
-    private Marker2D[] _lastWaypoints;
+    private Dictionary<Vector2, Room> _roomsPositions;
+    private Vector2 _currentRoomPosition;
+    private Area2D[] _lastWaypoints;
+
+    private bool _isWaypointAvailable = true;
+    private Timer WaypointCooldownTimer;
 
     public override void _Ready()
     {
-        GameStateMachine.Instance.StateChanged += OnStateChanged;
+        WaypointCooldownTimer = new Timer();
+        WaypointCooldownTimer.WaitTime = 1.0f;
+        WaypointCooldownTimer.OneShot = true;
+        WaypointCooldownTimer.Timeout += () => _isWaypointAvailable = true;
+        AddChild(WaypointCooldownTimer);
 
-        GenerateLevel(new LevelGeneratorSettings());
+        StateMachine.Instance.StateChanged += OnStateChanged;
 
         SetupCamera();
 
-        GameStateMachine.Instance.State = GameState.FreeRoam;
+        StateMachine.Instance.State = State.FreeRoam;
+
+        LayoutGenerator.GenerateLayout(GenerationSettings);
+        GenerateLevel();
     }
 
-    private void OnStateChanged(GameState oldState, GameState newState)
+    private void OnStateChanged(State oldState, State newState)
     {
         GD.Print($"State changed from {oldState} to {newState}");
     }
@@ -38,182 +56,115 @@ public partial class MainScene : Node
         camera2D.MakeCurrent();
     }
 
-    private void GenerateLevel(LevelGeneratorSettings settings)
+    public void GenerateLevel()
     {
-        foreach (var roomType in settings.RoomCount.Keys)
+        _currentLevelIndex = 1; // for now, always start at level 1
+
+        _roomsPositions = new Dictionary<Vector2, Room>();
+        _currentRoomPosition = new Vector2(-1, -1);
+
+        var layout = LayoutGenerator.Layout;
+        var levelRoomScenes = new Dictionary<RoomId, List<PackedScene>>();
+
+        foreach (var roomScene in Levels.RoomScenes)
         {
-            for (int i = 0; i < settings.RoomCount[roomType]; i++)
+            var room = roomScene.Instantiate<Room>();
+
+            if ((int)room.Data.Location == _currentLevelIndex)
             {
-                var room = GetRandomRoom(roomType);
+                if (!levelRoomScenes.ContainsKey(room.Data.Type))
+                    levelRoomScenes[room.Data.Type] = new List<PackedScene>();
 
-                if (_rooms.Count == 0)
-                    PlaceRoom(room, Vector2.Zero, Vector2.Zero);
-                else
-                {
-                    int tries = 0;
-                    while (tries < settings.MaxTries)
-                    {
-                        if (tries > 0) room = GetRandomRoom(roomType);
-
-                        try
-                        {
-                            ConnectRooms(_rooms.Last(), room);
-                            break;
-                        }
-                        catch (IndexOutOfRangeException)
-                        {
-                            continue;
-                        }
-                        finally
-                        {
-                            tries++;
-                        }
-                    }
-                }
-                    
-                _rooms.Add(room);
-            }
-        }
-    }
-
-    private void PlaceRoom(Room room, Vector2 position, Vector2 offset)
-    {
-        room.GlobalPosition = position;
-        room.GlobalPosition -= offset;
-
-        AddChild(room);
-    }
-
-    private void ConnectRooms(Room room1, Room room2, int maxTries = 10)
-    {
-        Marker2D[] waypoints = [];
-
-        int tries = 0;
-        while (tries < maxTries)
-        {
-            waypoints = GetCompatibleWaypoints(room1, room2);
-
-            if (waypoints.Length == 2) break;
-
-            tries++;
-        }
-
-        PlaceRoom(room2, waypoints[0].GlobalPosition, waypoints[1].GlobalPosition);
-    }
-
-    private Room GetRandomRoom(RoomType roomType)
-    {
-        var levelData = GetCurrentLevelData();
-        var rooms = levelData[roomType];
-
-        if (rooms.Length == 0) return null;
-
-        return rooms[GD.RandRange(0, rooms.Length - 1)].Instantiate() as Room;
-    }
-
-    private RoomType GetRoomType(Room room)
-    {
-        switch (room)
-        {
-            case EntranceRoom:
-                return RoomType.ENTRANCE;
-            case BattleRoom:
-                return RoomType.BATTLE;
-            case TunnelRoom:
-                return RoomType.TUNNEL;
-        }
-
-        return 0;
-    }
-
-    private Marker2D[] GetCompatibleWaypoints(Room room1, Room room2, int maxTries = 10)
-    {
-        Marker2D Waypoint1 = null;
-        Marker2D Waypoint2 = null;
-
-        int tries = 0;
-        while (tries < maxTries)
-        {
-            tries++;
-
-            Waypoint1 = room1.SelectRandomWaypoint();
-            Waypoint2 = room2.SelectRandomWaypoint();
-
-            _lastWaypoints = [Waypoint1, Waypoint2];
-
-            GD.Print($"{tries} / {maxTries}: Trying to connect {Waypoint1.Name} with {Waypoint2.Name}");
-
-            switch (Waypoint1.Name)
-            {
-                case Constants.NorthWaypointName:
-                    if (Waypoint2.Name == Constants.SouthWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                case Constants.SouthWaypointName:
-                    if (Waypoint2.Name == Constants.NorthWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                case Constants.WestWaypointName:
-                    if (Waypoint2.Name == Constants.EastWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                case Constants.EastWaypointName:
-                    if (Waypoint2.Name == Constants.WestWaypointName)
-                    {
-                        GD.Print("Connected " + Waypoint1.Name + " with " + Waypoint2.Name);
-                        break;
-                    }
-                    continue;
-                default:
-                    GD.PrintErr("Unknown waypoint name: " + Waypoint1.Name);
-                    continue;
+                levelRoomScenes[room.Data.Type].Add(roomScene);
             }
 
-            room2.Waypoints = room2.Waypoints
-                .Where(w => w.Name != Waypoint2.Name)
-                .ToArray();
-
-
-            return _lastWaypoints;
+            room.QueueFree();
         }
 
-        return [];
-    }
-
-    private Dictionary<RoomType, PackedScene[]> GetCurrentLevelData()
-    {
-        switch (_currentLevelIndex)
+        for (int y = 0; y < layout.GetLength(0); y++)
         {
-            case 0:
-                return LevelsData.Instance.LevelScenes[LocationId.FOREST];
-            case 1:
-                return LevelsData.Instance.LevelScenes[LocationId.DUNGEON];
-            default:
-                GD.PrintErr("Invalid level index");
-                return null;
+            for (int x = 0; x < layout.GetLength(1); x++)
+            {
+                var roomId = (RoomId)layout[y, x];
+
+                if (roomId == RoomId.Empty) continue;
+
+                if (!levelRoomScenes.ContainsKey(roomId)) continue;
+
+                var room = Utils.Instance.GetRandomElementFromArray(levelRoomScenes[roomId].ToArray())
+                    .Instantiate<Room>();
+                AddChild(room);
+                HideRoom(room);
+                _roomsPositions[new Vector2(x, y)] = room;
+
+                foreach (Waypoint waypoint in room.Waypoints)
+                    waypoint.WaypointEntered += ChangeRoom;
+            }
         }
+
+        var entranceRoomPair = _roomsPositions.FirstOrDefault(r => r.Value.Data.Type == RoomId.Entrance);
+        ShowRoom(entranceRoomPair.Value);
+
+        _currentRoomPosition = entranceRoomPair.Key;
     }
-}
 
-public partial class LevelGeneratorSettings
-{
-    public int MaxTries { get; set; } = 1000;
-
-    public Dictionary<RoomType, int> RoomCount = new()
+    private void ChangeRoom(Area2D self, Area2D area)
     {
-        { RoomType.ENTRANCE, 1 },
-        { RoomType.BATTLE, 2 },
-        { RoomType.TUNNEL, 0 },
-        { RoomType.BOSS, 0 },
-        { RoomType.TREASURE, 0 }
-    };
+        if (!_isWaypointAvailable) return;
+
+        var waypoint = self as Waypoint;
+
+        var oldRoomPosition = _currentRoomPosition;
+            
+        var direction = waypoint.GetDirection();
+        var newRoomPosition = _currentRoomPosition + direction;
+
+        if (LayoutGenerator.IsPositionOutOfBounds(newRoomPosition))
+        {
+            GD.PushWarning("No room in that direction.");
+            return;
+        }
+
+        _currentRoomPosition = newRoomPosition;
+
+        var oldRoom = _roomsPositions[oldRoomPosition];
+        var newRoom = _roomsPositions[_currentRoomPosition];
+
+        // CallDeferred is essential due to CollisionObject design
+        CallDeferred("HideRoom", oldRoom);
+        CallDeferred("ShowRoom", newRoom);
+
+        var newWaypoint = newRoom.Waypoints.FirstOrDefault(wp => (wp as Waypoint).Id == waypoint.GetOppositeWaypointId());
+
+        if (area is HitboxComponent hitboxComponent && hitboxComponent.Entity is Player player)
+        {
+            player.GlobalPosition = newWaypoint.GlobalPosition;
+            _isWaypointAvailable = false;
+            WaypointCooldownTimer.Start();
+        }
+
+        GD.Print($"Current Room Position: {_currentRoomPosition}");
+    }
+
+    private void ShowRoom(Room room)
+    {
+        // Enabling/Disabling collisions manually is neccessary
+        // because process mode does not affect CollisionObject
+        room.levelTileMapLayers.FloorTileMapLayer.CollisionEnabled = true;
+        room.levelTileMapLayers.WallsTileMapLayer.CollisionEnabled = true;
+
+        room.Visible = true;
+        room.ProcessMode = ProcessModeEnum.Inherit;
+    }
+
+    private void HideRoom(Room room)
+    {
+        // Enabling/Disabling collisions manually is neccessary
+        // because process mode does not affect CollisionObject
+        room.levelTileMapLayers.FloorTileMapLayer.CollisionEnabled = false;
+        room.levelTileMapLayers.WallsTileMapLayer.CollisionEnabled = false;
+        
+        room.Visible = false;
+        room.ProcessMode = ProcessModeEnum.Disabled;
+    }
 }

@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=4 uid="uid://cvo8gs16ghilh"]
+
+[ext_resource type="Script" uid="uid://cewggm00fwrt0" path="res://scenes/levels/Room.cs" id="1_1ogbb"]
+[ext_resource type="Script" uid="uid://dm6maro30qv3w" path="res://resources/levels/RoomData.cs" id="2_n8tkr"]
+[ext_resource type="PackedScene" uid="uid://b06kl2tkjtu3m" path="res://scenes/levels/forest/tile_layers/LevelTileMapLayers.tscn" id="3_n8tkr"]
+[ext_resource type="PackedScene" uid="uid://dlaj8yma4msn6" path="res://scenes/levels/waypoints/NorthWaypoint.tscn" id="4_bckfl"]
+[ext_resource type="PackedScene" uid="uid://c2i4l6rqklnl8" path="res://scenes/levels/waypoints/WestWaypoint.tscn" id="5_48hww"]
+[ext_resource type="PackedScene" uid="uid://cpkipde5j8dch" path="res://scenes/levels/waypoints/SouthWaypoint.tscn" id="6_07tpt"]
+[ext_resource type="PackedScene" uid="uid://gbkwfpbwr8xr" path="res://scenes/levels/waypoints/EastWaypoint.tscn" id="7_iqeka"]
+
+[sub_resource type="Resource" id="Resource_exj34"]
+script = ExtResource("2_n8tkr")
+Location = 1
+Type = 3
+metadata/_custom_type_script = "uid://dm6maro30qv3w"
+
+[node name="BattleRoom1" type="Node2D" node_paths=PackedStringArray("Waypoints", "levelTileMapLayers")]
+script = ExtResource("1_1ogbb")
+Data = SubResource("Resource_exj34")
+Waypoints = [NodePath("NorthWaypoint"), NodePath("WestWaypoint"), NodePath("SouthWaypoint"), NodePath("EastWaypoint")]
+levelTileMapLayers = NodePath("LevelTileMapLayers")
+
+[node name="LevelTileMapLayers" parent="." instance=ExtResource("3_n8tkr")]
+
+[node name="FloorLayer" parent="LevelTileMapLayers" index="0"]
+tile_map_data = PackedByteArray("AAD/////AQABAAEAAAAAAP//AQABAAEAAAAAAAAAAQABAAEAAAD//wAAAQABAAEAAAD+/wAAAQABAAEAAAD9/wAAAQAEAAEAAAD8/wAAAQABAAIAAAD7/wAAAQAAAAIAAAD7////AQAAAAAAAAD8////AQABAAAAAAD9////AQADAAEAAAD+////AQABAAEAAAABAP//AQABAAEAAAACAP//AQADAAAAAAADAP//AQABAAAAAAADAAAAAQABAAIAAAACAAAAAQAEAAAAAAABAAAAAQABAAEAAAD///7/AQABAAEAAAD///3/AQABAAEAAAD///z/AQABAAEAAAD///v/AQADAAEAAAD///r/AQAAAAEAAAAAAPr/AQACAAEAAAD///n/AQAAAAAAAAAAAPn/AQACAAAAAAAAAPv/AQADAAAAAAAAAPz/AQABAAEAAAAAAP3/AQABAAEAAAAAAP7/AQABAAEAAAD//wEAAQABAAEAAAD//wIAAQABAAEAAAD//wMAAQABAAEAAAD//wQAAQAEAAEAAAD//wUAAQAAAAEAAAD//wYAAQAAAAIAAAAAAAYAAQACAAIAAAAAAAUAAQACAAEAAAAAAAQAAQAEAAAAAAAAAAMAAQABAAEAAAAAAAIAAQABAAEAAAAAAAEAAQABAAEAAAD9//v/AQAAAAAAAAD9//z/AQAAAAEAAAD9//3/AQAAAAEAAAD9//7/AQAAAAEAAAD9/wEAAQAAAAEAAAD9/wIAAQAAAAEAAAD9/wMAAQAAAAEAAAD9/wQAAQAAAAIAAAACAAQAAQACAAIAAAACAAMAAQACAAEAAAACAAIAAQACAAEAAAACAAEAAQACAAEAAAACAP7/AQACAAEAAAACAP3/AQACAAEAAAACAPz/AQACAAEAAAACAPv/AQACAAAAAAABAPv/AQABAAAAAAD+//v/AQABAAAAAAD+//z/AQABAAEAAAD+//3/AQABAAEAAAD+//7/AQABAAEAAAABAP3/AQABAAEAAAABAPz/AQABAAEAAAABAP7/AQABAAEAAAABAAEAAQABAAEAAAABAAIAAQABAAEAAAABAAMAAQABAAEAAAABAAQAAQABAAIAAAD+/wQAAQABAAIAAAD+/wMAAQABAAEAAAD+/wIAAQABAAEAAAD+/wEAAQABAAEAAAAEAP//AQACAAAAAAAEAAAAAQACAAIAAAA=")
+
+[node name="WallsLayer" parent="LevelTileMapLayers" index="1"]
+tile_map_data = PackedByteArray("AAD9/wQAAQACAAcAAAD9/wUAAQACAAgAAAD+/wQAAQADAAcAAAD+/wUAAQADAAgAAAABAAQAAQACAAcAAAABAAUAAQACAAgAAAACAAQAAQADAAcAAAACAAUAAQADAAgAAAD7/wAAAQACAAcAAAD7/wEAAQACAAgAAAD8/wAAAQADAAcAAAD8/wEAAQADAAgAAAADAAAAAQACAAcAAAADAAEAAQACAAgAAAAEAAAAAQADAAcAAAAEAAEAAQADAAgAAAD7//3/AQAAAAcAAAD7//7/AQAAAAgAAAD8//3/AQABAAcAAAD8//7/AQABAAgAAAADAP3/AQAAAAcAAAADAP7/AQAAAAgAAAAEAP3/AQABAAcAAAAEAP7/AQABAAgAAAD9//n/AQAAAAcAAAD9//r/AQAAAAgAAAD+//n/AQABAAcAAAD+//r/AQABAAgAAAABAPn/AQAAAAcAAAABAPr/AQAAAAgAAAACAPn/AQABAAcAAAACAPr/AQABAAgAAAD8/wIAAQAAAAUAAAD8/wMAAQAAAAUAAAD8/wQAAQAAAAUAAAADAAIAAQAAAAUAAAADAAMAAQAAAAUAAAADAAQAAQAAAAUAAAD//wcAAQAAAAUAAAAAAAcAAQAAAAUAAAD8//v/AQAAAAUAAAD8//z/AQAAAAUAAAADAPv/AQAAAAUAAAADAPz/AQAAAAUAAAD///j/AQAAAAUAAAAAAPj/AQAAAAUAAAD+/wYAAQAAAAUAAAABAAYAAQAAAAUAAAD6////AQAAAAUAAAD6/wAAAQAAAAUAAAAFAP//AQAAAAUAAAAFAAAAAQAAAAUAAAA=")
+
+[node name="NorthWaypoint" parent="." instance=ExtResource("4_bckfl")]
+position = Vector2(0, -104)
+
+[node name="WestWaypoint" parent="." instance=ExtResource("5_48hww")]
+position = Vector2(-72, 0)
+
+[node name="SouthWaypoint" parent="." instance=ExtResource("6_07tpt")]
+position = Vector2(0, 104)
+
+[node name="EastWaypoint" parent="." instance=ExtResource("7_iqeka")]
+position = Vector2(72, 0)
+
+[editable path="LevelTileMapLayers"]

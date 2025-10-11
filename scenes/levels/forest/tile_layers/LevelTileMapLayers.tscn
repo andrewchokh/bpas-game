@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://b06kl2tkjtu3m"]
+
+[ext_resource type="Script" uid="uid://3v04n2l6j5sh" path="res://scenes/levels/forest/tile_layers/LevelTileMapLayers.cs" id="1_fjr6b"]
+[ext_resource type="TileSet" uid="uid://bsuf3kwoffqbv" path="res://resources/tile_sets/forest/ForestFloorTileSet.tres" id="1_l1r8l"]
+[ext_resource type="TileSet" uid="uid://cjjxmvbkwkosx" path="res://resources/tile_sets/forest/ForestWallsTileSet.tres" id="2_fjr6b"]
+
+[node name="LevelTileMapLayers" type="Node2D" node_paths=PackedStringArray("FloorTileMapLayer", "WallsTileMapLayer")]
+script = ExtResource("1_fjr6b")
+FloorTileMapLayer = NodePath("FloorLayer")
+WallsTileMapLayer = NodePath("WallsLayer")
+
+[node name="FloorLayer" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("1_l1r8l")
+
+[node name="WallsLayer" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("2_fjr6b")

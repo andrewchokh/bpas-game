@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public enum GameState : int
+public enum State : int
 {
     FreeRoam = 1,
     Battle = 2,
@@ -13,17 +13,17 @@ public enum GameState : int
 /// <summary>
 /// Manages game states for the entire game.
 /// </summary>
-public partial class GameStateMachine : Node
+public partial class StateMachine : Node
 {
-    public static GameStateMachine Instance { get; private set; }
+    public static StateMachine Instance { get; private set; }
 
-    private GameState _state;
-    public GameState State
+    private State _state;
+    public State State
     {
         get => _state;
         set
         {
-            if (_state != value && Enum.IsDefined(typeof(GameState), value))
+            if (_state != value && Enum.IsDefined(typeof(State), value))
             {
                 EmitSignal(SignalName.StateChanged, (int)_state, (int)value);
                 _state = value;
@@ -32,7 +32,7 @@ public partial class GameStateMachine : Node
     }
 
     [Signal]
-    public delegate void StateChangedEventHandler(GameState oldState, GameState newState);
+    public delegate void StateChangedEventHandler(State oldState, State newState);
 
     public override void _Ready()
     {

@@ -10,8 +10,6 @@
 
 [sub_resource type="Resource" id="Resource_dct7n"]
 script = ExtResource("2_klqqa")
-IsProcessEnabled = false
-IsPhysicsProcessEnabled = true
 metadata/_custom_type_script = "uid://besgnwkpdjnbu"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_klqqa"]

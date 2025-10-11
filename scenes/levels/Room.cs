@@ -1,13 +1,18 @@
 using Godot;
 using System;
 
-public abstract partial class Room : Node2D
+public partial class Room : Node2D
 {
     [Export]
-    public Marker2D[] Waypoints;
+    public RoomData Data;
 
-    public Marker2D SelectRandomWaypoint()
+    [Export]
+    public Area2D[] Waypoints;
+    [Export]
+    public LevelTileMapLayers levelTileMapLayers;
+
+    public Area2D SelectRandomWaypoint()
     {
-        return Waypoints[GD.RandRange(0, Waypoints.Length - 1)];
+        return Waypoints[GD.Randi() % Waypoints.Length];
     }
 }
