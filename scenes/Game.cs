@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using static LevelsData;
 using System;
 
-public partial class MainScene : Node
+public partial class Game : Node
 {
     [Export]
     public PackedScene MainCameraScene;
-
     private int _currentLevelIndex = 0;
     private Godot.Collections.Array<Room> _rooms = [];
     private Marker2D[] _lastWaypoints;
@@ -70,7 +69,7 @@ public partial class MainScene : Node
                         }
                     }
                 }
-                    
+
                 _rooms.Add(room);
             }
         }

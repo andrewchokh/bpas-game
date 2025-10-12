@@ -46,12 +46,13 @@ public partial class MainCamera : Camera2D
         }
     }
 
+
     private int FreeRoamBehavior()
     {
         if (TargetPlayer != null)
             Position = TargetPlayer.GlobalPosition;
 
-        return (int)GameState.FreeRoam;    
+        return (int)GameState.FreeRoam;
     }
 
     private int BattleBehavior()

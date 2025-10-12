@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdq6lbugbb4ei"]
+
+[ext_resource type="Script" uid="uid://r2cc3ygwj5r0" path="res://scenes/menus/OptionsMenu.cs" id="1_fd6x8"]
+[ext_resource type="PackedScene" uid="uid://cbcuaqtv3xsov" path="res://scenes/menus/SettingsContainer.tscn" id="2_dfv8g"]
+
+[node name="OptionsMenu" type="Control" node_paths=PackedStringArray("BackToMainMenuButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fd6x8")
+BackToMainMenuButton = NodePath("Back to main menu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_dfv8g")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Back to main menu" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Back to main menu"

@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://kro41uqgkdoe"]
+
+[ext_resource type="Script" uid="uid://b3uwmdtawan37" path="res://scenes/menus/PauseMenu.cs" id="1_wgnbc"]
+[ext_resource type="PackedScene" uid="uid://cikan2jhn8bns" path="res://scenes/menus/ConfirmationPopup.tscn" id="2_i7533"]
+
+[node name="PauseMenu" type="Control" node_paths=PackedStringArray("ConfirmationPopup", "PanelContainer", "ResumeButton", "BackToMainMenuButton", "QuitButton")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wgnbc")
+ConfirmationPopup = NodePath("ConfirmationPopup")
+PanelContainer = NodePath("PanelContainer")
+ResumeButton = NodePath("PanelContainer/VBoxContainer/Resume")
+BackToMainMenuButton = NodePath("PanelContainer/VBoxContainer/BackToMainMenu")
+QuitButton = NodePath("PanelContainer/VBoxContainer/Quit")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.5
+offset_top = -145.5
+offset_right = 145.5
+offset_bottom = 145.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="BackToMainMenu" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back to main menu"
+
+[node name="Quit" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="ConfirmationPopup" parent="." instance=ExtResource("2_i7533")]
+process_mode = 3
+visible = false
+layout_mode = 1

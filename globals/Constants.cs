@@ -15,6 +15,7 @@ public partial class Constants : Node
     public const string WestWaypointName = "WestWaypoint";
     public const string SouthWaypointName = "SouthWaypoint";
     public const string EastWaypointName = "EastWaypoint";
+    public const string MainMenuScenePath = "res://scenes/menus/MainMenu.tscn";
 
     public override void _Ready()
     {
