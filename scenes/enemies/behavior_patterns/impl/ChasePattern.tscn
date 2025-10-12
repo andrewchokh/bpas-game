@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbun2nbaa1vrt"]
-
-[ext_resource type="Script" uid="uid://bkdhvddd6i1j4" path="res://scenes/enemies/behavior_patterns/impl/ChasePattern.cs" id="1_4lymt"]
-
-[node name="ChasePattern" type="Node2D"]
-script = ExtResource("1_4lymt")

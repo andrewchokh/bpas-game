@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 
+using static Ids;
+
 /// <summary>
 /// Manages weapon system and inventory for a Player entity.
 /// </summary>
@@ -10,9 +12,12 @@ public partial class WeaponComponent : Node2D
     public Player Player;
 
     [Export]
+    public EntityDatabase Entities;
+
+    [Export]
     public int MaxSlots = 3;
     [Export]
-    public Marker2D WeaponPoint;
+    public Marker2D WeaponPosition;
 
     public Dictionary<int, Weapon> Weapons = new();
     public int SelectedSlot { get; private set; } = 0;
@@ -32,9 +37,9 @@ public partial class WeaponComponent : Node2D
     {
         if (Input.IsActionJustPressed("switch_weapon"))
             SwitchWeapon(SelectedSlot);
-        
+
         if (Input.IsActionJustPressed("use_weapon"))
-            Weapons[SelectedSlot]?.UseWeapon(WeaponPoint, GetGlobalMousePosition());
+            Weapons[SelectedSlot]?.UseWeapon(WeaponPosition, GetGlobalMousePosition());
     }
 
     public void SwitchWeapon(int slot)
@@ -60,7 +65,7 @@ public partial class WeaponComponent : Node2D
             return;
         }
 
-        var weapon = EntityList.Instance.GetWeaponById(weaponId);
+        var weapon = Entities.WeaponScenes[weaponId].Instantiate<Weapon>();
         SetupWeapon(weapon);
 
         Weapons.Add(slot >= 0 ? slot : GetFirstFreeSlot(), weapon);
@@ -82,7 +87,7 @@ public partial class WeaponComponent : Node2D
             return;
         }
 
-        var pickup = EntityList.Instance.GetPickUpByWeaponId(Weapons[slot].Id);
+        var pickup = Entities.PickUpScenes[Weapons[slot].Id].Instantiate<PickUp>();
         GetTree().Root.CallDeferred("add_child", pickup);
         pickup.GlobalPosition = GlobalPosition;
 
@@ -156,6 +161,6 @@ public partial class WeaponComponent : Node2D
     private void SetupWeapon(Weapon weapon)
     {
         AddChild(weapon);
-        weapon.GlobalPosition = WeaponPoint.GlobalPosition;
+        weapon.GlobalPosition = WeaponPosition.GlobalPosition;
     }
 }

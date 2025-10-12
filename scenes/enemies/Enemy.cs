@@ -1,6 +1,7 @@
 using System;
 using Godot;
-using Godot.Collections;
+
+using static Ids;
 
 /// <summary>
 /// Represents an enemy character in the game.
@@ -8,18 +9,16 @@ using Godot.Collections;
 public partial class Enemy : CharacterBody2D
 {
     [Export]
-    public EnemyCharacterId EnemySceneId;
+    public EnemyCharacterId EnemyId;
 
-    [ExportGroup("Behavior Patterns")]
+    [ExportGroup("Behavior")]
     [Export]
-    public PackedScene[] BehaviorPatternScenes;
+    public EnemyBehavior[] BehaviorList;
+    [ExportSubgroup("Duration")]
     [Export]
-    public Timer BehaviorPatternTimer;
-    [ExportSubgroup("Patterns Duration")]
+    public float MinBehaviorDuration;
     [Export]
-    public float MinPatternDuration;
-    [Export]
-    public float MaxPatternDuration;
+    public float MaxBehaviorDuration;
 
     [ExportCategory("Components")]
     [Export]
@@ -29,95 +28,58 @@ public partial class Enemy : CharacterBody2D
     [Export]
     public HitboxComponent HitboxComponent;
 
-    private Array<BehaviorPattern> _behaviorPatterns = [];
-    private BehaviorPattern _currentBehaviorPattern;
+    private Timer _behaviorTimer;
+    private EnemyBehavior _currentBehavior;
 
     public override void _Ready()
     {
-        BehaviorPatternTimer.Timeout += SelectRandomPattern;
+        _behaviorTimer = new Timer();
+        AddChild(_behaviorTimer);
+        _behaviorTimer.OneShot = true;
+        _behaviorTimer.Timeout += OnBehaviorTimerTimeout;
 
-        SetupBehavorPatterns();
-
-        SelectRandomPattern();
+        SetRandomBehavior();
     }
 
-    private void SetupBehavorPatterns()
+    public override void _Process(double delta)
     {
-        if (BehaviorPatternScenes.Length == 0)
-        {
-            GD.PushWarning("BehaviorPatterns is not set for Enemy.");
+        if (_currentBehavior.IsProcessEnabled)
             return;
-        }
 
-        foreach (var patternScene in BehaviorPatternScenes)
-        {
-            if (patternScene == null)
-            {
-                GD.PushWarning("One of the BehaviorPatterns is null.");
-                continue;
-            }
-
-            var behaviorPattern = patternScene.Instantiate<BehaviorPattern>();
-
-            _behaviorPatterns.Add(behaviorPattern);
-            AddChild(behaviorPattern);
-        }
+        _currentBehavior.ExecuteProcess(this, delta);
     }
 
-    private void SetupBahaviorDuration()
+    public override void _PhysicsProcess(double delta)
     {
-        if (MinPatternDuration <= 0 || MaxPatternDuration <= 0)
-        {
-            GD.PushWarning("No pattern duration will be applied.");
+        if (_currentBehavior.IsPhysicsProcessEnabled)
             return;
-        }
 
-        if (MaxPatternDuration <= MinPatternDuration)
-        {
-            GD.PushError("MaxPatternDuration must be greater than MinPatternDuration.");
-            return;
-        }
-
-        var duration = GD.RandRange(MinPatternDuration, MaxPatternDuration);
-
-        BehaviorPatternTimer.WaitTime = duration;
-        BehaviorPatternTimer.Start();
+        _currentBehavior.ExecutePhysicsProcess(this, delta);
     }
 
-    private void SelectRandomPattern()
+    public void SetRandomBehavior()
     {
-        if (_behaviorPatterns.Count == 0)
-        {
-            GD.PushWarning("No behavior patterns available.");
-            return;
-        }
+        _currentBehavior = BehaviorList[GD.Randi() % BehaviorList.Length];
 
-        var index = GD.RandRange(0, _behaviorPatterns.Count - 1);
-        _currentBehaviorPattern = _behaviorPatterns[index];
-
-        GD.Print($"Selected behavior pattern: {_currentBehaviorPattern.Name}");
-
-        ApplyPattern(index);
-
-        SetupBahaviorDuration();
-
-        GD.Print($"Behavior pattern duration set to: {BehaviorPatternTimer.WaitTime} seconds");
+        SetDurationTimer();
     }
 
-    private void ApplyPattern(int index)
+    public void SetDurationTimer()
     {
-        if (index < 0 || index >= _behaviorPatterns.Count)
+        if (MinBehaviorDuration <= 0 || MaxBehaviorDuration <= 0
+        || MinBehaviorDuration > MaxBehaviorDuration)
         {
-            GD.PushError($"Invalid behavior pattern index: {index}");
+            GD.PushWarning("Invalid behavior duration settings for enemy: " + Name);
             return;
         }
 
-        _currentBehaviorPattern.ProcessMode = ProcessModeEnum.Inherit;
+        var duration = (float)GD.RandRange(MinBehaviorDuration, MaxBehaviorDuration);
+        _behaviorTimer.WaitTime = duration;
+        _behaviorTimer.Start();
+    }
 
-        foreach (var pattern in _behaviorPatterns)
-        {
-            if (pattern != _currentBehaviorPattern)
-                pattern.ProcessMode = ProcessModeEnum.Disabled;
-        }
+    private void OnBehaviorTimerTimeout()
+    {
+        SetRandomBehavior();
     }
 }

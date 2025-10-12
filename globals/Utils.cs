@@ -8,7 +8,7 @@ public partial class Utils : Node
 {
     public static Utils Instance { get; private set; }
 
-    public override void _Ready()
+    public override void _EnterTree()
     {
         Instance = this;
     }
@@ -18,9 +18,9 @@ public partial class Utils : Node
         return () => func();
     }
 
-    public Player GetFirstPlayer()
+    public Player GetFirstPlayer(SceneTree root)
     {
-        var players = Instance.GetTree().GetNodesInGroup("Players");
+        var players = root.GetNodesInGroup("Players");
 
         if (players.Count > 0 && players[0] is Player FirstPlayer)
             return FirstPlayer;
@@ -34,5 +34,12 @@ public partial class Utils : Node
             return;
         foreach (var Child in Node.GetChildren())
             Child.QueueFree();
+    }
+
+    public T GetRandomElementFromArray<T>(T[] array)
+    {
+        if (array == null || array.Length == 0)
+            return default;
+        return array[GD.Randi() % array.Length];
     }
 }
