@@ -5,7 +5,7 @@ using System.Linq;
 
 using static Ids;
 
-public partial class MainScene : Node
+public partial class Game : Node
 {
     [Export]
     public PackedScene MainCameraScene;

@@ -46,6 +46,7 @@ public partial class MainCamera : Camera2D
         }
     }
 
+
     private int FreeRoamBehavior()
     {
         if (TargetPlayer != null)

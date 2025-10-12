@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://bjl06w2xpy82k"]
+
+[ext_resource type="Script" uid="uid://c1fuhdohwpxx7" path="res://scenes/Game.cs" id="1_s0nni"]
+[ext_resource type="PackedScene" uid="uid://ddyq5gfxq5fn4" path="res://scenes/cameras/MainCamera.tscn" id="2_aug50"]
+[ext_resource type="PackedScene" uid="uid://kro41uqgkdoe" path="res://scenes/menus/PauseMenu.tscn" id="3_kiw3p"]
+[ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/impl/Bob.tscn" id="4_400sg"]
+[ext_resource type="PackedScene" uid="uid://c7xdxox2dalkn" path="res://scenes/menus/GameOverMenu.tscn" id="4_aug50"]
+[ext_resource type="PackedScene" uid="uid://dptxrphgnsghg" path="res://scenes/enemies/impl/Steve.tscn" id="5_g4kob"]
+
+[node name="MainScene" type="Node2D" node_paths=PackedStringArray("GameOverMenu", "PauseMenu")]
+script = ExtResource("1_s0nni")
+MainCameraScene = ExtResource("2_aug50")
+GameOverMenu = NodePath("CanvasLayer/GameOverMenu")
+PauseMenu = NodePath("CanvasLayer/PauseMenu")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_kiw3p")]
+visible = false
+
+[node name="GameOverMenu" parent="CanvasLayer" instance=ExtResource("4_aug50")]
+visible = false
+
+[node name="Bob" parent="." instance=ExtResource("4_400sg")]
+
+[node name="Steve" parent="." instance=ExtResource("5_g4kob")]
+z_index = 1
+position = Vector2(-15, 0)

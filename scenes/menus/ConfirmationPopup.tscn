@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://cikan2jhn8bns"]
+
+[ext_resource type="Script" uid="uid://b05dssdtgqrpc" path="res://scenes/menus/ConfirmationPopup.cs" id="1_ahe08"]
+
+[node name="ConfirmationPopup" type="Control" node_paths=PackedStringArray("MessageLabel", "YesButton", "NoButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ahe08")
+MessageLabel = NodePath("ColorRect/PanelContainer/VBoxContainer/Label")
+YesButton = NodePath("ColorRect/PanelContainer/VBoxContainer/Yes")
+NoButton = NodePath("ColorRect/PanelContainer/VBoxContainer/No")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7058824, 0.7058824, 0.7058824, 0.38039216)
+
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -110.0
+offset_right = 110.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Are you sure?"
+horizontal_alignment = 1
+
+[node name="Yes" type="Button" parent="ColorRect/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Yes"
+
+[node name="No" type="Button" parent="ColorRect/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "No"
