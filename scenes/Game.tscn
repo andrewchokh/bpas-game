@@ -1,17 +1,34 @@
-[gd_scene load_steps=7 format=3 uid="uid://bjl06w2xpy82k"]
+[gd_scene load_steps=12 format=3 uid="uid://bjl06w2xpy82k"]
 
 [ext_resource type="Script" uid="uid://c1fuhdohwpxx7" path="res://scenes/Game.cs" id="1_s0nni"]
 [ext_resource type="PackedScene" uid="uid://ddyq5gfxq5fn4" path="res://scenes/cameras/MainCamera.tscn" id="2_aug50"]
+[ext_resource type="Resource" uid="uid://dmtkom5l3yr2i" path="res://resources/levels/LevelDatabase.tres" id="3_g4kob"]
 [ext_resource type="PackedScene" uid="uid://kro41uqgkdoe" path="res://scenes/menus/PauseMenu.tscn" id="3_kiw3p"]
-[ext_resource type="PackedScene" uid="uid://dkh0g1ly4lj45" path="res://scenes/players/impl/Bob.tscn" id="4_400sg"]
 [ext_resource type="PackedScene" uid="uid://c7xdxox2dalkn" path="res://scenes/menus/GameOverMenu.tscn" id="4_aug50"]
+[ext_resource type="Script" uid="uid://72qlplg1ffin" path="res://resources/levels/LevelGenerationSettings.cs" id="4_qy1jj"]
+[ext_resource type="Script" uid="uid://cwokqhhi238tc" path="res://resources/levels/LevelLayoutGenerator.cs" id="5_3xj3m"]
 [ext_resource type="PackedScene" uid="uid://dptxrphgnsghg" path="res://scenes/enemies/impl/Steve.tscn" id="5_g4kob"]
+[ext_resource type="PackedScene" uid="uid://byv0naipg8u4y" path="res://scenes/players/impl/Ninja.tscn" id="6_aug50"]
 
-[node name="MainScene" type="Node2D" node_paths=PackedStringArray("GameOverMenu", "PauseMenu")]
+[sub_resource type="Resource" id="Resource_mcffj"]
+script = ExtResource("4_qy1jj")
+MaxTries = 1000
+SpecialRooms = Dictionary[int, int]({
+5: 2
+})
+LayoutSize = Vector2(12, 9)
+metadata/_custom_type_script = "uid://72qlplg1ffin"
+
+[sub_resource type="Resource" id="Resource_2rd6h"]
+script = ExtResource("5_3xj3m")
+metadata/_custom_type_script = "uid://cwokqhhi238tc"
+
+[node name="MainScene" type="Node2D"]
 script = ExtResource("1_s0nni")
 MainCameraScene = ExtResource("2_aug50")
-GameOverMenu = NodePath("CanvasLayer/GameOverMenu")
-PauseMenu = NodePath("CanvasLayer/PauseMenu")
+Levels = ExtResource("3_g4kob")
+GenerationSettings = SubResource("Resource_mcffj")
+LayoutGenerator = SubResource("Resource_2rd6h")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -21,8 +38,8 @@ visible = false
 [node name="GameOverMenu" parent="CanvasLayer" instance=ExtResource("4_aug50")]
 visible = false
 
-[node name="Bob" parent="." instance=ExtResource("4_400sg")]
-
 [node name="Steve" parent="." instance=ExtResource("5_g4kob")]
 z_index = 1
 position = Vector2(-15, 0)
+
+[node name="Ninja" parent="." instance=ExtResource("6_aug50")]

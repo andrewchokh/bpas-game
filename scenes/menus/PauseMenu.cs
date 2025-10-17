@@ -27,7 +27,7 @@ public partial class PauseMenu : Control
         {
             Globals.Instance.Root.Paused = false;
             Visible = false;
-            GameStateMachine.Instance.State = GameState.FreeRoam;
+            StateMachine.Instance.State = State.FreeRoam;
         };
         BackToMainMenuButton.Pressed += () =>
         {
@@ -35,9 +35,9 @@ public partial class PauseMenu : Control
             ConfirmationPopup.ShowPopup("Are you sure you want to go back to the main menu?",
                 onYesAction: () =>
                 {
-                    Globals.Instance.Root.ChangeSceneToFile(Constants.MainMenuScenePath);
+                    Globals.Instance.Root.ChangeSceneToFile("res://scenes/Main.tscn");
                     Globals.Instance.Root.Paused = false;
-                    GameStateMachine.Instance.State = 0;
+                    StateMachine.Instance.State = 0;
                 },
                 onNoAction: () => PanelContainer.Visible = true);
         };
@@ -51,6 +51,6 @@ public partial class PauseMenu : Control
         bool paused = Globals.Instance.Root.Paused;
         Globals.Instance.Root.Paused = !paused;
         Visible = !paused;
-        GameStateMachine.Instance.State = paused ? GameState.FreeRoam : GameState.Pause;
+        StateMachine.Instance.State = paused ? State.FreeRoam : State.Pause;
     }
 }
