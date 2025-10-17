@@ -23,7 +23,7 @@ public partial class MainMenu : Control
     public override void _Ready()
     {
         PlayButton.Pressed += () =>
-            Globals.Instance.Root.ChangeSceneToFile("res://scenes/Game.tscn");
+            GetTree().ChangeSceneToFile("res://scenes/Game.tscn");
 
         OptionsButton.Pressed += () =>
         {

@@ -29,14 +29,14 @@ public partial class GameOverMenu : Control
         {
             Visible = true;
             Globals.Instance.Root.Paused = true;
-            GameStateMachine.Instance.State = GameState.GameOver;
+            StateMachine.Instance.State = State.GameOver;
         };
         RetryButton.Pressed += () =>
         {
             Globals.Instance.Root.ReloadCurrentScene();
             Globals.Instance.Root.Paused = false;
             Visible = false;
-            GameStateMachine.Instance.State = GameState.FreeRoam;
+            StateMachine.Instance.State = State.FreeRoam;
         };
         BackToMainMenuButton.Pressed += () =>
         {
@@ -44,9 +44,9 @@ public partial class GameOverMenu : Control
             ConfirmationPopup.ShowPopup("Are you sure you want to go back to the main menu?",
                 onYesAction: () =>
                 {
-                    Globals.Instance.Root.ChangeSceneToFile(Constants.MainMenuScenePath);
+                    Globals.Instance.Root.ChangeSceneToFile("res://scenes/Main.tscn");
                     Globals.Instance.Root.Paused = false;
-                    GameStateMachine.Instance.State = 0;
+                    StateMachine.Instance.State = 0;
                 },
                 onNoAction: () => PanelContainer.Visible = true);
         };

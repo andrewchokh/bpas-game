@@ -18,9 +18,9 @@ public partial class Utils : Node
         return () => func();
     }
 
-    public Player GetFirstPlayer(SceneTree root)
+    public Player GetFirstPlayer()
     {
-        var players = root.GetNodesInGroup("Players");
+        var players = GetTree().GetNodesInGroup("Players");
 
         if (players.Count > 0 && players[0] is Player FirstPlayer)
             return FirstPlayer;

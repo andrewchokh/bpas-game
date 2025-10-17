@@ -13,7 +13,7 @@ public partial class MainCamera : Camera2D
 
         StateMachine.Instance.StateChanged += ChangeBehavior;
 
-        TargetPlayer = Utils.Instance.GetFirstPlayer(GetTree());
+        TargetPlayer = Utils.Instance.GetFirstPlayer();
 
         GD.Print($"Camera2D ready. TargetPlayer: {TargetPlayer}");
     }
