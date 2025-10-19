@@ -15,7 +15,7 @@ public partial class Player : CharacterBody2D
 
     [ExportCategory("Components")]
     [Export]
-    public MovementComponent SpriteComponent;
+    public SpriteComponent SpriteComponent;
     [Export]
     public MovementComponent MovementComponent;
     [Export]
@@ -28,4 +28,13 @@ public partial class Player : CharacterBody2D
     public WeaponComponent WeaponComponent;
     [Export]
     public SuperAbilityComponent SuperAbilityComponent;
+
+    public override void _Ready()
+    {
+        // Trigger invincibility frames when getting hit
+        HealthComponent.HealthChanged += (int oldHealth, int newHealth) =>
+        {
+            AnimationPlayer.Play("inv_frames");
+        };
+    }
 }
