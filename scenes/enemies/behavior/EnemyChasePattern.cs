@@ -24,6 +24,5 @@ public partial class EnemyChasePattern : EnemyBehavior
         var direction = (playerPosition - enemy.GlobalPosition).Normalized();
 
         enemy.MovementComponent.Move(direction, delta);
-        enemy.MoveAndSlide();
     }
 }
