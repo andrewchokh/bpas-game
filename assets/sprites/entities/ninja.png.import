@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kysdun0hnoyi"
-path="res://.godot/imported/bob.png-2f2307ffcc14b0333bbec865e49610ad.ctex"
+uid="uid://cdbbtkbmkew4d"
+path="res://.godot/imported/ninja.png-7e40ac8827e424a29c60983805e75e3d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/entities/bob.png"
-dest_files=["res://.godot/imported/bob.png-2f2307ffcc14b0333bbec865e49610ad.ctex"]
+source_file="res://assets/sprites/entities/ninja.png"
+dest_files=["res://.godot/imported/ninja.png-7e40ac8827e424a29c60983805e75e3d.ctex"]
 
 [params]
 

@@ -43,7 +43,7 @@ public partial class Enemy : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        if (_currentBehavior.IsProcessEnabled)
+        if (!_currentBehavior.IsProcessEnabled)
             return;
 
         _currentBehavior.ExecuteProcess(this, delta);
@@ -51,7 +51,7 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_currentBehavior.IsPhysicsProcessEnabled)
+        if (!_currentBehavior.IsPhysicsProcessEnabled)
             return;
 
         _currentBehavior.ExecutePhysicsProcess(this, delta);
