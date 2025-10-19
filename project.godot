@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Ids="*res://globals/Ids.cs"
 Utils="*res://globals/Utils.cs"
 StateMachine="*res://globals/StateMachine.cs"
+Globals="*res://globals/Globals.cs"
 
 [display]
 
