@@ -1,6 +1,6 @@
 ---
-name: Feature Addition
-about: Add new feature to the project.
+name: Feature Request
+about: Request new feature to the project
 title: ''
 labels: enhancement
 assignees: ''
