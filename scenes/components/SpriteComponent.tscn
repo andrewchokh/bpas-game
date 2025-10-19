@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccucbdn1rer54"]
+
+[ext_resource type="Script" uid="uid://cmeqka6f1tlm" path="res://scenes/components/SpriteComponent.cs" id="1_lwb3w"]
+
+[node name="SpriteComponent" type="Node2D" node_paths=PackedStringArray("ArmSprites", "LegSprites")]
+script = ExtResource("1_lwb3w")
+ArmSprites = []
+LegSprites = []

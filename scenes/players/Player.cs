@@ -10,8 +10,12 @@ public partial class Player : CharacterBody2D
 {
     [Export]
     public PlayerCharacterId PlayerSceneId;
+    [Export]
+    public AnimationPlayer AnimationPlayer;
 
     [ExportCategory("Components")]
+    [Export]
+    public MovementComponent SpriteComponent;
     [Export]
     public MovementComponent MovementComponent;
     [Export]
