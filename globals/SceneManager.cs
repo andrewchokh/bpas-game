@@ -3,12 +3,10 @@ using System;
 
 public partial class SceneManager : Node
 {
-    [Signal]
-    public delegate void Scene2DChangedEventHandler(Node2D oldScene, Node2D newScene);
-    [Signal]
-    public delegate void ControlSceneChangedEventHandler(Control oldScene, Control newScene);
-    private Node2D current2DScene;
-    private Control currentControlScene;
+    public static SceneManager Instance { get; private set; }
+
+    public Node2D Current2DScene { get; private set; }
+    public Control CurrentControlScene { get; private set; }
 
     public enum SceneSwap
     {
@@ -17,52 +15,45 @@ public partial class SceneManager : Node
         RemoveScene
     }
 
-    public static SceneManager Instance { get; private set; }
-
     public override void _Ready()
     {
         Instance = this;
     }
 
-    public void Change2DScene(Node2D newScene, SceneSwap swapType) =>
-         ChangeScene(newScene, ref current2DScene, swapType,
-              (oldScene, newScene) => EmitSignal(SignalName.Scene2DChanged, oldScene, newScene));
+    public void Change2DScene(PackedScene packedScene, SceneSwap swapType)
+    {
+        Current2DScene = ChangeScene(packedScene, Current2DScene, swapType);
+    }
 
-    public void ChangeControlScene(Control newScene, SceneSwap swapType) =>
-       ChangeScene(newScene, ref currentControlScene, swapType,
-           (oldScene, newScene) => EmitSignal(SignalName.ControlSceneChanged, oldScene, newScene));
+    public void ChangeControlScene(PackedScene packedScene, SceneSwap swapType)
+    {
+        CurrentControlScene = ChangeScene(packedScene, CurrentControlScene, swapType);
+    }
 
-    private void ChangeScene<T>(T newScene, ref T currentScene, SceneSwap swapType, Action<T, T> onChanged)
+    private T ChangeScene<T>(PackedScene packedScene, T currentScene, SceneSwap swapType)
         where T : CanvasItem
     {
-        T oldScene = currentScene;
-
-        if (currentScene == null)
-            return;
-
-        switch (swapType)
+        if (currentScene != null)
         {
-            case SceneSwap.DeleteScene:
-                currentScene.QueueFree();
-                break;
-            case SceneSwap.HideScene:
-                currentScene.Hide();
-                break;
-            case SceneSwap.RemoveScene:
-                Globals.Instance.Root.GetRoot().RemoveChild(currentScene);
-                break;
+            switch (swapType)
+            {
+                case SceneSwap.DeleteScene:
+                    currentScene.QueueFree();
+                    break;
+                case SceneSwap.HideScene:
+                    currentScene.Hide();
+                    break;
+                case SceneSwap.RemoveScene:
+                    Globals.Instance.Root.GetRoot().RemoveChild(currentScene);
+                    break;
+            }
         }
 
-        if (newScene == null)
-        {
-            currentScene = null;
-            onChanged?.Invoke(oldScene, currentScene);
-            return;
-        }
+        if (packedScene == null)
+            return null;
 
+        T newScene = packedScene.Instantiate<T>();
         Globals.Instance.Root.GetRoot().AddChild(newScene);
-        currentScene = newScene;
-
-        onChanged?.Invoke(oldScene, currentScene);
+        return newScene;
     }
 }
