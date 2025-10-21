@@ -21,6 +21,7 @@ Ids="*res://globals/Ids.cs"
 Utils="*res://globals/Utils.cs"
 StateMachine="*res://globals/StateMachine.cs"
 Globals="*res://globals/Globals.cs"
+SceneManager="*res://globals/SceneManager.cs"
 
 [display]
 
