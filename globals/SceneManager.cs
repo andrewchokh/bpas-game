@@ -20,15 +20,11 @@ public partial class SceneManager : Node
         Instance = this;
     }
 
-    public void Change2DScene(PackedScene packedScene, SceneSwap swapType)
-    {
+    public void Change2DScene(PackedScene packedScene, SceneSwap swapType) =>
         Current2DScene = ChangeScene(packedScene, Current2DScene, swapType);
-    }
 
-    public void ChangeControlScene(PackedScene packedScene, SceneSwap swapType)
-    {
+    public void ChangeControlScene(PackedScene packedScene, SceneSwap swapType) =>
         CurrentControlScene = ChangeScene(packedScene, CurrentControlScene, swapType);
-    }
 
     private T ChangeScene<T>(PackedScene packedScene, T currentScene, SceneSwap swapType)
         where T : CanvasItem
