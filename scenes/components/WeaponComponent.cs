@@ -38,7 +38,7 @@ public partial class WeaponComponent : Node2D
         if (Input.IsActionJustPressed("switch_weapon"))
             SwitchWeapon(SelectedSlot);
 
-        if (Input.IsActionJustPressed("use_weapon"))
+        if (Input.IsActionJustPressed("attack"))
             Weapons[SelectedSlot]?.UseWeapon(WeaponPosition, GetGlobalMousePosition());
     }
 
