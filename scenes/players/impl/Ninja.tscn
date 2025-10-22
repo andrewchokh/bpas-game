@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cdbbtkbmkew4d" path="res://assets/sprites/entities/ninja.png" id="3_386rb"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="3_ce6n8"]
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="3_ss1ov"]
-[ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitboxComponent.tscn" id="4_cc36t"]
+[ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitBoxComponent.tscn" id="4_cc36t"]
 [ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/PlayerMovementController.tscn" id="5_opqi6"]
 [ext_resource type="PackedScene" uid="uid://b8hchje01oaek" path="res://scenes/components/WeaponComponent.tscn" id="6_ce6n8"]
 [ext_resource type="PackedScene" uid="uid://bcdeyivnjgmcb" path="res://scenes/components/SuperAbilityComponent.tscn" id="7_386rb"]

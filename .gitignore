@@ -2,5 +2,11 @@
 .godot/
 /android/
 
+# Old C# project files
+*csproj.old*
+
 # Visual Studio Code specific ignores
 .vscode/
+
+# MacOS Files
+.DS_Store
