@@ -29,14 +29,12 @@ public partial class GameOverMenu : Control
         {
             Visible = true;
             Globals.Instance.Root.Paused = true;
-            StateMachine.Instance.State = State.GameOver;
         };
         RetryButton.Pressed += () =>
         {
             Globals.Instance.Root.ReloadCurrentScene();
             Globals.Instance.Root.Paused = false;
             Visible = false;
-            StateMachine.Instance.State = State.FreeRoam;
         };
         BackToMainMenuButton.Pressed += () =>
         {
@@ -46,7 +44,6 @@ public partial class GameOverMenu : Control
                 {
                     Globals.Instance.Root.ChangeSceneToFile("res://scenes/Main.tscn");
                     Globals.Instance.Root.Paused = false;
-                    StateMachine.Instance.State = 0;
                 },
                 onNoAction: () => PanelContainer.Visible = true);
         };

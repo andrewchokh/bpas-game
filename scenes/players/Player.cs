@@ -28,6 +28,8 @@ public partial class Player : CharacterBody2D
     public WeaponComponent WeaponComponent;
     [Export]
     public SuperAbilityComponent SuperAbilityComponent;
+    [Export]
+    public StateComponent StateComponent;
 
     public override void _Ready()
     {
