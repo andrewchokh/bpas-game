@@ -33,11 +33,7 @@ public partial class Game : Node
         WaypointCooldownTimer.Timeout += () => _isWaypointAvailable = true;
         AddChild(WaypointCooldownTimer);
 
-        StateMachine.Instance.StateChanged += OnStateChanged;
-
         SetupCamera();
-
-        StateMachine.Instance.State = State.FreeRoam;
 
         LayoutGenerator.GenerateLayout(GenerationSettings);
         GenerateLevel();
