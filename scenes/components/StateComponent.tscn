@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ke6nge5at8vw"]
+
+[ext_resource type="Script" path="res://scenes/components/StateComponent.cs" id="1_bp5ji"]
+
+[node name="StateComponent" type="Node2D"]
+script = ExtResource("1_bp5ji")
