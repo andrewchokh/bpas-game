@@ -23,7 +23,7 @@ public partial class SuperAbilityComponent : Node2D
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("activate_ability") && _canUseAbility)
+        if (Input.IsActionJustPressed("use_ability") && _canUseAbility)
             ActivateAbility();
     }
 
