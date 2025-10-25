@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c6efspti4ho7l" path="res://assets/sprites/entities/enemies/booka.png" id="3_t47kb"]
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="4_dct7n"]
 [ext_resource type="PackedScene" uid="uid://dopp6sfeajm0k" path="res://scenes/components/MovementComponent.tscn" id="5_xwm4a"]
-[ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitboxComponent.tscn" id="5_y4g6n"]
+[ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitBoxComponent.tscn" id="5_y4g6n"]
 
 [sub_resource type="Resource" id="Resource_klqqa"]
 script = ExtResource("2_klqqa")

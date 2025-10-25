@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://byv0naipg8u4y"]
+[gd_scene load_steps=29 format=3 uid="uid://byv0naipg8u4y"]
 
 [ext_resource type="Script" uid="uid://di5s2j2mv4rn3" path="res://scenes/players/Player.cs" id="1_wyn8t"]
 [ext_resource type="PackedScene" uid="uid://ccucbdn1rer54" path="res://scenes/components/SpriteComponent.tscn" id="2_ce6n8"]
@@ -6,12 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://cdbbtkbmkew4d" path="res://assets/sprites/entities/ninja.png" id="3_386rb"]
 [ext_resource type="Texture2D" uid="uid://dqjvgued1kiu6" path="res://assets/sprites/entities/shadow.png" id="3_ce6n8"]
 [ext_resource type="PackedScene" uid="uid://dd353m6l0i7uc" path="res://scenes/components/HealthComponent.tscn" id="3_ss1ov"]
-[ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitboxComponent.tscn" id="4_cc36t"]
+[ext_resource type="PackedScene" uid="uid://qk1ydmr32ruc" path="res://scenes/components/HitBoxComponent.tscn" id="4_cc36t"]
 [ext_resource type="PackedScene" uid="uid://offxlfviecs6" path="res://scenes/components/PlayerMovementController.tscn" id="5_opqi6"]
 [ext_resource type="PackedScene" uid="uid://b8hchje01oaek" path="res://scenes/components/WeaponComponent.tscn" id="6_ce6n8"]
 [ext_resource type="PackedScene" uid="uid://bcdeyivnjgmcb" path="res://scenes/components/SuperAbilityComponent.tscn" id="7_386rb"]
 [ext_resource type="Resource" uid="uid://dj1wsajibmksh" path="res://resources/entities/EntityDatabase.tres" id="8_cc36t"]
 [ext_resource type="Script" uid="uid://6josy16ms66b" path="res://scenes/players/super_abilities/SpeedBoostAbility.cs" id="9_ss1ov"]
+[ext_resource type="PackedScene" uid="uid://vr7ksgux54yu" path="res://scenes/components/StateComponent.tscn" id="13_6fmej"]
+[ext_resource type="Script" uid="uid://bcwsm244j8nfd" path="res://resources/state_machine/player/PlayerIdleState.cs" id="14_dbyqn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k3qyf"]
 size = Vector2(9, 10)
@@ -47,6 +49,10 @@ size = Vector2(9, 19)
 script = ExtResource("9_ss1ov")
 MovementSpeedMultiplier = 2.0
 metadata/_custom_type_script = "uid://6josy16ms66b"
+
+[sub_resource type="Resource" id="Resource_6fmej"]
+script = ExtResource("14_dbyqn")
+metadata/_custom_type_script = "uid://bcwsm244j8nfd"
 
 [sub_resource type="Animation" id="Animation_386rb"]
 length = 0.001
@@ -437,6 +443,7 @@ tracks/31/keys = {
 
 [sub_resource type="Animation" id="Animation_ce6n8"]
 resource_name = "idle"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -833,7 +840,7 @@ _data = {
 &"inv_frames": SubResource("Animation_6fmej")
 }
 
-[node name="Ninja" type="CharacterBody2D" node_paths=PackedStringArray("AnimationPlayer", "SpriteComponent", "MovementComponent", "HealthComponent", "HitboxComponent", "PlayerMovementController", "WeaponComponent", "SuperAbilityComponent") groups=["Players"]]
+[node name="Ninja" type="CharacterBody2D" node_paths=PackedStringArray("AnimationPlayer", "SpriteComponent", "MovementComponent", "HealthComponent", "HitboxComponent", "PlayerMovementController", "WeaponComponent", "SuperAbilityComponent", "StateComponent") groups=["Players"]]
 z_index = 1
 collision_layer = 2
 script = ExtResource("1_wyn8t")
@@ -845,6 +852,7 @@ HitboxComponent = NodePath("HitboxComponent")
 PlayerMovementController = NodePath("PlayerMovementController")
 WeaponComponent = NodePath("WeaponComponent")
 SuperAbilityComponent = NodePath("SuperAbilityComponent")
+StateComponent = NodePath("StateComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
@@ -924,6 +932,10 @@ position = Vector2(8, 0)
 [node name="SuperAbilityComponent" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("7_386rb")]
 Player = NodePath("..")
 Behavior = SubResource("Resource_cc36t")
+
+[node name="StateComponent" parent="." node_paths=PackedStringArray("Node") instance=ExtResource("13_6fmej")]
+Node = NodePath("..")
+State = SubResource("Resource_6fmej")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
